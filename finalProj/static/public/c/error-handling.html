@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Error Handling</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 900px;
+      margin: 30px auto;
+      line-height: 1.6;
+      color: #222;
+      padding: 0 20px;
+      background: #f9f9f9;
+    }
+    h1, h2, h3 {
+      color: #005a9c;
+    }
+    pre {
+      background: #272822;
+      color: #f8f8f2;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 1rem;
+    }
+    code {
+      font-family: Consolas, monospace;
+      background: #eee;
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: #c7254e;
+    }
+    .note {
+      background: #fff3cd;
+      border-left: 6px solid #ffeeba;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #856404;
+    }
+    .warning {
+      background: #f8d7da;
+      border-left: 6px solid #f5c6cb;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #721c24;
+    }
+    ul {
+      margin-left: 20px;
+    }
+    a {
+      color: #005a9c;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      margin-top: 40px;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Error Handling</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 900px;
+      margin: 30px auto;
+      line-height: 1.6;
+      color: #222;
+      padding: 0 20px;
+      background: #f9f9f9;
+    }
+    h1, h2, h3 {
+      color: #005a9c;
+    }
+    pre {
+      background: #272822;
+      color: #f8f8f2;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 1rem;
+    }
+    code {
+      font-family: Consolas, monospace;
+      background: #eee;
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: #c7254e;
+    }
+    .note {
+      background: #fff3cd;
+      border-left: 6px solid #ffeeba;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #856404;
+    }
+    .warning {
+      background: #f8d7da;
+      border-left: 6px solid #f5c6cb;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #721c24;
+    }
+    ul {
+      margin-left: 20px;
+    }
+    a {
+      color: #005a9c;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      margin-top: 40px;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<h1>Error Handling in C</h1>
+
+<p>In C programming, handling errors properly is important to write robust programs that can gracefully deal with unexpected situations like failed file operations, invalid inputs, or memory allocation errors.</p>
+
+<h2>Common Error Handling Techniques</h2>
+<ul>
+  <li><strong>Return codes:</strong> Many functions return special values (e.g., <code>-1</code>, <code>NULL</code>) to indicate failure.</li>
+  <li><strong>errno and perror:</strong> The global variable <code>errno</code> stores error codes set by system calls and library functions. <code>perror()</code> prints a descriptive error message.</li>
+  <li><strong>Assertions:</strong> Use <code>assert()</code> during development to catch programming errors.</li>
+</ul>
+
+<h2>Using Return Codes</h2>
+<p>Check the return value of functions and handle errors explicitly:</p>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    FILE *fp = fopen("data.txt", "r");
+    if (fp == NULL) {
+        printf("Failed to open file.\n");
+        return 1; // Exit or handle error
+    }
+    // Proceed if file opened successfully
+    fclose(fp);
+    return 0;
+}
+</code></pre>
+
+<h2>Using errno and perror</h2>
+<p><code>errno</code> is a global variable set by system/library functions on failure. You can include <code>&lt;errno.h&gt;</code> and <code>&lt;string.h&gt;</code> to inspect it. <code>perror()</code> prints a descriptive error message to stderr based on the current errno.</p>
+
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;errno.h&gt;
+#include &lt;string.h&gt;
+
+int main() {
+    FILE *fp = fopen("nonexistent.txt", "r");
+    if (fp == NULL) {
+        perror("Error opening file");
+        printf("errno value: %d\n", errno);
+        printf("Error description: %s\n", strerror(errno));
+        return 1;
+    }
+    fclose(fp);
+    return 0;
+}
+</code></pre>
+
+<h2>Using assert()</h2>
+<p><code>assert()</code> from <code>&lt;assert.h&gt;</code> tests assumptions and aborts the program if an expression is false (useful for debugging):</p>
+
+<pre><code>#include &lt;assert.h&gt;
+
+int main() {
+    int x = 5;
+    assert(x == 5); // Passes silently
+    assert(x != 5); // Fails and aborts program
+    return 0;
+}
+</code></pre>
+
+<div class="note">
+  <strong>Note:</strong> Assertions should not be used for runtime error handling in production; they are mostly for debugging.
+</div>
+
+<h2>Best Practices for Error Handling</h2>
+<ul>
+  <li>Always check function return values, especially for I/O, memory allocation, and system calls.</li>
+  <li>Use <code>perror()</code> or <code>strerror()</code> to provide informative error messages.</li>
+  <li>Clean up resources (close files, free memory) before exiting on error.</li>
+  <li>Document possible errors your functions might return.</li>
+</ul>
+
+<footer>
+  &copy; 2025 Your C Programming Course
+</footer>
+
+</body>
+</html>
+
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Data Cleaning Techniques in Pandas</title>
+  <style>
+    /* You can add overrides here if needed */
+  </style>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<h1>Data Cleaning Techniques in Pandas</h1>
+
+<p>Data cleaning is a crucial step in any data analysis workflow. Pandas offers a variety of powerful tools to identify, handle, and clean messy or inconsistent data.</p>
+
+<h2>Handling Missing Data</h2>
+<p>Missing values can affect analysis results. Pandas provides multiple ways to detect and handle them.</p>
+
+<h3>Detect Missing Values</h3>
+<pre><code>df.isnull()   # Returns a DataFrame of booleans indicating missing values
+df.notnull()  # Opposite of isnull()</code></pre>
+
+<h3>Drop Missing Values</h3>
+<p>Remove rows or columns containing missing data.</p>
+<pre><code>df.dropna()               # Drops rows with any missing values
+df.dropna(axis=1)          # Drops columns with any missing values
+df.dropna(thresh=2)        # Drops rows with less than 2 non-NA values</code></pre>
+
+<h3>Fill Missing Values</h3>
+<p>Replace missing values with a specific value or strategy.</p>
+<pre><code>df.fillna(0)                       # Replace all NaNs with 0
+df['column'].fillna(df['column'].mean(), inplace=True)  # Fill NaNs in a column with mean
+df.fillna(method='ffill')           # Forward fill (propagate last valid observation)</code></pre>
+
+<h2>Removing Duplicates</h2>
+<p>Duplicate rows can distort analysis. Remove duplicates with:</p>
+<pre><code>df.duplicated()    # Returns boolean Series indicating duplicates
+df.drop_duplicates(inplace=True)   # Removes duplicate rows</code></pre>
+
+<h2>Data Type Conversion</h2>
+<p>Ensure columns have appropriate data types for analysis and reduce memory usage.</p>
+<pre><code>df['column'] = df['column'].astype('int')        # Convert to integer
+df['date'] = pd.to_datetime(df['date'])            # Convert to datetime</code></pre>
+
+<h2>String Manipulation</h2>
+<p>Clean textual data with string methods:</p>
+<pre><code>df['column'] = df['column'].str.strip()       # Remove leading/trailing spaces
+df['column'] = df['column'].str.lower()         # Convert to lowercase
+df['column'] = df['column'].str.replace('old', 'new')  # Replace substrings</code></pre>
+
+<h2>Replacing Values</h2>
+<p>Replace specific values using <code>replace()</code>:</p>
+<pre><code>df.replace({'old_value': 'new_value'}, inplace=True)</code></pre>
+
+<h2>Renaming Columns</h2>
+<p>Rename columns for clarity:</p>
+<pre><code>df.rename(columns={'old_name': 'new_name'}, inplace=True)</code></pre>
+
+<h2>Example: Cleaning a Dataset</h2>
+<pre><code>import pandas as pd
+
+data = {
+  'Name': ['Alice', 'Bob', None, 'David', 'Eve', 'Frank', 'Bob'],
+  'Age': [25, 30, 22, None, 28, 33, 30],
+  'Salary': [50000, None, 48000, 52000, None, 61000, None],
+  'Department': ['HR', 'IT', 'IT', 'HR', 'Finance', 'Finance', 'IT']
+}
+
+df = pd.DataFrame(data)
+
+# Drop rows where 'Name' is missing
+df = df.dropna(subset=['Name'])
+
+# Fill missing Age with mean
+df['Age'].fillna(df['Age'].mean(), inplace=True)
+
+# Fill missing Salary with 0
+df['Salary'].fillna(0, inplace=True)
+
+# Remove duplicate rows
+df.drop_duplicates(inplace=True)
+
+print(df)
+</code></pre>
+
+<h2>Summary</h2>
+<p>Effective data cleaning improves the quality of your dataset, which in turn leads to more accurate and reliable analysis. Pandas provides versatile tools for identifying and fixing common data issues.</p>
+
+<div class="note">
+  <strong>Note:</strong> Always inspect your data before and after cleaning to ensure the intended changes were made successfully.
+</div>
+
+<footer>
+  &copy; 2025 Your Python Pandas Course
+</footer>
+
+</body>
+</html>

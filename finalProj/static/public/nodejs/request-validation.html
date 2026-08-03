@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Request Validation in Express.js</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <h1>Request Validation in Express.js</h1>
+
+  <p>
+    Request validation ensures that the data received from a client (such as from a form or API call) is correct and secure before it is used in the server-side logic. In Express.js, you can validate request data using built-in checks or third-party libraries.
+  </p>
+
+  <h2>Why Request Validation Is Important</h2>
+  <ul>
+    <li>Prevents malformed or incomplete data from entering your application.</li>
+    <li>Helps secure your application by avoiding injection attacks.</li>
+    <li>Improves error handling and feedback to clients.</li>
+  </ul>
+
+  <h2>Validating Requests Manually</h2>
+  <p>You can manually check fields using simple <code>if</code> statements:</p>
+
+  <pre><code>
+app.post('/register', (req, res) => {
+  const { username, email } = req.body;
+  if (!username || !email) {
+    return res.status(400).json({ error: 'Username and email are required.' });
+  }
+  res.send('Valid input!');
+});
+  </code></pre>
+
+  <h2>Using a Validation Library: express-validator</h2>
+  <p><code>express-validator</code> is a powerful library for declarative request validation.</p>
+
+  <h3>Installation</h3>
+  <pre><code>npm install express-validator</code></pre>
+
+  <h3>Basic Example</h3>
+  <pre><code>
+const { body, validationResult } = require('express-validator');
+
+app.post('/register',
+  [
+    body('username').notEmpty().withMessage('Username is required'),
+    body('email').isEmail().withMessage('Valid email is required')
+  ],
+  (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    res.send('User registered successfully!');
+  });
+  </code></pre>
+
+  <h2>Custom Validators</h2>
+  <p>You can also create custom validation logic:</p>
+  <pre><code>
+body('password').custom(value => {
+  if (value.length &lt; 6) {
+    throw new Error('Password must be at least 6 characters long');
+  }
+  return true;
+})
+  </code></pre>
+
+  <h2>Validation in Routes</h2>
+  <p>For larger apps, extract validation logic into reusable middleware:</p>
+  <pre><code>
+// validations/userValidation.js
+const { body } = require('express-validator');
+
+exports.registerValidation = [
+  body('username').notEmpty(),
+  body('email').isEmail(),
+  body('password').isLength({ min: 6 })
+];
+  </code></pre>
+
+  <pre><code>
+// In your route
+const { registerValidation } = require('./validations/userValidation');
+
+app.post('/register', registerValidation, (req, res) => {
+  // Handle errors and logic
+});
+  </code></pre>
+
+  <h2>Best Practices</h2>
+  <ul>
+    <li>Validate both client-side and server-side.</li>
+    <li>Sanitize input to remove dangerous content.</li>
+    <li>Group validators by route or feature.</li>
+    <li>Use standardized error responses for consistency.</li>
+  </ul>
+
+  <h2>Common Libraries for Validation</h2>
+  <ul>
+    <li><strong>express-validator</strong> – Declarative validation middleware.</li>
+    <li><strong>Joi</strong> (via <code>joi</code> or <code>celebrate</code>) – Powerful schema-based validation.</li>
+    <li><strong>yup</strong> – Schema builder for runtime value parsing and validation.</li>
+  </ul>
+
+  <h2>Conclusion</h2>
+  <p>
+    Request validation is a fundamental part of building secure and reliable web applications. Use libraries like <code>express-validator</code> or <code>Joi</code> to simplify and standardize validation in your Express projects.
+  </p>
+
+  <footer>
+    &copy; 2025 Express.js Tutorial – Request Validation
+  </footer>
+
+</body>
+</html>

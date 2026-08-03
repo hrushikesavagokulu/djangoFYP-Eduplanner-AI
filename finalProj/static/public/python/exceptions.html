@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DevHive - Exception Handling (Python)</title>
+  <link rel="stylesheet" href="styles.css" />
+  
+</head>
+<body>
+
+  <h1>Exception Handling - DevHive (Python)</h1>
+
+  <p>Python's exception handling allows developers to deal with unexpected runtime errors in a clean and manageable way.</p>
+
+  <h2>✨ Why Use Exception Handling?</h2>
+  <ul>
+    <li>Prevent your program from crashing unexpectedly.</li>
+    <li>Handle specific types of errors differently.</li>
+    <li>Run cleanup code regardless of success or failure.</li>
+  </ul>
+
+  <h2>🔧 Basic Syntax</h2>
+  <pre><code>try:
+    # Code that might raise an error
+except SomeSpecificError as e:
+    # Handle the error
+finally:
+    # Optional block, always runs</code></pre>
+
+  <h2>🧪 Example: Divide by Zero</h2>
+  <pre><code>try:
+    result = 10 / 0
+    print(result)
+except ZeroDivisionError:
+    print("❌ Cannot divide by zero!")
+finally:
+    print("✅ Done executing!")</code></pre>
+
+  <h2>🔍 Common Exceptions</h2>
+  <ul>
+    <li><code>ZeroDivisionError</code> - Division by 0</li>
+    <li><code>ValueError</code> - Wrong value (e.g. letters instead of numbers)</li>
+    <li><code>TypeError</code> - Incompatible types (e.g. adding string + int)</li>
+    <li><code>NameError</code> - Variable not defined</li>
+    <li><code>IndexError</code> - List index out of range</li>
+  </ul>
+
+  <div class="try-it">
+    <h3>💻 Try it Yourself</h3>
+    <textarea class="code-input" id="codeArea" rows="10">try:
+    a = b + 1  # 'b' is not defined
+except NameError as e:
+    print("Caught a NameError:", e)
+finally:
+    print("Finished!")</textarea>
+    <br>
+    <button class="run-btn" onclick="runCode()">Run Code</button>
+    <div class="output" id="output"></div>
+  </div>
+
+  <!-- Load Pyodide -->
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.21.3/full/pyodide.js"></script>
+  <script>
+    async function runCode() {
+      const code = document.getElementById("codeArea").value;
+      const outputElement = document.getElementById("output");
+      outputElement.innerHTML = "Running...";
+
+      const wrappedCode = `
+import sys
+from io import StringIO
+
+output_buffer = StringIO()
+sys.stdout = output_buffer
+sys.stderr = output_buffer
+
+try:
+${code.split('\n').map(line => '  ' + line).join('\n')}
+except Exception as e:
+  print("Unhandled Exception:", e)
+
+sys.stdout = sys.__stdout__
+sys.stderr = sys.__stderr__
+output_buffer.getvalue()
+`;
+
+      try {
+        if (!window.pyodide) {
+          window.pyodide = await loadPyodide();
+        }
+        const result = await pyodide.runPythonAsync(wrappedCode);
+        outputElement.innerText = result || "(No output)";
+      } catch (err) {
+        outputElement.innerHTML = "<span class='error'>Error: " + err.message + "</span>";
+      }
+    }
+  </script>
+
+</body>
+</html>

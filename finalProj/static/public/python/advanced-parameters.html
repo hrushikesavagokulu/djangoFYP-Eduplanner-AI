@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>DevHive - Advanced Function Parameters in Python</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    
+  </style>
+</head>
+<body>
+
+  <h1>Advanced Function Parameters in Python - DevHive</h1>
+
+  <p>In Python, functions support powerful parameter definitions and combinations. By using default values, variable arguments, keyword-only arguments, unpacking, and decorators, you can write highly flexible and reusable code.</p>
+
+  <hr>
+
+  <h2>1. Default Parameters</h2>
+  <p>If an argument is not passed to the function, the default value is used instead.</p>
+  <pre><code>def greet(name, age=18):
+    print(f"Hello {name}, you are {age} years old.")
+
+greet("Alice")
+greet("Bob", 25)</code></pre>
+  <ul>
+    <li>Default values are evaluated only once, when the function is defined.</li>
+    <li>Be cautious using mutable default arguments like lists or dicts.</li>
+  </ul>
+
+  <div class="warning"><strong>Warning:</strong> Avoid mutable default arguments.</div>
+  <pre><code>def append_end(lst=[]):
+    lst.append("END")
+    return lst
+
+print(append_end())  # ['END']
+print(append_end())  # ['END', 'END'] ❌</code></pre>
+
+  <hr>
+
+  <h2>2. Variable Positional Arguments (<code>*args</code>)</h2>
+  <p>Accepts any number of extra positional arguments as a tuple.</p>
+  <pre><code>def add(*args):
+    print("Args:", args)
+    print("Total:", sum(args))
+
+add(1, 2, 3, 4)</code></pre>
+
+  <hr>
+
+  <h2>3. Variable Keyword Arguments (<code>**kwargs</code>)</h2>
+  <p>Accepts any number of extra keyword arguments as a dictionary.</p>
+  <pre><code>def info(**kwargs):
+    for k, v in kwargs.items():
+        print(f"{k}: {v}")
+
+info(name="John", age=30)</code></pre>
+
+  <hr>
+
+  <h2>4. Unpacking with * and **</h2>
+  <pre><code>def demo(a, b, c):
+    print(a, b, c)
+
+t = (1, 2, 3)
+d = {'a': 10, 'b': 20, 'c': 30}
+
+demo(*t)
+demo(**d)</code></pre>
+
+  <hr>
+
+  <h2>5. Full Parameter Order</h2>
+  <ul>
+    <li>Positional parameters</li>
+    <li>Default parameters</li>
+    <li><code>*args</code> (variable positional)</li>
+    <li>Keyword-only parameters (after a lone <code>*</code>)</li>
+    <li><code>**kwargs</code> (variable keyword)</li>
+  </ul>
+  <pre><code>def full_demo(a, b=10, *args, d, e=20, **kwargs):
+    print(a, b, args, d, e, kwargs)</code></pre>
+
+  <hr>
+
+  <h2>6. Keyword-Only Parameters</h2>
+  <p>Parameters after a lone <code>*</code> must be passed as keyword arguments.</p>
+  <pre><code>def person(name, *, age, city):
+    print(f"{name} is {age} years old and lives in {city}.")
+
+person("Alice", age=25, city="Delhi")</code></pre>
+
+  <hr>
+
+  <h2>7. Lambda Functions with *args and **kwargs</h2>
+  <pre><code>func = lambda *args, **kwargs: (args, kwargs)
+print(func(1, 2, x=3))</code></pre>
+
+  <hr>
+
+  <h2>8. Decorators with *args and **kwargs</h2>
+  <pre><code>def logger(func):
+    def wrapper(*args, **kwargs):
+        print(f"Calling {func.__name__} with args {args} and kwargs {kwargs}")
+        return func(*args, **kwargs)
+    return wrapper
+
+@logger
+def greet(name, age=18):
+    print(f"Hi {name}, age {age}")
+
+greet("John", age=22)</code></pre>
+
+  <hr>
+
+  <h2>9. Practice Challenges</h2>
+  <ul>
+    <li>Create a function that returns the average of any number of numbers.</li>
+    <li>Build a decorator that times any function’s execution.</li>
+    <li>Make a logger decorator that saves logs to a file.</li>
+  </ul>
+
+  <div class="note"><strong>Did You Know?</strong><br>
+    Python 3.8+ supports <code>/</code> for positional-only arguments:<br>
+    <code>def pow(base, exp, /): return base ** exp</code>
+  </div>
+
+  <hr>
+
+  <div class="try-it">
+    <h3>Try It Yourself</h3>
+    <textarea class="code-input" id="codeAreaAdvanced"># Feel free to test here:
+def greet(name, age=18):
+    print(f"Hello {name}, you are {age} years old.")
+
+def add(*args):
+    print("Sum:", sum(args))
+
+def info(**kwargs):
+    for k, v in kwargs.items():
+        print(f"{k}: {v}")
+
+def demo(a, b=2, *args, **kwargs):
+    print(f"a: {a}, b: {b}, args: {args}, kwargs: {kwargs}")
+
+def person(name, *, age, city):
+    print(f"{name} is {age} years old and lives in {city}.")
+
+greet("Alice")
+add(1, 2, 3)
+info(name="Dev", lang="Python")
+demo(5, 6, 10, 20, x=99)
+person("Sita", age=28, city="Mumbai")</textarea>
+    <br>
+    <button onclick="runCode()">Run Code</button>
+    <div class="output" id="output">Initializing Pyodide...</div>
+  </div>
+
+  <!-- Pyodide Script -->
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.21.3/full/pyodide.js"></script>
+  <script>
+    let pyodide = null;
+
+    async function loadPyodideAndPackages() {
+      pyodide = await loadPyodide();
+      document.getElementById("output").textContent = "Ready! Enter Python code and click 'Run Code'.";
+    }
+
+    loadPyodideAndPackages();
+
+    async function runCode() {
+      const code = document.getElementById("codeAreaAdvanced").value;
+      const output = document.getElementById("output");
+
+      try {
+        const result = await pyodide.runPythonAsync(`
+import sys
+from io import StringIO
+sys.stdout = StringIO()
+sys.stderr = sys.stdout
+
+${code}
+
+sys.stdout.getvalue()
+        `);
+        output.textContent = result || "(No output)";
+      } catch (err) {
+        output.textContent = "Error:\n" + err.message;
+      }
+    }
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Java - Switch</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #1e272e;
+      color: #dcdde1;
+      margin: 20px auto;
+      max-width: 900px;
+      line-height: 1.7;
+      padding: 0 15px;
+    }
+    h1 {
+      font-weight: 700;
+      color: #00cec9;
+      text-align: center;
+      margin-bottom: 30px;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
+    h2 {
+      color: #ffffff;
+      margin-top: 40px;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #00cec9;
+      padding-bottom: 6px;
+      font-weight: 600;
+    }
+    p, ul {
+      font-size: 17px;
+      color: #dfe6e9;
+    }
+    ul {
+      margin-left: 20px;
+    }
+    strong {
+      color: #00cec9;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Java Switch Statement</h1>
+
+  <p>The <strong>switch</strong> statement is a control flow construct that allows you to execute different parts of code based on the value of a variable or expression. It is a cleaner and more readable alternative to using multiple <code>if-else-if</code> statements when comparing one variable against many possible values.</p>
+
+  <h2>What is a Switch Statement?</h2>
+  <p>A switch statement evaluates an expression once, then compares its value against multiple possible <em>cases</em>. When it finds a match, it executes the corresponding block of code. If no case matches, the optional <code>default</code> block runs.</p>
+
+  <h2>How Does Switch Work?</h2>
+  <ul>
+    <li>The expression inside the parentheses is evaluated.</li>
+    <li>Its value is compared against each <code>case</code> label.</li>
+    <li>If a match is found, the code inside that case runs.</li>
+    <li>The <code>break</code> statement prevents execution from continuing to the next case.</li>
+    <li>If no cases match, the <code>default</code> block (if present) runs.</li>
+  </ul>
+
+  <h2>Why Use Switch Instead of If-Else?</h2>
+  <ul>
+    <li>Improves readability when checking multiple discrete values.</li>
+    <li>More efficient in some cases.</li>
+    <li>Better organization and less error-prone than multiple nested if-else statements.</li>
+  </ul>
+
+  <h2>Supported Data Types</h2>
+  <p>The switch statement works with the following data types:</p>
+  <ul>
+    <li>Integral types: <code>byte</code>, <code>short</code>, <code>int</code>, <code>char</code></li>
+    <li>Enumerations (<code>enum</code>)</li>
+    <li>Strings (since Java 7)</li>
+    <li>Wrapper classes of integral types (via auto-unboxing)</li>
+  </ul>
+
+  <h2>Common Pitfalls</h2>
+  <ul>
+    <li>Forgetting <code>break</code> statements causes <em>fall-through</em>, making subsequent cases execute unintentionally.</li>
+    <li>Using unsupported data types causes compilation errors.</li>
+    <li>The expression must produce a single value to compare.</li>
+  </ul>
+<div style="margin: 40px auto; max-width: 800px; width: 90%; aspect-ratio: 16 / 9; box-shadow: 0 8px 20px rgba(0,0,0,0.2); border-radius: 12px; overflow: hidden; background: #000;">
+  <iframe
+    src="https://www.youtube.com/embed/IrQKDdptiw8"
+    title="#15 Switch Statement in Java"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen
+    style="width: 100%; height: 100%; border: none; display: block;"
+  ></iframe>
+</div>
+
+  <h2>When to Use Switch</h2>
+  <ul>
+    <li>When comparing a variable against a fixed set of known discrete values.</li>
+    <li>When multiple if-else statements become complex or hard to read.</li>
+    <li>To write cleaner, more maintainable branching logic.</li>
+  </ul>
+
+  <h2>Summary</h2>
+  <p>The <strong>switch</strong> statement is a powerful and readable way to control program flow based on discrete values. Remember to use <code>break</code> to avoid fall-through bugs and include a <code>default</code> case to handle unexpected values. It helps keep your code concise and organized when dealing with multiple branches.</p>
+
+</body>
+</html>

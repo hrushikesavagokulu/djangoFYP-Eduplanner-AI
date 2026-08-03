@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Express.js Setup Guide</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <h1>Setting Up an Express.js Project</h1>
+
+  <p>
+    Express.js is a minimal and flexible Node.js web application framework that provides a robust set of features for building web and mobile applications. Below is a step-by-step guide to set up a basic Express.js project.
+  </p>
+
+  <h2>1. Initialize Your Project</h2>
+  <p>First, create a new folder and initialize a new Node.js project:</p>
+  <pre><code>mkdir my-express-app
+cd my-express-app
+npm init -y</code></pre>
+
+  <h2>2. Install Express</h2>
+  <p>Use npm to install Express:</p>
+  <pre><code>npm install express</code></pre>
+
+  <h2>3. Create the Entry Point File</h2>
+  <p>Create a file named <code>app.js</code> or <code>index.js</code> as your server entry point:</p>
+  <pre><code>// app.js
+const express = require('express');
+const app = express();
+
+// Define a route
+app.get('/', (req, res) => {
+  res.send('Hello, Express!');
+});
+
+// Start the server
+app.listen(3000, () => {
+  console.log('Server is running on http://localhost:3000');
+});
+</code></pre>
+<div style="
+  margin: 40px auto;
+  max-width: 800px;
+  width: 90%;
+  aspect-ratio: 16 / 9;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #000;
+">
+  <iframe
+    src="https://www.youtube.com/embed/N6PjgN9licA"
+    title="YouTube video player"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen
+    style="width: 100%; height: 100%; border: none; display: block;"
+  ></iframe>
+</div>
+
+  <h2>4. Run Your Server</h2>
+  <p>Start your server with the following command:</p>
+  <pre><code>node app.js</code></pre>
+  <p>Now open your browser and go to <a href="http://localhost:3000">http://localhost:3000</a> — you should see "Hello, Express!"</p>
+
+  <h2>5. Project Structure (Optional Best Practice)</h2>
+  <p>As your project grows, consider the following structure:</p>
+  <pre><code>my-express-app/
+├── public/         # static files (CSS, JS, images)
+├── routes/         # route handlers
+├── views/          # template files (if using a view engine)
+├── app.js          # main server file
+├── package.json    # project metadata
+</code></pre>
+
+  <h2>6. Useful Development Tools</h2>
+  <p>Install <code>nodemon</code> for automatic server restarts during development:</p>
+  <pre><code>npm install --save-dev nodemon</code></pre>
+  <p>Then add a script to <code>package.json</code>:</p>
+  <pre><code>"scripts": {
+  "start": "node app.js",
+  "dev": "nodemon app.js"
+}</code></pre>
+  <p>Now run your server with:</p>
+  <pre><code>npm run dev</code></pre>
+
+  <h2>7. Additional Packages</h2>
+  <ul>
+    <li><code>express-session</code> – for handling sessions</li>
+    <li><code>body-parser</code> – for parsing POST request bodies (now built-in in Express ≥ 4.16)</li>
+    <li><code>morgan</code> – for HTTP request logging</li>
+    <li><code>dotenv</code> – for managing environment variables</li>
+  </ul>
+
+  <h2>Conclusion</h2>
+  <p>
+    You’ve now successfully set up a basic Express.js application. From here, you can build APIs, add routes, connect to databases, render views with template engines, and more.
+  </p>
+
+  <footer>
+    &copy; 2025 Express.js Tutorial
+  </footer>
+
+</body>
+</html>

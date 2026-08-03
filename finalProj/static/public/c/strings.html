@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Strings</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 900px;
+      margin: 30px auto;
+      line-height: 1.6;
+      color: #222;
+      padding: 0 20px;
+      background: #f9f9f9;
+    }
+    h1, h2, h3 {
+      color: #005a9c;
+    }
+    pre {
+      background: #272822;
+      color: #f8f8f2;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 1rem;
+    }
+    code {
+      font-family: Consolas, monospace;
+      background: #eee;
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: #c7254e;
+    }
+    .note {
+      background: #fff3cd;
+      border-left: 6px solid #ffeeba;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #856404;
+    }
+    .warning {
+      background: #f8d7da;
+      border-left: 6px solid #f5c6cb;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #721c24;
+    }
+    ul {
+      margin-left: 20px;
+    }
+    a {
+      color: #005a9c;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      margin-top: 40px;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head><body>
+
+<h1>Strings in C</h1>
+
+<p>In C, strings are arrays of characters terminated by a special null character <code>'\0'</code>. They are used to represent text.</p>
+
+<h2>What is a String?</h2>
+<p>A string is a sequence of characters stored in contiguous memory locations ending with a <code>null character '\0'</code> which marks the end of the string.</p>
+
+<h2>Declaring Strings</h2>
+<ul>
+  <li><code>char str[20];</code> — Declares a character array that can hold up to 19 characters + the terminating null character.</li>
+  <li><code>char str[] = "Hello";</code> — Automatically sized array initialized with string "Hello".</li>
+</ul>
+
+<h2>String Initialization Examples</h2>
+<pre><code>char name[10] = "Alice";      // 'A' 'l' 'i' 'c' 'e' '\0'
+char greeting[] = "Hello!";    // size is 7 (including '\0')</code></pre>
+
+<h2>Important Points</h2>
+<ul>
+  <li>The last character of every string literal is always <code>'\0'</code> (null terminator).</li>
+  <li>Strings are stored as arrays of characters, so indexing works as with arrays.</li>
+  <li>You must ensure the array is large enough to hold the string plus the terminating <code>'\0'</code>.</li>
+</ul>
+
+<h2>Accessing Characters</h2>
+<p>You can access characters of a string like an array:</p>
+<pre><code>char str[] = "Hello";
+printf("%c\n", str[0]);  // Output: H
+printf("%c\n", str[4]);  // Output: o</code></pre>
+
+<h2>Reading Strings</h2>
+<p>Use <code>scanf</code> or <code>fgets</code> to read strings from user input:</p>
+<pre><code>char input[50];
+printf("Enter your name: ");
+scanf("%49s", input);   // Reads a word (no spaces)
+
+OR
+
+fgets(input, 50, stdin);  // Reads a line (including spaces)</code></pre>
+
+<h2>Common String Functions (from <code>&lt;string.h&gt;</code>)</h2>
+<ul>
+  <li><code>strlen(str)</code> — Returns length of string excluding <code>'\0'</code>.</li>
+  <li><code>strcpy(dest, src)</code> — Copies string from <code>src</code> to <code>dest</code>.</li>
+  <li><code>strcat(dest, src)</code> — Appends <code>src</code> to end of <code>dest</code>.</li>
+  <li><code>strcmp(str1, str2)</code> — Compares two strings; returns 0 if equal.</li>
+</ul>
+
+<h2>Example Using String Functions</h2>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int main() {
+    char str1[20] = "Hello";
+    char str2[] = "World";
+    char str3[40];
+
+    printf("Length of str1: %lu\n", strlen(str1));
+
+    strcpy(str3, str1);
+    strcat(str3, " ");
+    strcat(str3, str2);
+
+    printf("Concatenated string: %s\n", str3);
+
+    if (strcmp(str1, str2) == 0) {
+        printf("Strings are equal.\n");
+    } else {
+        printf("Strings are different.\n");
+    }
+
+    return 0;
+}
+</code></pre>
+
+<h2>Notes</h2>
+<ul>
+  <li>Always ensure the destination array is large enough to hold the result in <code>strcpy</code> and <code>strcat</code>.</li>
+  <li><code>scanf("%s", str)</code> stops reading input at the first whitespace.</li>
+  <li><code>fgets()</code> reads the entire line including spaces but stores the newline character <code>'\n'</code> if space permits.</li>
+  <li>Strings in C are mutable if declared as character arrays but string literals (e.g., <code>char *str = "Hello";</code>) should not be modified.</li>
+</ul>
+
+<footer>
+  &copy; 2025 Your C Programming Course
+</footer>
+
+</body>
+
+</html>

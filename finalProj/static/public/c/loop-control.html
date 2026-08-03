@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Loop Control</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 900px;
+      margin: 30px auto;
+      line-height: 1.6;
+      color: #222;
+      padding: 0 20px;
+      background: #f9f9f9;
+    }
+    h1, h2, h3 {
+      color: #005a9c;
+    }
+    pre {
+      background: #272822;
+      color: #f8f8f2;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 1rem;
+    }
+    code {
+      font-family: Consolas, monospace;
+      background: #eee;
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: #c7254e;
+    }
+    .note {
+      background: #fff3cd;
+      border-left: 6px solid #ffeeba;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #856404;
+    }
+    .warning {
+      background: #f8d7da;
+      border-left: 6px solid #f5c6cb;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #721c24;
+    }
+    ul {
+      margin-left: 20px;
+    }
+    a {
+      color: #005a9c;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      margin-top: 40px;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<h1>Loop Control</h1>
+
+<p>In C programming, controlling loops is essential to manage the flow of iteration. The main loop control statements are <code>break</code>, <code>continue</code>, and <code>goto</code>. These allow you to alter the normal execution sequence of loops like <code>for</code>, <code>while</code>, and <code>do-while</code>.</p>
+
+<h2>1. The <code>break</code> Statement</h2>
+<p>The <code>break</code> statement immediately terminates the innermost loop or <code>switch</code> statement and transfers control to the statement following the loop.</p>
+
+<pre><code>for (int i = 0; i &lt; 10; i++) {
+    if (i == 5) {
+        break;  // exit loop when i equals 5
+    }
+    printf("%d\n", i);
+}
+</code></pre>
+
+<h2>2. The <code>continue</code> Statement</h2>
+<p>The <code>continue</code> statement skips the remaining statements inside the current iteration and moves control to the next iteration of the loop.</p>
+
+<pre><code>for (int i = 0; i &lt; 10; i++) {
+    if (i % 2 == 0) {
+        continue;  // skip even numbers
+    }
+    printf("%d\n", i);
+}
+</code></pre>
+
+<h2>3. The <code>goto</code> Statement</h2>
+<p>The <code>goto</code> statement jumps to a labeled statement elsewhere in the code. Its use is generally discouraged because it can make code hard to read and maintain, but it can sometimes simplify complex control flows.</p>
+
+<pre><code>int i = 0;
+start_loop:
+if (i &gt;= 10) {
+    goto end_loop;
+}
+printf("%d\n", i);
+i++;
+goto start_loop;
+end_loop:
+printf("Loop ended\n");
+</code></pre>
+
+<div class="note">
+  <strong>Note:</strong> Use <code>break</code> and <code>continue</code> for clearer and safer loop control. Avoid <code>goto</code> unless absolutely necessary.
+</div>
+
+<footer>
+  &copy; 2025 Your C Programming Course
+</footer>
+
+
+</body>
+</html>

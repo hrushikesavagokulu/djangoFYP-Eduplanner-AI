@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Contest {{ contest_id }}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.42.0/min/vs/editor/editor.main.min.css" />
+    <style>
+        #editor { height: 500px; border:1px solid #ccc; }
+        #output { border:1px solid #ccc; padding:10px; margin-top:10px; min-height:100px; background:#f4f4f4; }
+        button { margin-top:10px; padding:10px 15px; font-size:16px; cursor:pointer; }
+    </style>
+</head>
+<body>
+    <h2>Contest {{ contest_id }}</h2>
+
+    <div id="editor"></div>
+    <button id="runBtn">Run Code</button>
+    <pre id="output"></pre>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.42.0/min/vs/loader.min.js"></script>
+    <script>
+        require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.42.0/min/vs' }});
+        require(['vs/editor/editor.main'], function() {
+            window.editor = monaco.editor.create(document.getElementById('editor'), {
+                value: '# Write your Python code here\nprint("Hello World")',
+                language: 'python',
+                theme: 'vs-dark',
+                automaticLayout: true
+            });
+        });
+
+        document.getElementById("runBtn").onclick = async () => {
+            const code = window.editor.getValue();
+            const formData = new FormData();
+            formData.append("code", code);
+            formData.append("language_id", 71);  // Python3
+
+            const response = await fetch("{% url 'run_code' %}", {
+                method: "POST",
+                body: formData,
+                headers: { "X-CSRFToken": "{{ csrf_token }}" }
+            });
+
+            const result = await response.json();
+            document.getElementById("output").innerText =
+                result.stdout || result.stderr || result.compile_output || "Error";
+        }
+    </script>
+</body>
+</html>

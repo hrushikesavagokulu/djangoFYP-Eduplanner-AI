@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Java - Encapsulation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 900px;
+      margin: auto;
+      padding: 20px;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+    h1, h2 {
+      color: #2c3e50;
+    }
+    p {
+      line-height: 1.6;
+    }
+    code {
+      background-color: #eee;
+      padding: 3px 5px;
+      border-radius: 4px;
+      font-family: Consolas, monospace;
+    }
+    pre {
+      background-color: #f4f4f4;
+      border-left: 4px solid #3498db;
+      padding: 12px;
+      overflow-x: auto;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>Encapsulation</h1>
+
+  <p><strong>Encapsulation</strong> is one of the four fundamental Object-Oriented Programming concepts. It is the mechanism of wrapping the data (variables) and code acting on the data (methods) together as a single unit, called a class. It also restricts direct access to some of an object's components, which is a means of preventing unintended interference and misuse of data.</p>
+
+  <h2>Why Use Encapsulation?</h2>
+  <ul>
+    <li><strong>Data Hiding:</strong> Encapsulation hides the internal state of an object from the outside world and only exposes a controlled interface.</li>
+    <li><strong>Improved Security:</strong> Sensitive data can be protected by making fields private.</li>
+    <li><strong>Ease of Maintenance:</strong> Internal implementation can be changed without affecting outside code.</li>
+    <li><strong>Increased Flexibility:</strong> The class can control how its data is accessed or modified through getter and setter methods.</li>
+  </ul>
+
+  <h2>How to Achieve Encapsulation in Java?</h2>
+  <p>Encapsulation in Java is achieved using:</p>
+  <ul>
+    <li>Declaring class variables/fields as <code>private</code>.</li>
+    <li>Providing <code>public</code> getter and setter methods to access and update the value of a private variable.</li>
+  </ul>
+
+  <h2>Syntax Example</h2>
+  <pre><code>public class Person {
+    private String name;  // private variable
+
+    // Getter method
+    public String getName() {
+        return name;
+    }
+
+    // Setter method
+    public void setName(String name) {
+        this.name = name;
+    }
+}</code></pre>
+<div style="margin: 40px auto; max-width: 800px; width: 90%; aspect-ratio: 16 / 9; box-shadow: 0 8px 20px rgba(0,0,0,0.2); border-radius: 12px; overflow: hidden; background: #000;">
+  <iframe
+    src="https://www.youtube.com/embed/YbqneqDIZh8"
+    title="#40 Encapsulation in Java"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen
+    style="width: 100%; height: 100%; border: none; display: block;"
+  ></iframe>
+</div>
+
+  <h2>Explanation</h2>
+  <p>The variable <code>name</code> is declared private, so it cannot be accessed directly from outside the <code>Person</code> class. Instead, public getter and setter methods provide controlled access. This allows validation or other logic to be added when reading or updating the value.</p>
+
+  <h2>Example with Validation</h2>
+  <pre><code>public class Account {
+    private double balance;
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        if (balance >= 0) {
+            this.balance = balance;
+        } else {
+            System.out.println("Balance cannot be negative.");
+        }
+    }
+}</code></pre>
+
+  <p>This example demonstrates how encapsulation allows you to add validation logic inside setter methods to protect the integrity of the data.</p>
+
+  <h2>Summary</h2>
+  <p>Encapsulation improves the robustness and maintainability of code by preventing external classes from directly modifying internal state. It enforces a clear separation between an object's internal workings and the external code that interacts with it. This leads to better security, flexibility, and easier debugging.</p>
+
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Java - Recursion</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #1e272e;
+      color: #dcdde1;
+      margin: 20px auto;
+      max-width: 900px;
+      line-height: 1.7;
+      padding: 0 15px;
+    }
+    h1 {
+      font-weight: 700;
+      color: #00cec9;
+      text-align: center;
+      margin-bottom: 30px;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
+    h2 {
+      color: #ffffff;
+      margin-top: 40px;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #00cec9;
+      padding-bottom: 6px;
+      font-weight: 600;
+    }
+    p, ul {
+      font-size: 17px;
+      color: #dfe6e9;
+    }
+    ul {
+      margin-left: 20px;
+    }
+    strong {
+      color: #00cec9;
+    }
+    code {
+      background: #2f3640;
+      padding: 3px 7px;
+      border-radius: 5px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 16px;
+      color: #ff7675;
+    }
+    pre {
+      background: #2f3640;
+      padding: 15px 20px;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin-bottom: 25px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 16px;
+      line-height: 1.5;
+      box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+      color: #f1f2f6;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Java Recursion</h1>
+
+  <p><strong>Recursion</strong> in programming is a technique where a method calls itself directly or indirectly to solve a problem. It breaks a problem into smaller instances of the same problem until reaching a base case, which stops the recursion.</p>
+
+  <h2>What is Recursion?</h2>
+  <p>In simple terms, recursion means "defining something in terms of itself." It allows a complex problem to be solved by repeatedly applying the same logic to smaller parts of the problem.</p>
+
+  <h2>Why Use Recursion?</h2>
+  <ul>
+    <li>Recursion is useful for problems that have a natural hierarchical or repetitive structure, such as tree traversal, factorial calculation, and Fibonacci sequences.</li>
+    <li>It often results in elegant and simple code that is easier to understand and maintain than iterative solutions.</li>
+    <li>Some problems are more naturally and efficiently solved using recursion than loops.</li>
+  </ul>
+
+  <h2>How Does Recursion Work?</h2>
+  <p>A recursive method typically has two main parts:</p>
+  <ul>
+    <li><strong>Base Case:</strong> The condition that stops the recursion. Without it, the method would call itself infinitely, causing a stack overflow.</li>
+    <li><strong>Recursive Case:</strong> The part where the method calls itself with a simpler or smaller input, moving towards the base case.</li>
+  </ul>
+
+  <h2>Syntax of a Recursive Method</h2>
+  <pre><code>returnType methodName(parameters) {
+    if (baseCondition) {
+        // base case logic, stop recursion
+        return baseValue;
+    } else {
+        // recursive call with modified arguments
+        return methodName(smallerInput);
+    }
+}</code></pre>
+
+  <h2>Example Explanation</h2>
+  <p>For example, to calculate the factorial of a number <code>n</code> (written as <code>n!</code>):</p>
+  <ul>
+    <li><code>factorial(0) = 1</code> is the base case.</li>
+    <li><code>factorial(n) = n * factorial(n-1)</code> is the recursive case.</li>
+  </ul>
+  <p>The function keeps calling itself with smaller values of <code>n</code> until it reaches zero, then multiplies all the results back up.</p>
+
+  <h2>Key Points to Remember</h2>
+  <ul>
+    <li>Always ensure there is a base case to terminate recursion.</li>
+    <li>Each recursive call should progress towards the base case.</li>
+    <li>Recursion uses the call stack, so deep recursion can cause stack overflow.</li>
+    <li>Recursive solutions can sometimes be less efficient than iterative ones due to overhead.</li>
+  </ul>
+
+  <h2>Advantages of Recursion</h2>
+  <ul>
+    <li>Simplifies code for problems with repetitive subproblems.</li>
+    <li>Reduces the need for complex loops.</li>
+    <li>Helps solve problems like traversing trees, graphs, and divide-and-conquer algorithms.</li>
+  </ul>
+
+  <h2>Disadvantages of Recursion</h2>
+  <ul>
+    <li>Uses more memory due to stack calls.</li>
+    <li>May be slower due to function call overhead.</li>
+    <li>Risk of stack overflow if recursion is too deep or no base case is defined.</li>
+  </ul>
+
+  <h2>Summary</h2>
+  <p>Recursion is a fundamental concept in programming that breaks a problem into smaller subproblems of the same type, solves them, and combines their results. It requires careful design to ensure termination and efficiency but can lead to clean, readable solutions for many problems.</p>
+
+</body>
+</html>

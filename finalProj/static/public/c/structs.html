@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Structs</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 900px;
+      margin: 30px auto;
+      line-height: 1.6;
+      color: #222;
+      padding: 0 20px;
+      background: #f9f9f9;
+    }
+    h1, h2, h3 {
+      color: #005a9c;
+    }
+    pre {
+      background: #272822;
+      color: #f8f8f2;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 1rem;
+    }
+    code {
+      font-family: Consolas, monospace;
+      background: #eee;
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: #c7254e;
+    }
+    .note {
+      background: #fff3cd;
+      border-left: 6px solid #ffeeba;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #856404;
+    }
+    .warning {
+      background: #f8d7da;
+      border-left: 6px solid #f5c6cb;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #721c24;
+    }
+    ul {
+      margin-left: 20px;
+    }
+    a {
+      color: #005a9c;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      margin-top: 40px;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head><body>
+
+<h1>Structs in C</h1>
+
+<p>A <code>struct</code> (short for structure) in C is a user-defined data type that groups together variables of different types under a single name. It allows you to combine related data of various types into one cohesive unit, making it easier to manage complex data.</p>
+
+<h2>Why Use Structs?</h2>
+<ul>
+  <li>To organize related data under one variable.</li>
+  <li>To represent complex objects like records, points, students, etc.</li>
+  <li>To improve code readability and maintainability.</li>
+</ul>
+
+<h2>Syntax</h2>
+<pre><code>struct StructName {
+    dataType member1;
+    dataType member2;
+    ...
+};</code></pre>
+
+<p>Here, <code>StructName</code> is the name of the structure type, and the members are variables inside the structure.</p>
+
+<h2>Example: Defining and Using a Struct</h2>
+<pre><code>#include &lt;stdio.h&gt;
+
+struct Point {
+    int x;
+    int y;
+};
+
+int main() {
+    struct Point p1;       // Declare a struct variable p1 of type Point
+    p1.x = 10;             // Access and assign value to member x
+    p1.y = 20;             // Access and assign value to member y
+
+    printf("Point coordinates: (%d, %d)\n", p1.x, p1.y);
+    return 0;
+}
+</code></pre>
+
+<h2>Declaring Struct Variables</h2>
+<ul>
+  <li>You can declare variables of a struct type like <code>struct Point p1;</code></li>
+  <li>Multiple variables can be declared at once: <code>struct Point p2, p3;</code></li>
+  <li>To avoid writing <code>struct</code> repeatedly, use <code>typedef</code>:</li>
+</ul>
+
+<pre><code>typedef struct {
+    int x;
+    int y;
+} Point;
+
+Point p1, p2;</code></pre>
+
+<h2>Accessing Members</h2>
+<ul>
+  <li>Use the dot operator <code>.</code> to access members of a struct variable, e.g., <code>p1.x</code></li>
+  <li>For pointers to structs, use the arrow operator <code>-></code>, e.g., <code>pPtr->x</code></li>
+</ul>
+
+<h2>Example: Using Pointer to Struct</h2>
+<pre><code>Point p1 = {5, 10};
+Point *pPtr = &amp;p1;
+
+printf("x = %d, y = %d\n", pPtr-&gt;x, pPtr-&gt;y);</code></pre>
+
+<h2>Initializing Structs</h2>
+<ul>
+  <li>Initialize at declaration: <code>struct Point p1 = {1, 2};</code></li>
+  <li>Partial initialization sets remaining members to zero.</li>
+</ul>
+
+<h2>Nested Structs</h2>
+<p>Structs can contain other structs as members:</p>
+<pre><code>struct Date {
+    int day;
+    int month;
+    int year;
+};
+
+struct Person {
+    char name[50];
+    struct Date birthday;
+};</code></pre>
+
+<h2>Use Case Example</h2>
+<pre><code>struct Student {
+    int id;
+    char name[30];
+    float marks;
+};
+
+struct Student s1 = {101, "Alice", 89.5};
+printf("ID: %d, Name: %s, Marks: %.2f\n", s1.id, s1.name, s1.marks);</code></pre>
+
+<h2>Important Notes</h2>
+<ul>
+  <li>Structs can contain variables of any data type, including arrays, pointers, and other structs.</li>
+  <li>Memory size of a struct is at least the sum of sizes of its members, but may include padding for alignment.</li>
+  <li>Structs provide a way to model real-world entities in programs.</li>
+</ul>
+
+<footer>
+  &copy; 2025 Your C Programming Course
+</footer>
+
+</body>
+
+</html>

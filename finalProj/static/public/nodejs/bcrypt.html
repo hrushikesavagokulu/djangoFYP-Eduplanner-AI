@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Using Bcrypt for Password Hashing</title>
+  <link rel="stylesheet" href="styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+
+  <h1>Bcrypt in Node.js</h1>
+
+  <section id="what-is-bcrypt">
+    <h2>What is Bcrypt?</h2>
+    <p>
+      Bcrypt is a popular library used to hash passwords securely. It provides a way to store passwords in a way that protects them even if the database is compromised.
+      It uses a technique called <em>salting</em> and multiple hashing rounds to make it computationally expensive to crack passwords.
+    </p>
+  </section>
+
+  <section id="installing-bcrypt">
+    <h2>Installing Bcrypt</h2>
+    <pre><code>npm install bcrypt</code></pre>
+  </section>
+
+  <section id="hashing-passwords">
+    <h2>Hashing Passwords</h2>
+    <p>Example of hashing a password asynchronously:</p>
+    <pre><code>const bcrypt = require('bcrypt');
+
+const password = 'mysecretpassword';
+const saltRounds = 10;
+
+bcrypt.hash(password, saltRounds, (err, hash) => {
+  if (err) throw err;
+  console.log('Hashed password:', hash);
+});
+</code></pre>
+  </section>
+
+  <section id="verifying-passwords">
+    <h2>Verifying Passwords</h2>
+    <p>Example of comparing a plain password with a hashed password:</p>
+    <pre><code>const bcrypt = require('bcrypt');
+
+const password = 'mysecretpassword';
+const hashedPassword = '$2b$10$...'; // From your database
+
+bcrypt.compare(password, hashedPassword, (err, result) => {
+  if (err) throw err;
+  if (result) {
+    console.log('Password matches!');
+  } else {
+    console.log('Password does NOT match!');
+  }
+});
+</code></pre>
+  </section>
+
+  <section id="using-promises">
+    <h2>Using Promises / async-await</h2>
+    <pre><code>const bcrypt = require('bcrypt');
+
+async function hashPassword(password) {
+  const saltRounds = 10;
+  try {
+    const hash = await bcrypt.hash(password, saltRounds);
+    console.log('Hashed password:', hash);
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+async function verifyPassword(password, hashedPassword) {
+  try {
+    const match = await bcrypt.compare(password, hashedPassword);
+    if (match) {
+      console.log('Password matches!');
+    } else {
+      console.log('Password does NOT match!');
+    }
+  } catch (err) {
+    console.error(err);
+  }
+}</code></pre>
+  </section>
+
+  <section id="best-practices">
+    <h2>Best Practices</h2>
+    <ul>
+      <li>Use at least 10 salt rounds for a good balance between security and performance.</li>
+      <li>Never store plain text passwords in your database.</li>
+      <li>Hash passwords before storing them in the database.</li>
+      <li>Use async methods to avoid blocking the event loop.</li>
+    </ul>
+  </section>
+
+  <footer>
+    &copy; 2025 Express.js Bcrypt Guide — All rights reserved.
+  </footer>
+
+</body>
+</html>

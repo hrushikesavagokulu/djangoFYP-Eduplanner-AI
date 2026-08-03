@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Protecting Routes in Express.js</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <h1>Protecting Routes in Express.js</h1>
+
+  <p>
+    Protecting routes in an Express.js application means restricting access to certain endpoints based on authentication and authorization rules. This ensures that only authorized users can access sensitive resources or perform specific actions.
+  </p>
+
+  <h2>Why Protect Routes?</h2>
+  <ul>
+    <li>Prevent unauthorized access to private data.</li>
+    <li>Enforce permissions and user roles.</li>
+    <li>Secure sensitive operations like editing or deleting data.</li>
+  </ul>
+
+  <h2>Common Techniques to Protect Routes</h2>
+
+  <h3>1. Authentication Middleware</h3>
+  <p>Verify that the user is logged in before allowing access to protected routes.</p>
+  <pre><code>
+function isAuthenticated(req, res, next) {
+  if (req.isAuthenticated && req.isAuthenticated()) {
+    return next();
+  }
+  res.status(401).json({ message: 'Unauthorized: Please log in' });
+}
+  </code></pre>
+
+  <h3>2. Authorization Middleware</h3>
+  <p>Check if the authenticated user has permission to access a resource.</p>
+  <pre><code>
+function authorizeRoles(...allowedRoles) {
+  return (req, res, next) => {
+    const userRole = req.user.role;
+    if (!allowedRoles.includes(userRole)) {
+      return res.status(403).json({ message: 'Forbidden: Insufficient permissions' });
+    }
+    next();
+  };
+}
+  </code></pre>
+
+  <h2>Using Middleware to Protect Routes</h2>
+  <p>Combine authentication and authorization middleware to protect routes:</p>
+  <pre><code>
+app.get('/dashboard', isAuthenticated, (req, res) => {
+  res.send('Welcome to your dashboard');
+});
+
+app.post('/admin/settings', isAuthenticated, authorizeRoles('admin'), (req, res) => {
+  res.send('Admin settings updated');
+});
+  </code></pre>
+
+  <h2>Protecting Routes with JWT (JSON Web Tokens)</h2>
+  <p>JWT is commonly used for stateless authentication in APIs.</p>
+  <pre><code>
+const jwt = require('jsonwebtoken');
+
+function verifyToken(req, res, next) {
+  const token = req.headers['authorization'];
+  if (!token) return res.status(401).json({ message: 'No token provided' });
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    if (err) return res.status(401).json({ message: 'Invalid token' });
+    req.user = decoded;
+    next();
+  });
+}
+  </code></pre>
+
+  <h2>Protecting Routes with Sessions</h2>
+  <p>Express-session allows you to protect routes by checking if a session exists.</p>
+  <pre><code>
+app.use(session({ secret: 'your-secret', resave: false, saveUninitialized: false }));
+
+function checkSession(req, res, next) {
+  if (req.session && req.session.userId) {
+    return next();
+  }
+  res.redirect('/login');
+}
+  </code></pre>
+
+  <h2>Best Practices for Route Protection</h2>
+  <ul>
+    <li>Always authenticate before authorizing.</li>
+    <li>Use HTTPS to protect tokens and session cookies.</li>
+    <li>Keep secret keys and tokens secure and out of source code.</li>
+    <li>Implement proper error handling to avoid leaking sensitive info.</li>
+    <li>Use rate limiting and other security middlewares to protect endpoints.</li>
+  </ul>
+
+  <h2>Summary</h2>
+  <p>
+    Protecting routes is essential to building secure Express.js applications. By combining authentication and authorization middleware, you can control who accesses your application’s features and data, providing a safer experience for your users.
+  </p>
+
+  <footer>
+    &copy; 2025 Express.js Tutorial – Protecting Routes
+  </footer>
+
+</body>
+</html>

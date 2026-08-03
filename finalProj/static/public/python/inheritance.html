@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>DevHive - Inheritance in Python</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Same CSS as your previous pages */
+  </style>
+</head>
+<body>
+
+  <h1>Inheritance in Python - DevHive</h1>
+
+  <p><code>Inheritance</code> allows a class (child class) to inherit attributes and methods from another class (parent class). It promotes code reuse and establishes a natural hierarchy between classes.</p>
+
+  <div class="highlight">
+    Inheritance lets new classes receive or override behaviors from existing classes.
+  </div>
+
+  <h2>Example: Basic Inheritance</h2>
+  <pre><code>class Animal:
+    def sound(self):
+        print("Some generic animal sound")
+
+class Dog(Animal):
+    def sound(self):
+        print("Woof!")
+
+dog = Dog()
+dog.sound()  # Woof!
+  </code></pre>
+
+  <h2>Using Parent Class Methods</h2>
+  <pre><code>class Animal:
+    def sleep(self):
+        print("Sleeping")
+
+class Cat(Animal):
+    def sound(self):
+        print("Meow!")
+
+cat = Cat()
+cat.sound()  # Meow!
+cat.sleep()  # Sleeping (inherited from Animal)
+  </code></pre>
+
+  <h2>Multiple Inheritance</h2>
+  <pre><code>class Flyer:
+    def fly(self):
+        print("Flying")
+
+class Swimmer:
+    def swim(self):
+        print("Swimming")
+
+class Duck(Flyer, Swimmer):
+    pass
+
+duck = Duck()
+duck.fly()   # Flying
+duck.swim()  # Swimming
+  </code></pre>
+<div style="margin: 40px auto; max-width: 800px; width: 90%; aspect-ratio: 16 / 9; box-shadow: 0 8px 20px rgba(0,0,0,0.2); border-radius: 12px; overflow: hidden; background: #000;">
+  <iframe
+    src="https://www.youtube.com/embed/Cn7AkDb4pIU"
+    title="Python Tutorial for Beginners | Inheritance"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen
+    style="width: 100%; height: 100%; border: none; display: block;"
+  ></iframe>
+</div>
+
+  <div class="try-it">
+    <h3>Try it Yourself</h3>
+    <textarea class="code-input" id="codeArea">class Person:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+class Student(Person):
+    def study(self):
+        print(f"{self.name} is studying.")
+
+student = Student("Alice", 21)
+print(student.name)
+print(student.age)
+student.study()</textarea>
+    <button class="run-btn" onclick="runCode()">Run Code</button>
+    <div class="output" id="output"></div>
+  </div>
+
+  <div class="exercise">
+    <h3>Exercise</h3>
+    <p>Create a parent class <code>Person</code> with attributes <code>name</code> and <code>age</code>. Then create a child class <code>Student</code> that inherits from <code>Person</code> and adds a method <code>study()</code> that prints a message. Instantiate a <code>Student</code> object and demonstrate both inherited attributes and the new method.</p>
+  </div>
+
+  <script>
+    function runCode() {
+      const code = document.getElementById("codeArea").value;
+      const output = document.getElementById("output");
+      output.innerHTML = '';
+      try {
+        const logs = [];
+        // Override console.log to capture output
+        console.log = (...args) => logs.push(args.join(' '));
+        new Function(code)();
+        output.innerText = logs.join('\n');
+      } catch (e) {
+        output.innerHTML = "<span class='error'>Error: " + e.message + "</span>";
+      }
+    }
+  </script>
+
+</body>
+</html>

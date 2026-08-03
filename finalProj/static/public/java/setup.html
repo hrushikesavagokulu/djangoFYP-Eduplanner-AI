@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Java Getting Started</title>
+  <style>
+    /* Reset and base styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body, html {
+      height: 100%;
+      font-family: Arial, sans-serif;
+      background: #f3b875;
+      color: #555;
+    }
+
+    /* Layout */
+    .container {
+      display: flex;
+      justify-content: center;
+      padding: 30px;
+    }
+
+    .main-content {
+      max-width: 800px;
+      background: rgb(187, 242, 182);
+      padding: 30px 40px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      overflow-y: auto;
+      height: 90vh;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      font-size: 28px;
+      color: #34495e;
+    }
+
+    h2 {
+      margin: 20px 0 10px;
+      color: #2c3e50;
+    }
+
+    p {
+      font-size: 16px;
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+
+    pre {
+      background: #eee;
+      padding: 15px;
+      border-radius: 5px;
+      font-family: Consolas, monospace;
+      font-size: 15px;
+      overflow-x: auto;
+      margin-bottom: 15px;
+      white-space: pre-wrap;
+    }
+
+    code {
+      background: #ecf0f1;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: Consolas, monospace;
+      font-size: 15px;
+      color: #27ae60;
+    }
+
+    a {
+      color: #2980b9;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .ad {
+      background: #dfe6e9;
+      color: #636e72;
+      text-align: center;
+      padding: 10px;
+      margin: 20px 0;
+      border-radius: 4px;
+      font-style: italic;
+      font-size: 14px;
+    }
+
+    /* Add your custom styles below */
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="main-content">
+    <h1>Java Getting Started</h1>
+
+    <h2>Install Java Development Kit (JDK)</h2>
+    <p>To write and run Java programs, you need the Java Development Kit (JDK).</p>
+    <p>Check if Java is installed by opening your command line and running:</p>
+    <pre>java -version</pre>
+
+    <p>If Java is installed, you will see the version information.</p>
+    <p>If not installed, download the latest JDK for free from <a href="https://www.oracle.com/java/technologies/downloads/" target="_blank" rel="noopener">Oracle Java Downloads</a> or <a href="https://adoptium.net/" target="_blank" rel="noopener">Adoptium OpenJDK</a>.</p>
+
+    <div class="ad">ADVERTISEMENT</div>
+
+    <h2>Writing Your First Java Program</h2>
+    <p>Use any text editor to write Java code. Save your program with a <code>.java</code> extension.</p>
+    <pre>HelloWorld.java:
+
+public class HelloWorld {
+    public static void main(String[] args) {
+        System.out.println("Hello, World!");
+    }
+}</pre>
+<div style="margin: 40px auto; max-width: 800px; width: 90%; aspect-ratio: 16 / 9; box-shadow: 0 8px 20px rgba(0,0,0,0.2); border-radius: 12px; overflow: hidden; background: #000;">
+  <iframe
+    src="https://www.youtube.com/embed/WRISYpKhIrc"
+    title="Java Development Kit (JDK) Setup"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen
+    style="width: 100%; height: 100%; border: none; display: block;"
+  ></iframe>
+</div>
+
+    <p>This program prints <code>Hello, World!</code> to the console.</p>
+
+    <h2>Compile and Run Your Java Program</h2>
+    <p>1. Open the command line and navigate to the folder where you saved <code>HelloWorld.java</code>.</p>
+    <p>2. Compile your program by running:</p>
+    <pre>javac HelloWorld.java</pre>
+    <p>This will create a file named <code>HelloWorld.class</code>.</p>
+    <p>3. Run the compiled program:</p>
+    <pre>java HelloWorld</pre>
+    <p>You should see:</p>
+    <pre>Hello, World!</pre>
+
+    <div class="ad">ADVERTISEMENT</div>
+
+    <h2>Using the Command Line Java Shell (JShell)</h2>
+    <p>JShell allows you to quickly test Java code snippets without writing full programs.</p>
+    <p>Start JShell by running:</p>
+    <pre>jshell</pre>
+    <p>Then you can type Java statements directly, for example:</p>
+    <pre>jshell> System.out.println("Hello from JShell!");</pre>
+    <p>JShell will immediately execute the command and print the result.</p>
+    <p>To exit JShell, type:</p>
+    <pre>/exit</pre>
+
+    <h2>Java Version Check</h2>
+    <p>You can also check the installed Java version in your programs by running:</p>
+    <pre>java -version</pre>
+    
+    <h2>Optional: Use an IDE</h2>
+    <p>For a better development experience, use an IDE like <a href="https://www.eclipse.org/downloads/" target="_blank" rel="noopener">Eclipse</a>, <a href="https://www.jetbrains.com/idea/download/" target="_blank" rel="noopener">IntelliJ IDEA</a>, or <a href="https://netbeans.apache.org/download/index.html" target="_blank" rel="noopener">NetBeans</a>.</p>
+    <p>They provide useful features like syntax highlighting, debugging, and project management.</p>
+  </div>
+</div>
+
+</body>
+</html>

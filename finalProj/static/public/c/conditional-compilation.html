@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Conditional Compilation</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 900px;
+      margin: 30px auto;
+      line-height: 1.6;
+      color: #222;
+      padding: 0 20px;
+      background: #f9f9f9;
+    }
+    h1, h2, h3 {
+      color: #005a9c;
+    }
+    pre {
+      background: #272822;
+      color: #f8f8f2;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 1rem;
+    }
+    code {
+      font-family: Consolas, monospace;
+      background: #eee;
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: #c7254e;
+    }
+    .note {
+      background: #fff3cd;
+      border-left: 6px solid #ffeeba;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #856404;
+    }
+    .warning {
+      background: #f8d7da;
+      border-left: 6px solid #f5c6cb;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #721c24;
+    }
+    ul {
+      margin-left: 20px;
+    }
+    a {
+      color: #005a9c;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      margin-top: 40px;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<h1>Conditional Compilation</h1>
+
+<p>Conditional compilation in C allows you to compile specific parts of the code based on conditions using preprocessor directives. This is especially useful for:</p>
+<ul>
+  <li>Debugging</li>
+  <li>Platform-specific code</li>
+  <li>Enabling/disabling features</li>
+</ul>
+
+<h2>Common Preprocessor Directives</h2>
+<ul>
+  <li><code>#ifdef</code>: Checks if a macro is defined.</li>
+  <li><code>#ifndef</code>: Checks if a macro is not defined.</li>
+  <li><code>#if</code>: Evaluates a condition.</li>
+  <li><code>#else</code>: Provides alternative code if condition fails.</li>
+  <li><code>#elif</code>: Else-if ladder for conditions.</li>
+  <li><code>#endif</code>: Ends conditional directive.</li>
+</ul>
+
+<h2>Example 1: Debug Mode</h2>
+<pre><code>#define DEBUG
+
+int main() {
+  int x = 10;
+
+#ifdef DEBUG
+  printf("Debug: x = %d\n", x);
+#endif
+
+  return 0;
+}</code></pre>
+
+<p>If <code>DEBUG</code> is defined, the debug message will print; otherwise, it won’t be compiled.</p>
+
+<h2>Example 2: Platform-Specific Compilation</h2>
+<pre><code>#ifdef _WIN32
+  printf("Running on Windows\n");
+#elif __linux__
+  printf("Running on Linux\n");
+#else
+  printf("Unknown platform\n");
+#endif</code></pre>
+
+<p>This allows writing cross-platform code by checking which system-specific macro is defined.</p>
+
+<h2>Example 3: Feature Toggles</h2>
+<pre><code>#define FEATURE_X
+
+int main() {
+#ifdef FEATURE_X
+  runFeatureX();
+#else
+  printf("Feature X is not available.\n");
+#endif
+}</code></pre>
+
+<p>You can comment out the <code>#define FEATURE_X</code> line to disable that feature.</p>
+
+<h2>Example 4: Conditional Compilation Using Expressions</h2>
+<pre><code>#define VERSION 2
+
+#if VERSION == 1
+  printf("Version 1 logic\n");
+#elif VERSION == 2
+  printf("Version 2 logic\n");
+#else
+  printf("Unknown version\n");
+#endif</code></pre>
+
+<h2>Best Practices</h2>
+<ul>
+  <li>Use meaningful macro names like <code>DEBUG_MODE</code> or <code>USE_LOGGING</code>.</li>
+  <li>Keep conditional blocks minimal to maintain readability.</li>
+  <li>Avoid deep nesting of conditionals as it makes code harder to understand.</li>
+</ul>
+
+<div class="note">
+  <strong>Note:</strong> Conditional compilation is handled before the actual compilation begins, during the preprocessing phase.
+</div>
+
+<div class="warning">
+  <strong>Warning:</strong> Be careful with excessive use of <code>#ifdef</code> blocks. They can make your code hard to maintain and debug.
+</div>
+
+<footer>
+  &copy; 2025 Your C Programming Course
+</footer>
+
+</body>
+</html>

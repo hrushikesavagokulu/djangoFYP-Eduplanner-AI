@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>MongoDB Introduction</title>
+  <link rel="stylesheet" href="styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+
+  <h1>MongoDB Introduction</h1>
+
+  <section id="what-is-mongodb">
+    <h2>What is MongoDB?</h2>
+    <p>
+      MongoDB is a popular, open-source NoSQL database designed for scalability, flexibility, and high performance.
+    </p>
+    <p>
+      Unlike traditional relational databases, MongoDB stores data in JSON-like documents with dynamic schemas, allowing for easier data modeling.
+    </p>
+  </section>
+
+  <section id="key-features">
+    <h2>Key Features of MongoDB</h2>
+    <ul>
+      <li><strong>Document-Oriented Storage:</strong> Data is stored in flexible, JSON-like BSON documents.</li>
+      <li><strong>Schema Flexibility:</strong> Each document can have a different structure.</li>
+      <li><strong>Scalability:</strong> Supports horizontal scaling through sharding.</li>
+      <li><strong>High Performance:</strong> Optimized for read/write operations and indexing.</li>
+      <li><strong>Powerful Query Language:</strong> Supports rich queries, aggregations, and indexing.</li>
+    </ul>
+  </section>
+
+  <section id="basic-terminology">
+    <h2>Basic Terminology</h2>
+    <ul>
+      <li><strong>Database:</strong> A container for collections.</li>
+      <li><strong>Collection:</strong> A group of MongoDB documents, similar to a table in SQL.</li>
+      <li><strong>Document:</strong> A set of key-value pairs stored as BSON (Binary JSON).</li>
+      <li><strong>Field:</strong> A key-value pair in a document.</li>
+      <li><strong>Index:</strong> Improves query performance.</li>
+    </ul>
+  </section>
+<div style="
+  margin: 40px auto;
+  max-width: 800px;
+  width: 90%;
+  aspect-ratio: 16 / 9;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #000;
+">
+  <iframe
+    src="https://www.youtube.com/embed/oH0VoYiA8_s"
+    title="YouTube video player"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen
+    style="width: 100%; height: 100%; border: none; display: block;"
+  ></iframe>
+</div>
+
+  <section id="installation-and-setup">
+    <h2>Installation and Setup</h2>
+    <p>Install MongoDB on your local machine or use a cloud-hosted service like MongoDB Atlas.</p>
+    <p>For local setup:</p>
+    <pre><code>sudo apt-get install -y mongodb   # on Ubuntu/Debian
+brew tap mongodb/brew               # on macOS
+brew install mongodb-community</code></pre>
+    <p>Start MongoDB server with:</p>
+    <pre><code>mongod</code></pre>
+  </section>
+
+  <section id="basic-commands">
+    <h2>Basic MongoDB Shell Commands</h2>
+    <pre><code>// Connect to Mongo shell
+mongo
+
+// Show databases
+show dbs
+
+// Use a database (creates if not exists)
+use mydatabase
+
+// Show collections in current database
+show collections
+
+// Insert a document
+db.users.insertOne({ name: "Alice", age: 30, email: "alice@example.com" })
+
+// Find all documents in a collection
+db.users.find()
+
+// Update a document
+db.users.updateOne({ name: "Alice" }, { $set: { age: 31 } })
+
+// Delete a document
+db.users.deleteOne({ name: "Alice" })</code></pre>
+  </section>
+
+  <section id="advantages">
+    <h2>Advantages of Using MongoDB</h2>
+    <ul>
+      <li>Flexible data model that adapts to evolving application needs.</li>
+      <li>High availability with replica sets.</li>
+      <li>Easy horizontal scaling with sharding.</li>
+      <li>Rich ecosystem and community support.</li>
+    </ul>
+  </section>
+
+  <footer>
+    &copy; 2025 MongoDB Intro Guide — All rights reserved.
+  </footer>
+
+</body>
+</html>

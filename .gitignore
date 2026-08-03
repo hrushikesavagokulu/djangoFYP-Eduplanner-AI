@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual Environment
+.venv/
+venv/
+
+# Django
+db.sqlite3
+*.log
+
+# Environment Variables
+.env
+
+# Google Credentials
+service_account.json
+performance-tracker-491406-dc165dcc351e.json
+
+# AI Models
+*.h5
+*.pt
+*.pth
+*.bin
+*.safetensors
+
+# Archives
+*.zip
+
+# Node
+node_modules/
+npm-debug.log
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# VS Code
+.vscode/
+
+# Static build
+staticfiles/

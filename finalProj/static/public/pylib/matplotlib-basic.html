@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Advanced Plotting with Matplotlib</title>
+  <style>
+    /* page-specific styles */
+  </style>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<h1>Advanced Plotting with Matplotlib</h1>
+
+<p>Once you are comfortable with basic plotting, Matplotlib offers a wide range of advanced features for creating professional and complex visualizations.</p>
+
+<h2>Plotting with Subplots</h2>
+<p>Organize multiple plots in one figure using subplots:</p>
+<pre><code>import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.linspace(0, 10, 100)
+y1 = np.sin(x)
+y2 = np.cos(x)
+
+fig, axs = plt.subplots(2, 1, figsize=(8, 6))
+
+axs[0].plot(x, y1, color='blue')
+axs[0].set_title('Sine Wave')
+
+axs[1].plot(x, y2, color='green')
+axs[1].set_title('Cosine Wave')
+
+plt.tight_layout()
+plt.show()
+</code></pre>
+
+<h2>Using Different Plot Types Together</h2>
+<p>Combine multiple plot types in one figure to enrich the visualization:</p>
+<pre><code>plt.plot(x, y1, label='Sine', color='blue')
+plt.scatter(x, y2, label='Cosine points', color='red')
+plt.title('Line and Scatter Plot Combined')
+plt.xlabel('X-axis')
+plt.ylabel('Y-axis')
+plt.legend()
+plt.show()
+</code></pre>
+
+<h2>Customizing Axes</h2>
+<p>Control ticks, limits, and scales for better focus and clarity:</p>
+<pre><code>plt.plot(x, y1)
+plt.xlim(0, 8)
+plt.ylim(-1, 1)
+plt.xticks([0, 2, 4, 6, 8])
+plt.yscale('linear')  # other options: 'log', 'symlog', 'logit'
+plt.title('Custom Axes Limits and Scale')
+plt.show()
+</code></pre>
+
+<h2>Annotations and Text</h2>
+<p>Add descriptive text and annotations to highlight key data points:</p>
+<pre><code>plt.plot(x, y1)
+plt.annotate('Max', xy=(np.pi/2, 1), xytext=(2, 1.2),
+             arrowprops=dict(facecolor='black', shrink=0.05))
+plt.text(7, -0.5, 'Sine curve example', fontsize=12, color='purple')
+plt.title('Annotations and Text')
+plt.show()
+</code></pre>
+
+<h2>Custom Legends and Colors</h2>
+<p>Adjust legend placement and use custom colors:</p>
+<pre><code>plt.plot(x, y1, label='Sine', color='#1f77b4')
+plt.plot(x, y2, label='Cosine', color='#ff7f0e')
+plt.legend(loc='upper right', fontsize='small', shadow=True)
+plt.title('Custom Legend and Colors')
+plt.show()
+</code></pre>
+
+<h2>Saving Figures with Transparency</h2>
+<p>Save plots with transparent backgrounds and different formats:</p>
+<pre><code>plt.plot(x, y1)
+plt.title('Save with Transparency')
+plt.savefig('transparent_plot.png', dpi=300, transparent=True)
+plt.close()
+</code></pre>
+
+<h2>Summary</h2>
+<ul>
+  <li>Create multiple plots with <code>subplots()</code> for better layout control.</li>
+  <li>Mix plot types like lines and scatter to enrich visual storytelling.</li>
+  <li>Customize axes limits, ticks, and scales for precise control.</li>
+  <li>Add annotations and text for clarity and emphasis.</li>
+  <li>Use custom colors and position legends thoughtfully.</li>
+  <li>Save plots with options like transparency for professional presentation.</li>
+</ul>
+
+<footer>
+  &copy; 2025 Your Python Visualization Course
+</footer>
+
+</body>
+</html>

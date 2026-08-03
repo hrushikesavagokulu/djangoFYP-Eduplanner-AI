@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Data Types</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 900px;
+      margin: 30px auto;
+      line-height: 1.6;
+      color: #222;
+      padding: 0 20px;
+      background: #f9f9f9;
+    }
+    h1, h2, h3 {
+      color: #005a9c;
+    }
+    pre {
+      background: #272822;
+      color: #f8f8f2;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 1rem;
+    }
+    code {
+      font-family: Consolas, monospace;
+      background: #eee;
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: #c7254e;
+    }
+    .note {
+      background: #fff3cd;
+      border-left: 6px solid #ffeeba;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #856404;
+    }
+    .warning {
+      background: #f8d7da;
+      border-left: 6px solid #f5c6cb;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #721c24;
+    }
+    ul {
+      margin-left: 20px;
+    }
+    a {
+      color: #005a9c;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      margin-top: 40px;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<h1>Data Types in C</h1>
+
+<p>In C programming, <strong>data types</strong> specify the type of data that variables can store. They define the size, layout, and range of values that can be held by variables, as well as the operations allowed on them. Understanding data types is fundamental to writing efficient and error-free C programs.</p>
+
+<h2>1. Basic Data Types</h2>
+
+<p>C provides several built-in primitive data types that store single values. The most commonly used are:</p>
+
+<ul>
+  <li><code>int</code> – stores integer numbers (whole numbers without decimals)</li>
+  <li><code>float</code> – stores single-precision floating-point numbers (decimals)</li>
+  <li><code>double</code> – stores double-precision floating-point numbers (more precise decimals)</li>
+  <li><code>char</code> – stores a single character (like 'A', 'z', or '5')</li>
+  <li><code>void</code> – represents the absence of type, commonly used for functions that return nothing</li>
+</ul>
+
+<h3>Example:</h3>
+<pre><code>int age = 25;
+float temperature = 36.5;
+double pi = 3.1415926535;
+char grade = 'A';
+void someFunction();</code></pre>
+
+<h2>2. Integer Types and Their Sizes</h2>
+
+<p>Integers represent whole numbers. However, their size and range can vary based on the system and compiler. The C standard defines several integer types with different sizes:</p>
+
+<table border="1" cellpadding="8" cellspacing="0" style="border-collapse: collapse; width: 100%;">
+  <thead>
+    <tr style="background-color: #005a9c; color: white;">
+      <th>Type</th>
+      <th>Typical Size (Bytes)</th>
+      <th>Range (Signed)</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>char</code></td>
+      <td>1</td>
+      <td>-128 to 127</td>
+      <td>Stores a single character or a small integer</td>
+    </tr>
+    <tr>
+      <td><code>unsigned char</code></td>
+      <td>1</td>
+      <td>0 to 255</td>
+      <td>Stores only positive small integers</td>
+    </tr>
+    <tr>
+      <td><code>short</code> or <code>short int</code></td>
+      <td>2</td>
+      <td>-32,768 to 32,767</td>
+      <td>Short integer</td>
+    </tr>
+    <tr>
+      <td><code>unsigned short</code></td>
+      <td>2</td>
+      <td>0 to 65,535</td>
+      <td>Only positive short integers</td>
+    </tr>
+    <tr>
+      <td><code>int</code></td>
+      <td>4</td>
+      <td>-2,147,483,648 to 2,147,483,647</td>
+      <td>Standard integer type</td>
+    </tr>
+    <tr>
+      <td><code>unsigned int</code></td>
+      <td>4</td>
+      <td>0 to 4,294,967,295</td>
+      <td>Only positive integers</td>
+    </tr>
+    <tr>
+      <td><code>long</code> or <code>long int</code></td>
+      <td>4 or 8 (platform dependent)</td>
+      <td>Typically -2,147,483,648 to 2,147,483,647 (32-bit) or larger</td>
+      <td>Long integer, larger range than int</td>
+    </tr>
+    <tr>
+      <td><code>unsigned long</code></td>
+      <td>4 or 8</td>
+      <td>0 to 4,294,967,295 (or more)</td>
+      <td>Only positive long integers</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><em>Note:</em> The exact size and range of these types can vary between compilers and platforms (e.g., 32-bit vs. 64-bit systems). Use <code>sizeof(type)</code> operator to check sizes.</p>
+
+<h2>3. Floating-Point Types</h2>
+
+<p>Floating-point types store decimal numbers. C supports two main floating-point types:</p>
+
+<ul>
+  <li><code>float</code> — single precision (usually 4 bytes, approx. 6-7 decimal digits of precision)</li>
+  <li><code>double</code> — double precision (usually 8 bytes, approx. 15-16 decimal digits of precision)</li>
+  <li><code>long double</code> — extended precision (platform dependent, more precise than double)</li>
+</ul>
+
+<h3>Example:</h3>
+<pre><code>float price = 12.99f;
+double distance = 12345.6789012345;
+long double preciseValue = 1.234567890123456789L;</code></pre>
+
+<p><strong>Note:</strong> The <code>f</code> and <code>L</code> suffixes indicate <code>float</code> and <code>long double</code> literals respectively.</p>
+
+<h2>4. Character Types</h2>
+
+<p>The <code>char</code> type is used to store single characters. Although it typically stores ASCII characters, it is essentially a small integer type storing numeric values internally.</p>
+
+<p>There are three variants:</p>
+
+<ul>
+  <li><code>char</code> — signed or unsigned (implementation-defined)</li>
+  <li><code>signed char</code></li>
+  <li><code>unsigned char</code></li>
+</ul>
+
+<h3>Example:</h3>
+<pre><code>char letter = 'A';
+unsigned char number = 65; // ASCII for 'A'
+signed char negativeValue = -50;</code></pre>
+
+<h2>5. Void Type</h2>
+
+<p>The <code>void</code> type specifies that no value is available. It is mainly used:</p>
+
+<ul>
+  <li>To indicate a function returns no value</li>
+  <li>To specify generic pointers (e.g., <code>void*</code>)</li>
+</ul>
+
+<h3>Example:</h3>
+<pre><code>void printMessage() {
+  printf("Hello, World!\n");
+}
+
+void* ptr = malloc(100);</code></pre>
+
+<h2>6. Derived Data Types</h2>
+
+<p>Derived types are built from basic types:</p>
+
+<ul>
+  <li><strong>Arrays:</strong> Collection of elements of the same type</li>
+  <li><strong>Pointers:</strong> Variables that store memory addresses</li>
+  <li><strong>Structures:</strong> Collections of variables grouped together</li>
+  <li><strong>Unions:</strong> Special data type to store different data types in the same memory location</li>
+  <li><strong>Enums:</strong> User-defined set of named integer constants</li>
+</ul>
+
+<p>We will cover these in separate tutorials.</p>
+
+<h2>7. Modifiers</h2>
+
+<p>Modifiers change the size or sign of basic data types. The commonly used modifiers are:</p>
+
+<ul>
+  <li><code>signed</code> — for signed integer types (default for <code>int</code>)</li>
+  <li><code>unsigned</code> — for unsigned integer types (only positive numbers)</li>
+  <li><code>short</code> — smaller integer type</li>
+  <li><code>long</code> — larger integer type</li>
+</ul>
+
+<h2>Summary Table of Basic Data Types</h2>
+<table border="1" cellpadding="8" cellspacing="0" style="border-collapse: collapse; width: 100%;">
+  <thead>
+    <tr style="background-color: #005a9c; color: white;">
+      <th>Data Type</th>
+      <th>Size (Typical)</th>
+      <th>Range</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><code>char</code></td><td>1 byte</td><td>-128 to 127</td><td>Character type</td></tr>
+    <tr><td><code>unsigned char</code></td><td>1 byte</td><td>0 to 255</td><td>Unsigned character</td></tr>
+    <tr><td><code>int</code></td><td>4 bytes</td><td>-2,147,483,648 to 2,147,483,647</td><td>Integer</td></tr>
+    <tr><td><code>unsigned int</code></td><td>4 bytes</td><td>0 to 4,294,967,295</td><td>Unsigned integer</td></tr>
+    <tr><td><code>short</code></td><td>2 bytes</td><td>-32,768 to 32,767</td><td>Short integer</td></tr>
+    <tr><td><code>unsigned short</code></td><td>2 bytes</td><td>0 to 65,535</td><td>Unsigned short</td></tr>
+    <tr><td><code>long</code></td><td>4 or 8 bytes</td><td>Depends on platform</td><td>Long integer</td></tr>
+    <tr><td><code>unsigned long</code></td><td>4 or 8 bytes</td><td>Depends on platform</td><td>Unsigned long</td></tr>
+    <tr><td><code>float</code></td><td>4 bytes</td><td>~6 decimal digits precision</td><td>Floating point</td></tr>
+    <tr><td><code>double</code></td><td>8 bytes</td><td>~15 decimal digits precision</td><td>Double precision float</td></tr>
+    <tr><td><code>long double</code></td><td>8+ bytes</td><td>Extended precision</td><td>More precise floating point</td></tr>
+  </tbody>
+</table>
+
+<div class="note">
+  <strong>Note:</strong> Sizes and ranges can vary depending on the system architecture and compiler. Always check with <code>sizeof()</code> and compiler documentation.
+</div>
+
+<footer>
+  &copy; 2025 Your C Programming Course
+</footer>
+
+</body>
+</html>

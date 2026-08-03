@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Java - Method Overloading</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #1b1f27;
+      color: #ecf0f1;
+      margin: 20px auto;
+      padding: 0 20px;
+      max-width: 960px;
+      line-height: 1.7;
+    }
+    h1, h2 {
+      color: #00cec9;
+      border-bottom: 2px solid #00cec9;
+      padding-bottom: 5px;
+      margin-top: 40px;
+    }
+    p, li {
+      font-size: 17px;
+    }
+    ul {
+      margin-left: 25px;
+    }
+    pre {
+      background-color: #2d3436;
+      padding: 15px;
+      border-radius: 8px;
+      color: #dfe6e9;
+      font-family: 'Courier New', Courier, monospace;
+      overflow-x: auto;
+    }
+    code {
+      background-color: #2f3640;
+      padding: 2px 6px;
+      border-radius: 5px;
+      font-size: 16px;
+      color: #ff7675;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Java - Method Overloading</h1>
+
+  <p><strong>Method Overloading</strong> is a feature in Java that allows a class to have more than one method with the same name, as long as their parameter lists are different. It enhances readability and enables you to define multiple behaviors with the same method name depending on the input.</p>
+
+  <h2>Why Use Method Overloading?</h2>
+  <ul>
+    <li>To perform similar operations with different types or numbers of inputs.</li>
+    <li>To increase code reusability and readability.</li>
+    <li>To provide flexibility to the developer and simplify API design.</li>
+  </ul>
+
+  <h2>Rules for Method Overloading</h2>
+  <ul>
+    <li>Methods must have the same name.</li>
+    <li>The number of parameters must be different, or</li>
+    <li>The type of parameters must be different, or</li>
+    <li>The order of parameters must be different (if types differ).</li>
+    <li><strong>Return type alone is not sufficient</strong> to distinguish overloaded methods.</li>
+  </ul>
+<div style="margin: 40px auto; max-width: 800px; width: 90%; aspect-ratio: 16 / 9; box-shadow: 0 8px 20px rgba(0,0,0,0.2); border-radius: 12px; overflow: hidden; background: #000;">
+  <iframe
+    src="https://www.youtube.com/embed/KpwBVAYbPDA"
+    title="#25 Method Overloading in Java"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen
+    style="width: 100%; height: 100%; border: none; display: block;"
+  ></iframe>
+</div>
+
+  <h2>Basic Syntax</h2>
+  <pre>
+class MyClass {
+  void display(int a) { ... }
+  void display(double a) { ... }
+  void display(int a, int b) { ... }
+}
+  </pre>
+
+  <h2>Examples of Method Overloading</h2>
+
+  <h3>Example 1: Overloading by Number of Parameters</h3>
+  <pre>
+public class Calculator {
+  void add(int a, int b) {
+    System.out.println("Sum of 2 numbers: " + (a + b));
+  }
+
+  void add(int a, int b, int c) {
+    System.out.println("Sum of 3 numbers: " + (a + b + c));
+  }
+
+  public static void main(String[] args) {
+    Calculator c = new Calculator();
+    c.add(10, 20);
+    c.add(10, 20, 30);
+  }
+}
+  </pre>
+
+  <h3>Example 2: Overloading by Type of Parameters</h3>
+  <pre>
+public class Display {
+  void show(String name) {
+    System.out.println("Name: " + name);
+  }
+
+  void show(int age) {
+    System.out.println("Age: " + age);
+  }
+
+  public static void main(String[] args) {
+    Display d = new Display();
+    d.show("Alice");
+    d.show(25);
+  }
+}
+  </pre>
+
+  <h3>Example 3: Overloading by Order of Parameters</h3>
+  <pre>
+public class PrintData {
+  void print(String name, int id) {
+    System.out.println("Name: " + name + ", ID: " + id);
+  }
+
+  void print(int id, String name) {
+    System.out.println("ID: " + id + ", Name: " + name);
+  }
+
+  public static void main(String[] args) {
+    PrintData p = new PrintData();
+    p.print("Bob", 100);
+    p.print(101, "Alice");
+  }
+}
+  </pre>
+
+  <h2>Invalid Overloading</h2>
+  <p>You <strong>cannot overload</strong> methods based on return type alone:</p>
+  <pre>
+int add(int a, int b) { return a + b; }
+double add(int a, int b) { return a + b; } // Error! Same signature, different return type.
+  </pre>
+
+  <h2>Overloading and Type Promotion</h2>
+  <p>If a matching method is not found, Java automatically promotes smaller data types:</p>
+  <pre>
+void show(int a) { ... }
+
+show('A');  // char gets promoted to int
+  </pre>
+
+  <h2>Overloading main() Method</h2>
+  <p>You can overload the <code>main()</code> method as well, although only the standard <code>main(String[] args)</code> is invoked by the JVM:</p>
+  <pre>
+public class MainTest {
+  public static void main(String[] args) {
+    System.out.println("Main with String[] args");
+    main(10);
+  }
+
+  public static void main(int a) {
+    System.out.println("Main with int: " + a);
+  }
+}
+  </pre>
+
+  <h2>Advantages of Method Overloading</h2>
+  <ul>
+    <li>Makes code cleaner and easier to read.</li>
+    <li>Reduces duplication of logic.</li>
+    <li>Allows methods to handle different types of data flexibly.</li>
+  </ul>
+
+  <h2>Conclusion</h2>
+  <p>Method overloading is a fundamental OOP feature in Java that enhances the power and flexibility of your code. By providing multiple definitions for the same method name, you can simplify your logic while improving readability and maintainability.</p>
+
+</body>
+</html>

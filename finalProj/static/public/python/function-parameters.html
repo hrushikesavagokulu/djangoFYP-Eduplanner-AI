@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>DevHive - Function Parameters in Python</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Same styling as your original */
+   
+  </style>
+</head>
+<body>
+
+  <h1>Function Parameters - DevHive</h1>
+
+  <p>Function parameters allow you to pass values into functions so they can perform tasks with different inputs.</p>
+
+  <h2>Types of Parameters in Python</h2>
+  <ul>
+    <li><strong>Positional parameters:</strong> Passed in order and matched positionally.</li>
+    <li><strong>Keyword parameters:</strong> Passed by explicitly naming the parameter.</li>
+    <li><strong>Default parameters:</strong> Have default values if no argument is passed.</li>
+    <li><strong>Variable-length parameters:</strong> Use <code>*args</code> for extra positional arguments and <code>**kwargs</code> for extra keyword arguments.</li>
+  </ul>
+
+  <h2>Examples</h2>
+  <pre><code>def greet(name, age):
+    print(f"Hello {name}, you are {age} years old.")
+
+def greet_default(name, age=18):
+    print(f"Hello {name}, you are {age} years old.")
+
+def sum_all(*args):
+    print("Sum is:", sum(args))
+
+def print_info(**kwargs):
+    for key, value in kwargs.items():
+        print(f"{key}: {value}")
+
+# Calling functions:
+greet("Alice", 30)            # Positional
+greet(age=25, name="Bob")     # Keyword
+greet_default("Charlie")      # Uses default age = 18
+sum_all(1, 2, 3, 4)           # Variable positional arguments
+print_info(name="Diana", age=40, city="NY")  # Variable keyword arguments</code></pre>
+
+  <div class="try-it">
+    <h3>Try it Yourself</h3>
+    <textarea class="code-input" id="codeArea">def greet(name, age):
+    print(f"Hello {name}, you are {age} years old.")
+
+def greet_default(name, age=18):
+    print(f"Hello {name}, you are {age} years old.")
+
+def sum_all(*args):
+    print("Sum is:", sum(args))
+
+def print_info(**kwargs):
+    for key, value in kwargs.items():
+        print(f"{key}: {value}")
+
+greet("Alice", 30)
+greet(age=25, name="Bob")
+greet_default("Charlie")
+sum_all(1, 2, 3, 4)
+print_info(name="Diana", age=40, city="NY")</textarea>
+    <button class="run-btn" onclick="runCode()">Run Code</button>
+    <div class="output" id="output"></div>
+  </div>
+
+  <!-- Pyodide Loader -->
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.21.3/full/pyodide.js"></script>
+  <script>
+    async function runCode() {
+      const code = document.getElementById("codeArea").value;
+      const outputElement = document.getElementById("output");
+      outputElement.innerHTML = 'Running...';
+
+      const wrappedCode = `
+import sys
+from io import StringIO
+
+output_buffer = StringIO()
+sys.stdout = output_buffer
+sys.stderr = output_buffer
+
+try:
+${code.split('\n').map(line => '  ' + line).join('\n')}
+except Exception as e:
+  print("Error:", e)
+
+sys.stdout = sys.__stdout__
+sys.stderr = sys.__stderr__
+output_buffer.getvalue()
+`;
+
+      try {
+        if (!window.pyodide) {
+          window.pyodide = await loadPyodide();
+        }
+        const result = await pyodide.runPythonAsync(wrappedCode);
+        outputElement.innerText = result || "(No output)";
+      } catch (err) {
+        outputElement.innerHTML = "<span class='error'>Error: " + err.message + "</span>";
+      }
+    }
+  </script>
+
+</body>
+</html>

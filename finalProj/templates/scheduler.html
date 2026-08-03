@@ -1,0 +1,215 @@
+{% extends "base.html" %}
+{% block title %}Scheduler – DSA Planner{% endblock %}
+{% block extra_style %}
+* { box-sizing: border-box; margin:0; padding:0; font-family:'Inter',sans-serif; }
+body { background: #0f172a; color: #fff; overflow-x:hidden; }
+
+.wrapper { display:flex; height:100vh; }
+.sidebar { width:280px; background:#111827; padding:30px 20px; display:flex; flex-direction:column; overflow-y:auto; }
+.sidebar h3 { font-size:14px; color:#9ca3af; letter-spacing:2px; margin-bottom:25px; }
+.plan-item { display:flex; justify-content:space-between; align-items:center; background:#1f2937; padding:12px 16px; border-radius:12px; margin-bottom:12px; transition:all 0.3s ease; cursor:pointer; }
+.plan-item:hover { background:#374151; transform:translateX(5px); }
+.plan-name:hover { color:#3b82f6; }
+.delete-btn { background:none; border:none; color:#f87171; cursor:pointer; transition:0.2s ease; }
+.delete-btn:hover { transform:scale(1.2); color:#ef4444; }
+
+.main { flex:1; padding:40px; background:#0f172a; overflow-y:auto; position:relative; }
+
+.gen-bar { display:flex; gap:15px; margin-bottom:40px; }
+.gen-bar input, .gen-bar button { padding:14px 18px; border-radius:14px; font-size:15px; outline:none; }
+.gen-bar input { border:1px solid #374151; background:#1f2937; color:#fff; flex:1; }
+.gen-bar input:focus { border-color:#3b82f6; box-shadow:0 0 0 4px rgba(59,130,246,0.2); }
+.gen-bar button { border:none; font-weight:600; background:linear-gradient(135deg,#3b82f6,#8b5cf6); cursor:pointer; color:#fff; transition:all 0.3s ease; }
+.gen-bar button:hover { transform:translateY(-2px); box-shadow:0 12px 30px rgba(59,130,246,0.35); }
+
+.day-card {
+    width:100%;
+    min-height:120px;
+    background:linear-gradient(135deg,#1e293b,#111827);
+    border-radius:24px;
+    padding:40px;
+    margin-bottom:20px;
+    position:relative;
+    overflow:hidden;
+    transition:all 0.6s cubic-bezier(.4,0,.2,1);
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-start;
+}
+.day-card h4 { font-size:28px; margin-bottom:15px; font-weight:700; color:#fff; }
+.day-card h5 { margin-top:20px; margin-bottom:10px; color:#3b82f6; }
+.day-card ul { padding-left:20px; }
+.day-card li { margin-bottom:10px; font-size:15px; color:#cbd5e1; }
+.day-card a { color:#60a5fa; text-decoration:none; }
+.day-card a:hover { text-decoration:underline; }
+
+.complete-btn { margin-top:auto; padding:14px 22px; border-radius:14px; font-weight:600; cursor:pointer; border:none; transition:all 0.4s ease; }
+.completed { background:linear-gradient(135deg,#16a34a,#22c55e); color:#fff; box-shadow:0 10px 25px rgba(22,163,74,0.3); }
+.completed:hover { transform:scale(1.05); }
+.not-completed { background:#374151; color:#fff; }
+.not-completed:hover { background:#4b5563; }
+
+/* ================= COMPLETED CARD EFFECT ================= */
+.day-card.completed-state .day-content { filter:blur(4px) brightness(0.6); pointer-events:none; transition: all 0.5s ease; }
+.day-card.completed-state { transition:all 0.6s ease; }
+
+.day-content { transition: all 0.4s ease; }
+
+@media(max-width:1024px){
+    .wrapper{ flex-direction:column; height:auto; }
+    .sidebar{ width:100%; height:auto; }
+    .gen-bar{ flex-direction:column; }
+    .gen-bar input, .gen-bar button{ width:100%; }
+}
+{% endblock %}
+
+{% block content %}
+<div class="wrapper">
+  <div class="sidebar">
+    <h3>📚 Your Plans</h3>
+    <div id="planTabs"></div>
+  </div>
+
+  <div class="main">
+    <h2>📘 DSA Plan Generator</h2>
+
+    <div class="gen-bar">
+      <input type="text" id="planTitle" placeholder="Plan Name (Ex: DSA 60 Days)" />
+      <input type="number" id="days" placeholder="Number of days" min="1" />
+      <button onclick="generatePlan()">Generate</button>
+    </div>
+
+    <div id="planContent"></div>
+  </div>
+</div>
+
+<script>
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        for (const cookie of document.cookie.split(';')) {
+            const c = cookie.trim();
+            if (c.startsWith(name + '=')) {
+                cookieValue = decodeURIComponent(c.slice(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+/* Load Plans */
+async function loadPlans() {
+    const res = await fetch("/scheduler/plans/");
+    const data = await res.json();
+    let html = "";
+    data.plans.forEach(p => {
+       html += `<div class="plan-item">
+            <div class="plan-name" onclick="loadPlan(${p.id})">📌 ${p.title} (${p.days} days)</div>
+            <button class="delete-btn" onclick="deletePlan(${p.id})">❌</button>
+        </div>`;
+    });
+    document.getElementById("planTabs").innerHTML = html;
+}
+
+/* Generate Plan */
+async function generatePlan() {
+    const days = document.getElementById("days").value;
+    const title = document.getElementById("planTitle").value;
+    const content = document.getElementById("planContent");
+
+    if (!title.trim()) { content.innerHTML = "<p class='error-msg'>Enter plan name</p>"; return; }
+    if (!days || days <= 0) { content.innerHTML = "<p class='error-msg'>Enter valid days</p>"; return; }
+
+    content.innerHTML = "Generating...";
+    const response = await fetch("{% url 'generate_plan' %}", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": getCookie("csrftoken")
+        },
+        body: JSON.stringify({ title: title, total_days: Number(days) })
+    });
+    const data = await response.json();
+
+    if (data.success) {
+        document.getElementById("planTitle").value = "";
+        document.getElementById("days").value = "";
+        loadPlans();
+        loadPlan(data.plan_id);
+    } else {
+        content.innerHTML = "<p class='error-msg'>Error generating plan</p>";
+    }
+}
+
+/* Load Plan */
+async function loadPlan(planId) {
+    const res = await fetch(`/scheduler/plan/${planId}/`);
+    const data = await res.json();
+
+    let html = "";
+
+    data.plan.forEach(day => {
+        let references="", problems="", tasks="";
+        if(day.reference_links?.length>0){references="<h5>📚 References</h5><ul>";
+            day.reference_links.forEach(link=>{references+=`<li><a href="${link}" target="_blank">${link}</a></li>`});
+            references+="</ul>";
+        }
+        if(day.problems?.length>0){problems="<h5>💻 Practice Problems</h5><ul>";
+            day.problems.forEach(p=>{problems+=`<li><a href="${p.link}" target="_blank">${p.title}</a> (${p.difficulty})</li>`});
+            problems+="</ul>";
+        }
+        if(day.tasks?.length>0){tasks="<h5>📝 Tasks</h5><ul>";
+            day.tasks.forEach(t=>{tasks+=`<li>${t}</li>`});
+            tasks+="</ul>";
+        }
+
+        html += `
+        <div class="day-card ${day.completed ? 'completed-state' : ''}" id="day-${day.id}">
+            <div class="day-content">
+                <h4>Day ${day.day_number} - ${day.topic}</h4>
+                <p>Type: ${day.type}</p>
+                ${references} ${problems} ${tasks}
+            </div>
+            <button class="complete-btn ${day.completed ? 'completed' : 'not-completed'}"
+                onclick="toggleDay(${day.id}, ${planId})">
+                ${day.completed ? "Completed ✅" : "Mark Complete"}
+            </button>
+        </div>`;
+    });
+
+    document.getElementById("planContent").innerHTML = html;
+
+    // Move completed cards to bottom
+    reorderCompleted();
+}
+
+/* Toggle Day Complete */
+async function toggleDay(dayId, planId) {
+    await fetch(`/scheduler/day/${dayId}/toggle/`, { method:"POST", headers:{"X-CSRFToken":getCookie("csrftoken")} });
+    loadPlan(planId);
+}
+
+/* Delete Plan */
+async function deletePlan(planId) {
+    await fetch(`/scheduler/delete/${planId}/`, { method:"POST", headers:{"X-CSRFToken":getCookie("csrftoken")} });
+    loadPlans();
+    document.getElementById("planContent").innerHTML = "";
+}
+
+/* Move completed cards to bottom */
+function reorderCompleted() {
+    const container = document.getElementById("planContent");
+    const cards = Array.from(container.children);
+    cards.sort((a,b)=>{
+        const aComp = a.classList.contains('completed-state') ? 1:0;
+        const bComp = b.classList.contains('completed-state') ? 1:0;
+        return aComp - bComp;
+    });
+    cards.forEach(c=>container.appendChild(c));
+}
+
+/* Initial load */
+loadPlans();
+</script>
+{% endblock %}

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>DevHive - Strings in Python</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    
+textarea#codeArea {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1rem;
+  width: 100%;
+  height: 220px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  resize: vertical;
+  box-sizing: border-box;
+  margin-bottom: 0.7em;
+}
+
+button {
+  background-color: #2980b9;
+  border: none;
+  color: white;
+  padding: 12px 25px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+  display: block;
+  margin-bottom: 1em;
+}
+
+button:hover {
+  background-color: #1c5980;
+}
+
+#output {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  padding: 12px 15px;
+  border-radius: 5px;
+  min-height: 80px;
+  font-family: monospace;
+  white-space: pre-wrap;
+  color: #2c3e50;
+}
+  </style>
+</head>
+<body>
+
+  <h1>Strings in Python - DevHive</h1>
+
+  <p>Strings are sequences of characters enclosed in quotes. In Python, you can use single quotes <code>' '</code>, double quotes <code>" "</code>, or triple quotes <code>''' '''</code> / <code>""" """</code> for multi-line strings.</p>
+
+  <h2>Example: Creating and printing strings</h2>
+  <pre><code>message = "Hello, DevHive!"
+print(message)
+
+multi_line = '''This is
+a multi-line
+string.'''
+print(multi_line)</code></pre>
+
+  <h2>Common String Operations</h2>
+  <p>Some useful string operations:</p>
+  <ul>
+    <li><code>len(s)</code> - Get length of string <code>s</code></li>
+    <li><code>s.lower()</code> - Convert string to lowercase</li>
+    <li><code>s.upper()</code> - Convert string to uppercase</li>
+    <li><code>s.strip()</code> - Remove whitespace from ends</li>
+    <li><code>s.replace(old, new)</code> - Replace substring</li>
+    <li><code>s.split(separator)</code> - Split string into list</li>
+    <li><code>substring in s</code> - Check substring presence</li>
+  </ul>
+
+  <h2>String Formatting</h2>
+  <p>Python offers several ways to format strings:</p>
+  <ul>
+    <li>Using the <code>%</code> operator (old style)</li>
+    <li>Using <code>.format()</code> method</li>
+    <li>Using f-strings (Python 3.6+)</li>
+  </ul>
+
+  <pre><code># Old style
+name = "Alice"
+age = 30
+print("Hello, %s. You are %d years old." % (name, age))
+
+# Using format()
+print("Hello, {}. You are {} years old.".format(name, age))
+
+# Using f-strings
+print(f"Hello, {name}. You are {age} years old.")</code></pre>
+
+  <h2>Escape Characters</h2>
+  <p>Use escape characters to include special characters in strings:</p>
+  <ul>
+    <li><code>\\n</code> - Newline</li>
+    <li><code>\\t</code> - Tab</li>
+    <li><code>\\\\</code> - Backslash</li>
+    <li><code>\\'</code> - Single quote</li>
+    <li><code>\\"</code> - Double quote</li>
+  </ul>
+
+  <pre><code>print("Hello\nWorld!")
+print("Column1\tColumn2")
+print("This is a backslash: \\")</code></pre>
+
+  <h2>Useful String Methods</h2>
+  <p>More handy string methods you should know:</p>
+  <ul>
+    <li><code>s.startswith(sub)</code> - Check if string starts with <code>sub</code></li>
+    <li><code>s.endswith(sub)</code> - Check if string ends with <code>sub</code></li>
+    <li><code>s.find(sub)</code> - Find first index of substring (returns -1 if not found)</li>
+    <li><code>s.count(sub)</code> - Count occurrences of substring</li>
+    <li><code>s.isalpha()</code> - Returns True if all characters are letters</li>
+    <li><code>s.isdigit()</code> - Returns True if all characters are digits</li>
+  </ul>
+
+  <h2>Try Your Own Code</h2>
+  <textarea id="codeArea" style="width:100%; height: 200px; font-family: monospace; font-size: 16px;">
+# Write your Python code here
+print("Hello, DevHive!")
+
+name = "Bob"
+age = 25
+print(f"{name} is {age} years old.")
+
+text = "  Hello, DevHive!  "
+print(len(text))
+print(text.strip())
+print(text.lower())
+print("Dev" in text)
+  </textarea><br>
+  <button onclick="runCode()">Run Code</button>
+
+  <pre id="output" style="background:#f0f0f0; padding:10px; margin-top:10px; white-space: pre-wrap;"></pre>
+
+  <script>
+    function runCode() {
+      const code = document.getElementById('codeArea').value;
+      const output = document.getElementById('output');
+      output.textContent = '';
+      try {
+        // We'll use Skulpt to run Python in-browser, or fallback
+        if(typeof Sk === 'undefined') {
+          output.textContent = 'Python execution requires Skulpt library.';
+          return;
+        }
+        Sk.configure({ 
+          output: function(text) { output.textContent += text; },
+          read: function(x) {
+            if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][x] === undefined)
+              throw "File not found: '" + x + "'";
+            return Sk.builtinFiles["files"][x];
+          }
+        });
+        (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'output';
+        let myPromise = Sk.misceval.asyncToPromise(function() {
+          return Sk.importMainWithBody("<stdin>", false, code, true);
+        });
+        myPromise.then(function() {
+          // success
+        },
+        function(err) {
+          output.textContent = "Error: " + err.toString();
+        });
+      } catch(e) {
+        output.textContent = 'Error: ' + e.message;
+      }
+    }
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt-stdlib.js"></script>
+
+</body>
+</html>

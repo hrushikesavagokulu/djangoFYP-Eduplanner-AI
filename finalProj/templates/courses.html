@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<style>
+.courses-wrapper{
+  background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+  color:white;
+  min-height:100vh;
+  padding-bottom:40px;
+}
+
+/* HEADER */
+.courses-header{
+  text-align:center;
+  padding:60px 20px 40px;
+}
+
+.courses-header h1{
+  font-size:42px;
+  margin-bottom:10px;
+  letter-spacing:1px;
+}
+
+.courses-header p{
+  font-size:18px;
+  opacity:.85;
+}
+
+/* GRID */
+.courses-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:35px;
+  padding:40px;
+  max-width:1200px;
+  margin:auto;
+}
+
+/* CARD */
+.course-card{
+  position:relative;
+  border-radius:22px;
+  overflow:hidden;
+  text-decoration:none;
+  color:#333;
+  background:rgba(255,255,255,0.95);
+  backdrop-filter:blur(10px);
+  box-shadow:0 15px 40px rgba(0,0,0,.3);
+  transition:all .35s ease;
+}
+
+.course-card:hover{
+  transform:translateY(-10px) scale(1.03);
+  box-shadow:0 25px 60px rgba(0,0,0,.45);
+}
+
+.course-card img{
+  width:100%;
+  height:190px;
+  object-fit:cover;
+  transition:.4s ease;
+}
+
+.course-card:hover img{
+  transform:scale(1.08);
+}
+
+.course-content{
+  padding:22px;
+}
+
+.course-content h3{
+  margin-bottom:8px;
+  font-size:22px;
+  font-weight:600;
+}
+
+.course-content p{
+  font-size:14px;
+  color:#555;
+  line-height:1.6;
+}
+
+/* BADGE */
+.badge{
+  position:absolute;
+  top:15px;
+  right:15px;
+  background:linear-gradient(45deg,#ff512f,#dd2476);
+  color:white;
+  font-size:12px;
+  padding:6px 12px;
+  border-radius:50px;
+  font-weight:bold;
+  box-shadow:0 5px 15px rgba(0,0,0,.3);
+}
+</style>
+
+<div class="courses-wrapper">
+
+  <div class="courses-header">
+    <h1>📚 Explore Our Courses</h1>
+    <p>Learn programming step-by-step with premium structured content</p>
+  </div>
+
+  <div class="courses-grid">
+
+    <a href="{% url 'c_course' %}" class="course-card">
+      <img src="{% static 'images/c.png' %}" alt="C">
+      <div class="course-content">
+        <h3>C Programming</h3>
+        <p>Master C fundamentals, memory & logic building.</p>
+      </div>
+    </a>
+
+    <a href="{% url 'python_course' %}" class="course-card">
+      <img src="{% static 'images/python.png' %}" alt="Python">
+      <div class="course-content">
+        <h3>Python</h3>
+        <p>Learn Python from beginner to advanced.</p>
+      </div>
+    </a>
+
+    <a href="{% url 'java_course' %}" class="course-card">
+      <img src="{% static 'images/java.png' %}" alt="Java">
+      <div class="course-content">
+        <h3>Java</h3>
+        <p>OOP, collections & backend basics.</p>
+      </div>
+    </a>
+
+    <a href="{% url 'node_course' %}" class="course-card">
+      <img src="{% static 'images/node.png' %}" alt="Node">
+      <div class="course-content">
+        <h3>Node.js</h3>
+        <p>Build scalable backend applications.</p>
+      </div>
+    </a>
+
+    <a href="{% url 'pylib_course' %}" class="course-card">
+      <span class="badge">Advanced</span>
+      <img src="{% static 'images/pylib.png' %}" alt="PyLib">
+      <div class="course-content">
+        <h3>Python Libraries</h3>
+        <p>NumPy, Pandas, Matplotlib & Scikit-learn.</p>
+      </div>
+    </a>
+
+    <a href="{% url 'chatbot' %}" class="course-card">
+      <span class="badge">AI Powered</span>
+      <img src="{% static 'images/chatbot.jpg' %}" alt="Chatbot">
+      <div class="course-content">
+        <h3>AI Coding Chatbot</h3>
+        <p>Ask doubts & solve coding problems instantly.</p>
+      </div>
+    </a>
+
+  </div>
+
+</div>
+
+{% endblock %}

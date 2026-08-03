@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Java - Method Parameters</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #1e272e;
+      color: #dcdde1;
+      margin: 20px auto;
+      max-width: 900px;
+      line-height: 1.7;
+      padding: 0 15px;
+    }
+    h1 {
+      font-weight: 700;
+      color: #00cec9;
+      text-align: center;
+      margin-bottom: 30px;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
+    h2 {
+      color: #ffffff;
+      margin-top: 40px;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #00cec9;
+      padding-bottom: 6px;
+      font-weight: 600;
+    }
+    p, ul {
+      font-size: 17px;
+      color: #dfe6e9;
+    }
+    ul {
+      margin-left: 20px;
+    }
+    strong {
+      color: #00cec9;
+    }
+    code {
+      background: #2f3640;
+      padding: 3px 7px;
+      border-radius: 5px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 16px;
+      color: #ff7675;
+    }
+    pre {
+      background: #2f3640;
+      padding: 15px 20px;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin-bottom: 25px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 16px;
+      line-height: 1.5;
+      box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+      color: #f1f2f6;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Method Parameters</h1>
+
+  <p><strong>Method parameters</strong> allow you to pass information or values into methods so that they can perform tasks using dynamic inputs. They act as variables declared within the parentheses of a method definition.</p>
+
+  <h2>Why Use Parameters?</h2>
+  <ul>
+    <li>Make methods more flexible and reusable.</li>
+    <li>Allow methods to operate on different data without rewriting code.</li>
+    <li>Help pass multiple values to methods.</li>
+  </ul>
+
+  <h2>Syntax of Method Parameters</h2>
+  <p>Parameters are defined inside the parentheses of a method header. You can define zero or more parameters, separated by commas. Each parameter has a type and a name:</p>
+  <pre><code>accessModifier returnType methodName(type1 param1, type2 param2, ...) {
+    // method body
+}</code></pre>
+
+  <h2>Example: Method with Parameters</h2>
+  <p>This method takes two integers as parameters and prints their sum:</p>
+  <pre><code>public void printSum(int a, int b) {
+  int sum = a + b;
+  System.out.println("Sum is: " + sum);
+}</code></pre>
+
+  <h2>Calling a Method with Parameters</h2>
+  <p>You provide arguments (values) when calling the method, matching the parameter list in order and type:</p>
+  <pre><code>printSum(5, 10);  // Output: Sum is: 15</code></pre>
+
+  <h2>Parameter Types</h2>
+  <ul>
+    <li><strong>Primitive types:</strong> int, double, boolean, char, etc.</li>
+    <li><strong>Reference types:</strong> objects like String, arrays, custom classes.</li>
+  </ul>
+
+  <h2>Example with Different Parameter Types</h2>
+  <pre><code>public void greetUser(String name, int age) {
+  System.out.println("Hello " + name + ", you are " + age + " years old.");
+}</code></pre>
+
+  <h2>Passing Parameters by Value</h2>
+  <p>In Java, method parameters are passed <strong>by value</strong>. This means:</p>
+  <ul>
+    <li>For primitive types, a copy of the value is passed.</li>
+    <li>For objects, a copy of the reference is passed (not the object itself).</li>
+  </ul>
+  <p>Thus, changes to parameters inside the method do not affect the original variables (except when modifying the object's internal state).</p>
+
+  <h2>Variable Number of Parameters (Varargs)</h2>
+  <p>Java supports variable-length argument lists using the <code>...</code> syntax, allowing methods to accept zero or more arguments of a specified type:</p>
+  <pre><code>public void printNumbers(int... numbers) {
+  for (int num : numbers) {
+    System.out.println(num);
+  }
+}</code></pre>
+
+  <h2>Example Usage of Varargs</h2>
+  <pre><code>printNumbers(1, 2, 3, 4);</code></pre>
+
+  <h2>Summary</h2>
+  <p>Method parameters are essential to write flexible and reusable methods. They allow passing information into methods to operate on different inputs, supporting varied program behavior.</p>
+
+</body>
+</html>

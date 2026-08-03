@@ -1,0 +1,222 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ course }} - C Programming</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            height: 100vh;
+            background: #f4f6f9;
+        }
+
+        /* NAVBAR */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: #1e293b;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            z-index: 1000;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-right: 20px;
+            font-size: 14px;
+        }
+
+        nav a:hover {
+            color: #1abc9c;
+        }
+
+        nav button {
+            margin-right: 15px;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            color: white;
+            font-size: 13px;
+        }
+
+        /* SIDEBAR */
+        #sidebar {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            width: 280px;
+            bottom: 0;
+            background: #111827;
+            color: white;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        #sidebar h2 {
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        #sidebar h3 {
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            color: #1abc9c;
+        }
+
+        #sidebar ul {
+            list-style: none;
+        }
+
+        #sidebar li {
+            margin-bottom: 6px;
+        }
+
+        #sidebar a {
+            text-decoration: none;
+            color: #d1d5db;
+            font-size: 13px;
+            display: block;
+            padding: 6px 8px;
+            border-radius: 4px;
+        }
+
+        #sidebar a:hover,
+        #sidebar a.active {
+            background: #1f2937;
+            color: #1abc9c;
+        }
+
+        /* CONTENT AREA */
+        #content {
+            margin-top: 60px;
+            margin-left: 280px;
+            width: calc(100% - 280px);
+            height: calc(100vh - 60px);
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: white;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav>
+    <a href="{% url 'dashboard' %}">
+        <i class="fas fa-home"></i> Dashboard
+    </a>
+
+    {% comment %} <button onclick="location.href='{% url 'compiler' %}'" style="background:#1abc9c;">
+        Compiler
+    </button>
+
+    <button onclick="location.href='{% url 'chatbot' %}'" style="background:#9b59b6;">
+        Chatbot
+    </button> {% endcomment %}
+
+    <a href="{% url 'python_course' %}">Python</a>
+    <a href="{% url 'java_course' %}">Java</a>
+    <a href="{% url 'node_course' %}">Node.js</a>
+    <a href="{% url 'pylib_course' %}">Py Libraries</a>
+    <a href="{% url 'c_course' %}">C</a>
+    <a href="{% url 'logout' %}">Logout</a>
+</nav>
+
+
+<!-- SIDEBAR -->
+<div id="sidebar">
+
+    <h2>{{ course }}</h2>
+
+    <div id="courseSections">
+
+        <h3>Getting Started</h3>
+        <ul>
+            <li><a href="{% static 'public/c/introduction.html' %}" target="contentFrame">Introduction</a></li>
+            <li><a href="{% static 'public/c/setup.html' %}" target="contentFrame">Setup</a></li>
+            <li><a href="{% static 'public/c/syntax.html' %}" target="contentFrame">Syntax</a></li>
+            <li><a href="{% static 'public/c/variables.html' %}" target="contentFrame">Variables</a></li>
+            <li><a href="{% static 'public/c/data-types.html' %}" target="contentFrame">Data Types</a></li>
+            <li><a href="{% static 'public/c/constants.html' %}" target="contentFrame">Constants</a></li>
+            <li><a href="{% static 'public/c/operators.html' %}" target="contentFrame">Operators</a></li>
+        </ul>
+
+        <h3>Control Flow</h3>
+        <ul>
+            <li><a href="{% static 'public/c/if-statements.html' %}" target="contentFrame">If</a></li>
+            <li><a href="{% static 'public/c/switch.html' %}" target="contentFrame">Switch</a></li>
+            <li><a href="{% static 'public/c/for-loops.html' %}" target="contentFrame">For</a></li>
+            <li><a href="{% static 'public/c/while-loops.html' %}" target="contentFrame">While</a></li>
+            <li><a href="{% static 'public/c/do-while-loops.html' %}" target="contentFrame">Do While</a></li>
+        </ul>
+
+        <h3>Pointers & Memory</h3>
+        <ul>
+            <li><a href="{% static 'public/c/pointers.html' %}" target="contentFrame">Pointers</a></li>
+            <li><a href="{% static 'public/c/dynamic-memory.html' %}" target="contentFrame">Dynamic Memory</a></li>
+            <li><a href="{% static 'public/c/memory-management.html' %}" target="contentFrame">Memory Management</a></li>
+        </ul>
+
+        <h3>Data Structures</h3>
+        <ul>
+            <li><a href="{% static 'public/c/arrays.html' %}" target="contentFrame">Arrays</a></li>
+            <li><a href="{% static 'public/c/strings.html' %}" target="contentFrame">Strings</a></li>
+            <li><a href="{% static 'public/c/structs.html' %}" target="contentFrame">Structures</a></li>
+            <li><a href="{% static 'public/c/unions.html' %}" target="contentFrame">Unions</a></li>
+        </ul>
+
+        <h3>Input / Output</h3>
+        <ul>
+            <li><a href="{% static 'public/c/stdio.html' %}" target="contentFrame">Standard I/O</a></li>
+            <li><a href="{% static 'public/c/file-io.html' %}" target="contentFrame">File I/O</a></li>
+        </ul>
+
+    </div>
+</div>
+
+
+<!-- CONTENT -->
+<div id="content">
+    <iframe
+        name="contentFrame"
+        src="{% static 'public/c/introduction.html' %}">
+    </iframe>
+</div>
+
+
+<script>
+    const links = document.querySelectorAll('#sidebar a[target="contentFrame"]');
+    links.forEach(link => {
+        link.addEventListener('click', function () {
+            links.forEach(l => l.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+</script>
+</body>
+</html>

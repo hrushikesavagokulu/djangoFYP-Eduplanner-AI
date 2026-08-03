@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Passing Data in Express.js</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <h1>Passing Data in Express.js</h1>
+
+  <p>
+    Passing data from the server to the client is a fundamental part of building dynamic web applications. Express.js allows you to pass data to views, APIs, or directly in the response.
+  </p>
+
+  <h2>Passing Data to Template Views</h2>
+  <p>When rendering HTML with a template engine (like Pug, EJS, or Handlebars), you can pass variables and objects from your route handler to the view.</p>
+
+  <pre><code>
+// Example with Pug
+app.get('/profile', (req, res) => {
+  const user = { name: 'Alice', age: 25, hobbies: ['Reading', 'Hiking'] };
+  res.render('profile', { user: user });
+});
+  </code></pre>
+
+  <p>In the Pug template <code>profile.pug</code>, you can use the passed <code>user</code> object:</p>
+
+  <pre><code>
+h1 Profile Page
+p Name: #{user.name}
+p Age: #{user.age}
+ul
+  each hobby in user.hobbies
+    li= hobby
+  </code></pre>
+
+  <h2>Passing Data via JSON APIs</h2>
+  <p>You can send data as JSON, which is useful for APIs or client-side JavaScript fetching data asynchronously:</p>
+
+  <pre><code>
+app.get('/api/user', (req, res) => {
+  res.json({ name: 'Alice', age: 25, hobbies: ['Reading', 'Hiking'] });
+});
+  </code></pre>
+
+  <h2>Passing Data in Query Strings and URL Parameters</h2>
+  <p>Express lets you access parameters from the URL or query strings to dynamically change the response:</p>
+
+  <pre><code>
+app.get('/greet/:name', (req, res) => {
+  const name = req.params.name;
+  res.send(`Hello, ${name}!`);
+});
+
+app.get('/search', (req, res) => {
+  const term = req.query.term;
+  res.send(`You searched for: ${term}`);
+});
+  </code></pre>
+
+  <h2>Passing Data Between Middleware</h2>
+  <p>Middleware functions can pass data to the next middleware or route handler using the <code>req</code> or <code>res.locals</code> objects:</p>
+
+  <pre><code>
+// Middleware to add a timestamp to request
+app.use((req, res, next) => {
+  res.locals.requestTime = new Date();
+  next();
+});
+
+app.get('/', (req, res) => {
+  res.render('index', { time: res.locals.requestTime });
+});
+  </code></pre>
+
+  <h2>Using Sessions to Persist Data</h2>
+  <p>Sessions allow you to store user-specific data between requests:</p>
+
+  <pre><code>
+const session = require('express-session');
+app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: true }));
+
+app.get('/setname', (req, res) => {
+  req.session.name = 'Alice';
+  res.send('Name stored in session.');
+});
+
+app.get('/getname', (req, res) => {
+  res.send(`Name in session is: ${req.session.name}`);
+});
+  </code></pre>
+
+  <h2>Best Practices</h2>
+  <ul>
+    <li>Sanitize data before passing it to views to avoid injection attacks.</li>
+    <li>Keep data passed to templates minimal to improve performance.</li>
+    <li>Use JSON APIs for rich client-side interactivity with frameworks like React or Vue.</li>
+    <li>Use sessions carefully, especially for sensitive data, and secure them properly.</li>
+  </ul>
+
+  <h2>Summary</h2>
+  <p>
+    Passing data effectively in Express.js is key to building dynamic, interactive web applications. Whether you’re rendering templates, responding to API calls, or managing user sessions, Express provides simple, flexible ways to handle data.
+  </p>
+
+  <footer>
+    &copy; 2025 Express.js Tutorial – Passing Data
+  </footer>
+
+</body>
+</html>

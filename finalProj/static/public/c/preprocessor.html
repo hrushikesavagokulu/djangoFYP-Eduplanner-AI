@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Preprocessor</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 900px;
+      margin: 30px auto;
+      line-height: 1.6;
+      color: #222;
+      padding: 0 20px;
+      background: #f9f9f9;
+    }
+    h1, h2, h3 {
+      color: #005a9c;
+    }
+    pre {
+      background: #272822;
+      color: #f8f8f2;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 1rem;
+    }
+    code {
+      font-family: Consolas, monospace;
+      background: #eee;
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: #c7254e;
+    }
+    .note {
+      background: #fff3cd;
+      border-left: 6px solid #ffeeba;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #856404;
+    }
+    .warning {
+      background: #f8d7da;
+      border-left: 6px solid #f5c6cb;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #721c24;
+    }
+    ul {
+      margin-left: 20px;
+    }
+    a {
+      color: #005a9c;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      margin-top: 40px;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<h1>The C Preprocessor</h1>
+
+<p>The C Preprocessor (often called <code>cpp</code>) is a tool that processes your source code before compilation. It handles directives for including files, defining macros, conditional compilation, and more.</p>
+
+<h2>Key Features of the Preprocessor</h2>
+<ul>
+  <li><strong>File Inclusion:</strong> Insert the contents of one file into another using <code>#include</code>.</li>
+  <li><strong>Macro Definition:</strong> Create symbolic names or function-like macros with <code>#define</code>.</li>
+  <li><strong>Conditional Compilation:</strong> Compile code selectively with directives like <code>#if</code>, <code>#ifdef</code>, <code>#ifndef</code>, <code>#else</code>, and <code>#endif</code>.</li>
+  <li><strong>Other Directives:</strong> <code>#undef</code> to undefine macros, <code>#line</code> to control line numbers, <code>#error</code> to generate errors, etc.</li>
+</ul>
+
+<h2>Common Preprocessor Directives</h2>
+
+<h3>1. File Inclusion: <code>#include</code></h3>
+<p>Used to include the contents of another file, typically header files.</p>
+<pre><code>#include &lt;stdio.h&gt;   // System header file
+#include "myheader.h"  // User-defined header file</code></pre>
+
+<h3>2. Macro Definition: <code>#define</code></h3>
+<p>Defines a constant or macro that the preprocessor replaces before compilation.</p>
+<pre><code>#define PI 3.14159
+#define MAX(a, b) ((a) &gt; (b) ? (a) : (b))  // Function-like macro</code></pre>
+
+<h3>3. Conditional Compilation</h3>
+<p>Compile code selectively depending on conditions, useful for platform-specific code or debugging.</p>
+<pre><code>#ifdef DEBUG
+    printf("Debug mode on\n");
+#endif
+
+#ifndef RELEASE
+    printf("Not in release mode\n");
+#endif
+
+#if __STDC_VERSION__ &gt;= 201112L
+    // Code for C11 or later
+#endif</code></pre>
+
+<h2>Example: Using Preprocessor Directives</h2>
+<pre><code>#include &lt;stdio.h&gt;
+
+#define DEBUG 1
+#define SQUARE(x) ((x) * (x))
+
+int main() {
+#if DEBUG
+    printf("Debugging is enabled\n");
+#endif
+
+    int num = 5;
+    printf("Square of %d is %d\n", num, SQUARE(num));
+    return 0;
+}</code></pre>
+
+<h2>How It Works</h2>
+<ul>
+  <li>Before compilation, the preprocessor replaces <code>#include</code> lines with the actual content of the included files.</li>
+  <li>All <code>#define</code> macros are expanded in the source code.</li>
+  <li>Conditional blocks are included or excluded based on conditions.</li>
+  <li>This helps write more flexible and maintainable code.</li>
+</ul>
+
+<div class="note">
+  <strong>Note:</strong> Preprocessor directives always start with a <code>#</code> symbol and are processed before the actual compilation.
+</div>
+
+<h2>Troubleshooting Tips</h2>
+<ul>
+  <li>Watch out for macro side effects; use parentheses to avoid unexpected results.</li>
+  <li>Be careful with recursive macros; they can cause infinite expansions.</li>
+  <li>Use <code>#undef</code> to remove macro definitions if needed.</li>
+</ul>
+
+<h2>Additional Resources</h2>
+<ul>
+  <li><a href="https://gcc.gnu.org/onlinedocs/cpp/" target="_blank">GCC Preprocessor Manual</a></li>
+  <li><a href="https://en.cppreference.com/w/c/preprocessor" target="_blank">C Preprocessor Reference</a></li>
+</ul>
+
+<footer>
+  &copy; 2025 Your C Programming Course
+</footer>
+
+
+</body>
+</html>

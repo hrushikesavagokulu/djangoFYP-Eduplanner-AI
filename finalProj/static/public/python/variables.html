@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>DevHive - Python Variables</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #1e272e;
+      color: #dcdde1;
+      margin: 20px auto;
+      max-width: 900px;
+      line-height: 1.7;
+      padding: 0 15px;
+      overflow-y: auto;
+    }
+
+    h1 {
+      font-weight: 700;
+      color: #00cec9;
+      text-align: center;
+      margin-bottom: 30px;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      color: #ffffff;
+      margin-top: 40px;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #00cec9;
+      padding-bottom: 6px;
+      font-weight: 600;
+    }
+
+    p {
+      font-size: 17px;
+      margin-bottom: 18px;
+      color: #dfe6e9;
+    }
+
+    code {
+      background: #2f3640;
+      padding: 3px 7px;
+      border-radius: 5px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 16px;
+      color: #ff7675;
+    }
+
+    pre {
+      background: #2f3640;
+      padding: 15px 20px;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin-bottom: 25px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 16px;
+      line-height: 1.5;
+      box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+      color: #f1f2f6;
+    }
+
+    .exercise {
+      background: #353b48;
+      border-left: 5px solid #0984e3;
+      padding: 20px 25px;
+      margin-top: 50px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .exercise h3 {
+      margin-top: 0;
+      color: #74b9ff;
+      font-weight: 700;
+      font-size: 22px;
+      letter-spacing: 0.8px;
+    }
+
+    .exercise p,
+    .exercise label {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: #dcdde1;
+    }
+
+    .exercise label:hover {
+      color: #74b9ff;
+    }
+
+    iframe {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .video-wrapper {
+      margin: 40px auto;
+      max-width: 800px;
+      aspect-ratio: 16 / 9;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      border-radius: 12px;
+      overflow: hidden;
+      background: #000;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Python Variables - DevHive</h1>
+
+  <p>Variables in Python are containers for storing data values. You do not need to declare their type explicitly because Python figures it out automatically.</p>
+
+  <h2>Creating Variables</h2>
+  <p>You can assign values to variables directly:</p>
+  <pre><code>x = 5          # Assigns the integer 5 to x
+y = "John"     # Assigns the string "John" to y
+print(x)       # Outputs: 5
+print(y)       # Outputs: John</code></pre>
+
+  <div class="video-wrapper">
+    <iframe
+      src="https://www.youtube.com/embed/TqPzwenhMj0"
+      title="Python Variables Explained"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen
+    ></iframe>
+  </div>
+
+  <h2>Variable Types and Casting</h2>
+  <p>Variables can change types, and you can also cast them explicitly:</p>
+  <pre><code>x = 4           # x is of type int
+x = "Sally"     # x is now of type str (changed)
+print(x)        # Outputs: Sally
+
+x = str(3)      # Casts integer 3 to string '3'
+y = int(3)      # Keeps as integer
+z = float(3)    # Casts to float 3.0</code></pre>
+
+  <h2>Get Variable Type</h2>
+  <p>Use <code>type()</code> to get the type of a variable:</p>
+  <pre><code>x = 5
+y = "John"
+print(type(x))  # Outputs: &lt;class 'int'&gt;
+print(type(y))  # Outputs: &lt;class 'str'&gt;</code></pre>
+
+  <h2>String Quotes and Case Sensitivity</h2>
+  <p>You can use single or double quotes for strings. Python variables are case-sensitive:</p>
+  <pre><code>x = "John"
+x = 'John'  # Same result as above</code></pre>
+  <pre><code>a = 4
+A = "Sally"  # a and A are two different variables</code></pre>
+
+  <h2>Variable Naming Rules</h2>
+  <p>Some variable names are valid, and some are not:</p>
+  <pre><code># Legal:
+myvar = "John"
+my_var = "John"
+_my_var = "John"
+myVar = "John"
+MYVAR = "John"
+myvar2 = "John"
+
+# Illegal:
+# 2myvar = "John"   → Cannot start with a number
+# my-var = "John"   → Hyphen not allowed
+# my var = "John"   → Spaces not allowed</code></pre>
+
+  <h2>Multiple Assignments</h2>
+  <p>Assign values to multiple variables in one line, or same value to all:</p>
+  <pre><code>x, y, z = "Orange", "Banana", "Cherry"
+print(x)  # Outputs: Orange
+print(y)  # Outputs: Banana
+print(z)  # Outputs: Cherry
+
+x = y = z = "Orange"
+print(x)  # Outputs: Orange
+print(y)  # Outputs: Orange
+print(z)  # Outputs: Orange</code></pre>
+
+  <h2>Unpacking a Collection</h2>
+  <p>Unpack a list of values into individual variables:</p>
+  <pre><code>fruits = ["apple", "banana", "cherry"]
+x, y, z = fruits
+print(x)  # Outputs: apple
+print(y)  # Outputs: banana
+print(z)  # Outputs: cherry</code></pre>
+
+  <h2>Output Variables</h2>
+  <p>You can print variables using commas or string concatenation:</p>
+  <pre><code>x = "Python"
+y = "is"
+z = "awesome"
+print(x, y, z)                  # Outputs: Python is awesome
+print(x + " " + y + " " + z)    # Same as above</code></pre>
+
+  <h2>Global Variables</h2>
+  <p>Variables created outside functions are global:</p>
+  <pre><code>x = "awesome"
+
+def myfunc():
+  print("Python is " + x)
+
+myfunc()  # Outputs: Python is awesome</code></pre>
+
+  <p>If a variable with same name is created inside function, it becomes local:</p>
+  <pre><code>x = "awesome"
+
+def myfunc():
+  x = "fantastic"
+  print("Python is " + x)
+
+myfunc()              # Outputs: Python is fantastic
+print("Python is " + x)  # Outputs: Python is awesome</code></pre>
+
+  <h2>Global Keyword</h2>
+  <p>Use <code>global</code> to make a local variable refer to the global scope:</p>
+  <pre><code>def myfunc():
+  global x
+  x = "fantastic"
+
+myfunc()
+print("Python is " + x)  # Outputs: Python is fantastic</code></pre>
+
+  <h2>Practice Exercise</h2>
+  <div class="exercise">
+    <h3>Exercise 1: Variable Practice</h3>
+    <p>Write Python code that:</p>
+    <ol>
+      <li>Creates a variable <code>name</code> with your name as a string.</li>
+      <li>Creates a variable <code>age</code> with your age as a number.</li>
+      <li>Prints both variables.</li>
+      <li>Then changes <code>age</code> to a string and prints it again.</li>
+    </ol>
+  </div>
+
+</body>
+
+</html>

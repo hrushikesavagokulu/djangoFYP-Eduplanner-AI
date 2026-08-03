@@ -1,0 +1,542 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Poppins",sans-serif;background:linear-gradient(135deg,#020617,#0f172a);color:white}
+
+.wrapper{
+  display:flex;
+  height:calc(100vh - 80px); /* adjust if navbar exists */
+  overflow:hidden;
+}
+
+/* SIDEBAR */
+.sidebar{
+  width:30%;
+  background:rgba(255,255,255,0.05);
+  backdrop-filter:blur(15px);
+  padding:20px;
+  border-right:1px solid rgba(255,255,255,0.1);
+  overflow-y:auto;
+}
+.title{
+  font-size:22px;
+  font-weight:600;
+  color:#38bdf8;
+  margin-bottom:20px;
+}
+.search-box{
+  width:100%;
+  padding:12px;
+  border-radius:10px;
+  border:none;
+  margin-bottom:20px;
+  background:#1e293b;
+  color:white;
+}
+.result-item{
+  padding:12px;
+  border-radius:8px;
+  margin-bottom:12px;
+  cursor:pointer;
+  transition:.3s;
+  background:rgba(255,255,255,0.03);
+}
+.result-item:hover{
+  background:rgba(56,189,248,0.2);
+}
+
+/* MAIN */
+.main{
+  width:70%;
+  padding:30px;
+  overflow-y:auto;
+}
+.card{
+  background:rgba(255,255,255,0.05);
+  padding:25px;
+  border-radius:14px;
+  margin-bottom:25px;
+  backdrop-filter:blur(10px);
+}
+.badge{
+  display:inline-block;
+  padding:6px 12px;
+  margin:6px 6px 6px 0;
+  border-radius:6px;
+  font-size:13px;
+}
+.easy{background:#22c55e;color:black}
+.medium{background:#facc15;color:black}
+.hard{background:#ef4444}
+
+h2{color:#38bdf8;margin-bottom:12px}
+h3{margin-top:20px;color:#22c55e}
+
+/* TEST CASE BLOCK */
+.code{
+  background:#0b1220;
+  padding:20px;
+  border-radius:14px;
+  margin-top:15px;
+  font-size:15px;
+  line-height:1.8;
+  border:1px solid rgba(255,255,255,0.08);
+  transition:.3s;
+}
+.code:hover{
+  transform:scale(1.01);
+  box-shadow:0 0 15px rgba(56,189,248,0.2);
+}
+
+.label{
+  color:#38bdf8;
+  font-weight:600;
+  display:block;
+  margin-bottom:4px;
+}
+.value{
+  color:#e2e8f0;
+  font-family:monospace;
+  background:#020617;
+  padding:8px 12px;
+  border-radius:8px;
+  display:block;
+  margin-bottom:10px;
+  white-space:pre-wrap;
+  font-size:14px;
+}
+
+.desc{
+  margin-top:10px;
+  color:#cbd5f5;
+  line-height:1.7;
+}
+
+.small{
+  color:#94a3b8;
+  font-size:14px;
+}
+.recommend-card {
+  background: linear-gradient(135deg,#020617,#0b1220);
+  border-left: 4px solid #38bdf8;
+  padding: 16px;
+  border-radius: 12px;
+  margin-top: 15px;
+  transition: 0.3s;
+}
+
+.recommend-card:hover {
+  transform: translateX(6px) scale(1.02);
+  box-shadow: 0 0 20px rgba(56,189,248,0.3);
+}
+
+.rec-text {
+  font-size: 15px;
+  color: #f4fcfc;
+  margin-bottom: 10px;
+}
+
+.rec-link {
+  color: #38bdf8;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.rec-link:hover {
+  text-decoration: underline;
+}
+
+.rec-btn {
+  margin-top: 18px;
+  padding: 12px 22px;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  color: white;
+
+  background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+  box-shadow: 0 0 15px rgba(56,189,248,0.6);
+
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+
+  animation: pulseGlow 2s infinite;
+}
+
+/* 🔥 Hover Effect */
+.rec-btn:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 0 25px rgba(56,189,248,0.9);
+}
+
+/* ✨ Shine Effect */
+.rec-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.6), transparent);
+  transform: skewX(-20deg);
+}
+
+.rec-btn:hover::before {
+  animation: shine 0.8s;
+}
+
+/* 💥 Pulse Animation */
+@keyframes pulseGlow {
+  0% {
+    box-shadow: 0 0 5px rgba(56,189,248,0.5);
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(56,189,248,1);
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(56,189,248,0.5);
+  }
+}
+
+/* ✨ Shine Animation */
+@keyframes shine {
+  100% {
+    left: 125%;
+  }
+}
+
+
+
+/* MODAL BACKGROUND */
+.modal{
+  display:none;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.7);
+  backdrop-filter:blur(6px);
+  justify-content:center;
+  align-items:center;
+  z-index:999;
+}
+
+/* MODAL BOX */
+.modal-content{
+  background:#020617;
+  padding:25px;
+  border-radius:16px;
+  width:500px;
+  max-height:80vh;
+  overflow-y:auto;
+  box-shadow:0 0 25px rgba(56,189,248,0.3);
+  animation:pop 0.3s ease;
+}
+
+@keyframes pop{
+  from{transform:scale(0.8);opacity:0;}
+  to{transform:scale(1);opacity:1;}
+}
+</style>
+
+<div class="wrapper">
+
+    <div id="recModal" class="modal">
+  <div class="modal-content" id="modalContent">
+    <h3>🤖 Recommended Questions</h3>
+    <div id="modalList"></div>
+  </div>
+</div>
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="title">Problems</div>
+
+    <input id="search" class="search-box" placeholder="Search problems..." />
+
+    <div id="results"></div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main" id="details">
+    <h2>Select a problem</h2>
+  </div>
+
+</div>
+
+
+<script>
+
+let data = [];
+
+async function openModal(topic) {
+
+  const modal = document.getElementById("recModal");
+  const list = document.getElementById("modalList");
+
+  modal.style.display = "flex";
+  list.innerHTML = "<p>Loading...</p>";
+
+  const raw = await loadRecommendation(topic);
+  const cleaned = cleanRecommendations(raw);
+
+  list.innerHTML = "";
+
+  cleaned.forEach((text, index) => {
+
+    const card = document.createElement("div");
+    card.className = "recommend-card";
+
+    const content = document.createElement("div");
+    content.className = "rec-text";
+
+    card.appendChild(content);
+
+    // Extract link
+    const match = text.match(/(https?:\/\/[^\s]+)/);
+    const link = match ? match[0] : "#";
+    const cleanText = text.replace(link, "").trim();
+
+    setTimeout(() => {
+      typeWriter(content, `🚀 ${cleanText}`, 15);
+
+      const a = document.createElement("a");
+      a.href = link;
+      a.target = "_blank";
+      a.innerText = "🔗 Solve";
+      a.className = "rec-link";
+
+      card.appendChild(a);
+    }, index * 500);
+
+    list.appendChild(card);
+  });
+}
+
+
+window.onclick = function(e) {
+  const modal = document.getElementById("recModal");
+  const content = document.getElementById("modalContent");
+
+  // if clicked outside content → close
+  if (e.target === modal) {
+    modal.style.display = "none";
+  }
+};
+
+// ================= FETCH DATA =================
+fetch("/api/edgecases/")
+  .then(res => res.json())
+  .then(resData => {
+    data = resData;
+    renderList(data);
+    if (data.length) showDetails(data[0]);
+  });
+
+// ================= SEARCH =================
+document.getElementById("search").addEventListener("input", function () {
+  const query = this.value.toLowerCase();
+  const filtered = data.filter(q =>
+    q.ques_name.toLowerCase().includes(query)
+  );
+  renderList(filtered);
+});
+
+// ================= SIDEBAR =================
+function renderList(list) {
+  const results = document.getElementById("results");
+  results.innerHTML = "";
+
+  list.forEach(item => {
+    const div = document.createElement("div");
+    div.className = "result-item";
+    div.innerText = item.ques_name;
+    div.onclick = () => showDetails(item);
+    results.appendChild(div);
+  });
+}
+
+// ================= CLEAN RECOMMENDATION =================
+function cleanRecommendations(rawText) {
+  return rawText
+    .split("\n")
+    .filter(line => line.includes("http")) // only keep links
+    .map(line => line.replace("Suggested based on this problem", "").trim());
+}
+
+// ================= TYPEWRITER =================
+function typeWriter(element, text, speed = 15) {
+  let i = 0;
+  element.innerHTML = "";
+
+  function typing() {
+    if (i < text.length) {
+      element.innerHTML += text.charAt(i);
+      i++;
+      setTimeout(typing, speed);
+    }
+  }
+
+  typing();
+}
+
+// ================= LOAD AI =================
+async function loadRecommendation(topic) {
+  const res = await fetch("/api/recommend/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ topic: topic })
+  });
+
+  const data = await res.json();
+  return data.recommendation;
+}
+
+// ================= MAIN DETAILS =================
+function showDetails(item) {
+
+  const difficultyClass = item.meta?.difficulty || "easy";
+
+  const normalCases = item.normal_testcases.map((tc, i) => `
+    <div class="code">
+      <div class="label">Test Case ${i + 1}</div>
+
+      <span class="label">Input:</span>
+      <span class="value">${JSON.stringify(tc.input.params, null, 2)}</span>
+
+      <span class="label">Output:</span>
+      <span class="value">${tc.output}</span>
+
+      <div class="desc">${tc.description}</div>
+    </div>
+  `).join("");
+
+  const edgeCases = item.edge_testcases.map((tc, i) => `
+    <div class="code">
+      <div class="label">⚠️ Edge Case ${i + 1}</div>
+
+      <span class="label">Input:</span>
+      <span class="value">${JSON.stringify(tc.input.params, null, 2)}</span>
+
+      <span class="label">Output:</span>
+      <span class="value">${tc.output}</span>
+
+      <div class="desc">${tc.description}</div>
+    </div>
+  `).join("");
+
+  document.getElementById("details").innerHTML = `
+    <div class="card">
+    <h2>${item.ques_name}</h2>
+    <button class="rec-btn" onclick="openModal('${item.ques_name}')">
+  🚀 Explore Related Questions
+</button>
+    <br/>
+    <br/>
+    <div class="badge ${difficultyClass}">${item.meta?.difficulty}</div>
+    <br/>
+    
+    <p class="small">${item.problem_description}</p>
+
+    
+  </div>
+
+    <div class="card">
+      <h3>📌 Constraints</h3>
+      <p>${item.constraints}</p>
+    </div>
+
+    <div class="card">
+      <h3>⚙️ Meta Info</h3>
+      <p><b>Pattern:</b> ${item.meta.pattern}</p>
+      <p><b>Data Structures:</b> ${item.meta.data_structures}</p>
+      <p><b>Algorithms:</b> ${item.meta.algorithms}</p>
+      <p><b>Tags:</b> ${item.meta.tags}</p>
+    </div>
+
+    <div class="card">
+      <h3>📊 Complexity</h3>
+      <p>Time: ${item.complexity.time}</p>
+      <p>Space: ${item.complexity.space}</p>
+    </div>
+
+    <div class="card">
+      <h3>✅ Normal Test Cases</h3>
+      ${normalCases}
+    </div>
+
+    <div class="card">
+      <h3>⚠️ Edge Cases</h3>
+      ${edgeCases}
+    </div>
+
+    <div class="card" id="recommend-section">
+      <h3>🤖 Recommended Questions</h3>
+      <p class="small">Loading smart recommendations...</p>
+    </div>
+  `;
+
+  // ================= FETCH RECOMMEND =================
+  loadRecommendation(item.ques_name).then(raw => {
+
+    const cleaned = cleanRecommendations(raw);
+
+    const container = document.getElementById("recommend-section");
+
+    container.innerHTML = `
+      <h3>🤖 Recommended Questions</h3>
+      <div id="recommend-list"></div>
+    `;
+
+    const list = document.getElementById("recommend-list");
+
+    cleaned.forEach((text, index) => {
+
+      const card = document.createElement("div");
+      card.className = "recommend-card";
+
+      const content = document.createElement("div");
+      content.className = "rec-text";
+
+      card.appendChild(content);
+      list.appendChild(card);
+
+      // Extract link
+      const match = text.match(/(https?:\/\/[^\s]+)/);
+      const link = match ? match[0] : "#";
+
+      const cleanText = text.replace(link, "").trim();
+
+      setTimeout(() => {
+        typeWriter(content, `🚀 ${cleanText}`, 15);
+
+        // clickable link
+        const a = document.createElement("a");
+        a.href = link;
+        a.target = "_blank";
+        a.innerText = "🔗 Solve";
+        a.className = "rec-link";
+
+        card.appendChild(a);
+
+      }, index * 700);
+    });
+
+  });
+}
+
+</script>
+{% endblock %}
+
+
+

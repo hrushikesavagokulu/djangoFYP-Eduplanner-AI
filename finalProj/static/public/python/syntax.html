@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Python Syntax - DEVHive Hands-On</title>
+
+  
+
+<link rel="stylesheet" href="styles.css">
+
+<!-- Include Skulpt libraries -->
+<script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt-stdlib.js"></script>
+
+<script>
+  function builtinRead(x) {
+    if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][x] === undefined)
+      throw "File not found: '" + x + "'";
+    return Sk.builtinFiles["files"][x];
+  }
+
+  function runCode(textareaId, outputId) {
+    const prog = document.getElementById(textareaId).value;
+    const outputElement = document.getElementById(outputId);
+    outputElement.innerHTML = ''; // Clear previous output
+
+    Sk.pre = outputElement;
+    Sk.configure({
+      output: function(text) {
+        outputElement.innerHTML += text.replace(/\n/g, '<br>');
+      },
+      read: builtinRead,
+      execLimit: 10000,
+    });
+
+    (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'output';
+
+    const myPromise = Sk.misceval.asyncToPromise(function() {
+      return Sk.importMainWithBody("<stdin>", false, prog, true);
+    });
+
+    myPromise.then(function() {
+      // Success - nothing to do here
+    }, function(err) {
+      outputElement.innerHTML = '<span class="error">' + err.toString() + '</span>';
+    });
+  }
+</script>
+</head>
+<body>
+
+<h1>Python Syntax — Hands-On Tutorial</h1>
+
+<p>Learn the fundamentals of Python syntax with clear explanations and interactive exercises. Run code snippets directly in your browser!</p>
+
+<section>
+  <h2>Running Python Code</h2>
+  <p>You can execute Python commands in the interactive shell:</p>
+  <pre><code>&gt;&gt;&gt; print("Hello, World!")
+Hello, World!</code></pre>
+
+  <p>Or save code in a <code>.py</code> file and run it in the terminal:</p>
+  <pre><code>python myfile.py</code></pre>
+
+  <div class="try-it">
+    <h3>Try It Yourself</h3>
+    <textarea class="code-input" id="code-run-1" spellcheck="false">print("Hello, DEVHive!")</textarea>
+    <button class="run-btn" onclick="runCode('code-run-1', 'output-1')">Run Code</button>
+    <div class="output" id="output-1"></div>
+    <div class="hint">Tip: Write <code>print()</code> statements to see output.</div>
+  </div>
+</section>
+<div style="
+  margin: 40px auto;
+  max-width: 800px;
+  width: 90%;
+  aspect-ratio: 16 / 9;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #000;
+">
+  <iframe
+    src="https://www.youtube.com/embed/DWgzHbglNIo"
+    title="YouTube video player"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen
+    style="width: 100%; height: 100%; border: none; display: block;"
+  ></iframe>
+</div>
+
+<section>
+  <h2>Indentation in Python</h2>
+  <p>Indentation defines blocks of code. Unlike many languages where indentation is optional, in Python it <strong>must</strong> be consistent and is <strong>required</strong> for syntax correctness.</p>
+
+  <p>Correct example:</p>
+  <pre><code>if 5 &gt; 2:
+    print("Five is greater than two!")</code></pre>
+
+  <p>Incorrect example (causes <code>IndentationError</code>):</p>
+  <pre><code>if 5 &gt; 2:
+print("Five is greater than two!")</code></pre>
+
+  <p>Use consistent spaces (typically 4 spaces per level). Mixing tabs and spaces will also cause errors.</p>
+
+  <div class="try-it">
+    <h3>Try Indentation Yourself</h3>
+    <textarea class="code-input" id="code-run-2" spellcheck="false">if 5 > 2:
+    print("Correct Indentation!")</textarea>
+    <button class="run-btn" onclick="runCode('code-run-2', 'output-2')">Run Code</button>
+    <div class="output" id="output-2"></div>
+  </div>
+</section>
+
+<section>
+  <h2>Comments</h2>
+  <p>Use <code>#</code> for single-line comments:</p>
+  <pre><code># This is a comment
+print("Hello!") # This is also a comment</code></pre>
+
+  <p>For multi-line comments or docstrings, use triple quotes:</p>
+  <pre><code>"""
+This is a multi-line comment or docstring
+used for explanations.
+"""</code></pre>
+</section>
+
+<section>
+  <h2>Keywords</h2>
+  <p>Python keywords are reserved words that cannot be used as variable names. Examples include:</p>
+  <code>if, else, elif, while, for, break, continue, def, return, class, try, except, finally, import, from, as, pass, yield, with, lambda, global, nonlocal, assert, raise, True, False, None</code>
+</section>
+
+<section>
+  <h2>Indentation Error Example</h2>
+  <pre><code>def greet():
+print("Hello")  # IndentationError because no indent inside function
+</code></pre>
+  <p>Fix:</p>
+  <pre><code>def greet():
+    print("Hello")</code></pre>
+</section>
+
+<section class="exercise">
+  <h3>Exercise 1</h3>
+  <p>What is the output of this code?</p>
+  <pre><code>print("Hello World")</code></pre>
+  <label><input type="radio" name="q1" value="a" /> Hello World</label>
+  <label><input type="radio" name="q1" value="b" /> "Hello World"</label>
+  <label><input type="radio" name="q1" value="c" /> print("Hello World")</label>
+</section>
+
+<section class="exercise">
+  <h3>Exercise 2</h3>
+  <p>What will happen if indentation is inconsistent in Python code?</p>
+  <label><input type="radio" name="q2" value="a" /> Code runs fine</label>
+  <label><input type="radio" name="q2" value="b" /> IndentationError occurs</label>
+  <label><input type="radio" name="q2" value="c" /> SyntaxError occurs</label>
+</section>
+
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bit Fields</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 900px;
+      margin: 30px auto;
+      line-height: 1.6;
+      color: #222;
+      padding: 0 20px;
+      background: #f9f9f9;
+    }
+    h1, h2, h3 {
+      color: #005a9c;
+    }
+    pre {
+      background: #272822;
+      color: #f8f8f2;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 1rem;
+    }
+    code {
+      font-family: Consolas, monospace;
+      background: #eee;
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: #c7254e;
+    }
+    .note {
+      background: #fff3cd;
+      border-left: 6px solid #ffeeba;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #856404;
+    }
+    .warning {
+      background: #f8d7da;
+      border-left: 6px solid #f5c6cb;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #721c24;
+    }
+    ul {
+      margin-left: 20px;
+    }
+    a {
+      color: #005a9c;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      margin-top: 40px;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<h1>Bit Fields</h1>
+
+<p>
+  In C, a <strong>bit field</strong> allows the allocation of a specific number of bits to a variable inside a <code>struct</code>. This is useful when memory is a constraint or when you need fine-grained control over hardware-specific values.
+</p>
+
+<h2>Why Use Bit Fields?</h2>
+<ul>
+  <li>Efficient use of memory.</li>
+  <li>To model data closely related to hardware registers or binary protocols.</li>
+  <li>To store boolean flags compactly.</li>
+</ul>
+
+<h2>Syntax</h2>
+<pre><code>struct {
+  unsigned int flag1 : 1;
+  unsigned int flag2 : 1;
+  unsigned int counter : 4;
+} status;</code></pre>
+
+<p>
+  In this example, <code>flag1</code> and <code>flag2</code> each use 1 bit, and <code>counter</code> uses 4 bits. The total storage is less than a full byte compared to storing them as separate integers.
+</p>
+
+<h2>Example</h2>
+<pre><code>#include &lt;stdio.h&gt;
+
+struct status_flags {
+  unsigned int carry : 1;
+  unsigned int zero : 1;
+  unsigned int sign : 1;
+  unsigned int overflow : 1;
+};
+
+int main() {
+  struct status_flags flags = {1, 0, 1, 0};
+  
+  printf("Carry: %d\\n", flags.carry);
+  printf("Zero: %d\\n", flags.zero);
+  printf("Sign: %d\\n", flags.sign);
+  printf("Overflow: %d\\n", flags.overflow);
+
+  return 0;
+}</code></pre>
+
+<h2>Important Notes</h2>
+<div class="note">
+  Bit fields must be used with care as their layout in memory can be implementation-specific (e.g., order of allocation and padding).
+</div>
+
+<div class="warning">
+  Bit fields cannot be taken by reference (e.g., <code>&status.flag1</code> is invalid) and may not be portable between different compilers or platforms.
+</div>
+
+<h2>Unnamed Bit Fields</h2>
+<p>
+  Unnamed fields can be used to introduce padding:
+</p>
+<pre><code>struct {
+  unsigned int a : 3;
+  unsigned int   : 2; // unnamed 2-bit padding
+  unsigned int b : 3;
+} padded;</code></pre>
+
+<h2>Bit Fields vs Bitwise Operators</h2>
+<p>
+  Bit fields simplify structure but are not a replacement for <code>&amp;</code>, <code>|</code>, <code>^</code>, etc., when doing bit manipulation across variables or outside structs.
+</p>
+
+<footer>
+  &copy; 2025 Your C Programming Course
+</footer>
+
+</body>
+</html>

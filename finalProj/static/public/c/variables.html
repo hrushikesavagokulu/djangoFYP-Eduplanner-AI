@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Variables</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 900px;
+      margin: 30px auto;
+      line-height: 1.6;
+      color: #222;
+      padding: 0 20px;
+      background: #f9f9f9;
+    }
+    h1, h2, h3 {
+      color: #005a9c;
+    }
+    pre {
+      background: #272822;
+      color: #f8f8f2;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 1rem;
+    }
+    code {
+      font-family: Consolas, monospace;
+      background: #eee;
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: #c7254e;
+    }
+    .note {
+      background: #fff3cd;
+      border-left: 6px solid #ffeeba;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #856404;
+    }
+    .warning {
+      background: #f8d7da;
+      border-left: 6px solid #f5c6cb;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #721c24;
+    }
+    ul {
+      margin-left: 20px;
+    }
+    a {
+      color: #005a9c;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      margin-top: 40px;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head><body>
+
+<h1>Variables in C</h1>
+
+<p>Variables are named storage locations in memory that hold data values during the execution of a program. In C, every variable must be declared with a specific data type before it can be used.</p>
+
+<h2>Declaring Variables</h2>
+<p>To declare a variable, specify the data type followed by the variable name:</p>
+<pre><code>int age;
+float temperature;
+char grade;
+</code></pre>
+
+<h2>Initializing Variables</h2>
+<p>You can assign an initial value to a variable at the time of declaration:</p>
+<pre><code>int age = 25;
+float temperature = 36.6;
+char grade = 'A';
+</code></pre>
+
+<h2>Rules for Naming Variables</h2>
+<ul>
+  <li>Names must begin with a letter (A-Z or a-z) or underscore (_).</li>
+  <li>Names can contain letters, digits (0-9), and underscores.</li>
+  <li>Variable names are case-sensitive (e.g., <code>age</code> and <code>Age</code> are different).</li>
+  <li>Names cannot be C keywords (e.g., <code>int</code>, <code>return</code>).</li>
+</ul>
+
+<h2>Types of Variables</h2>
+<ul>
+  <li><strong>Local variables:</strong> Declared inside a function and accessible only within that function.</li>
+  <li><strong>Global variables:</strong> Declared outside all functions and accessible from any function in the file.</li>
+  <li><strong>Static variables:</strong> Retain their value between function calls.</li>
+</ul>
+
+<h2>Example: Using Variables</h2>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    int age = 30;
+    float height = 5.9;
+    char grade = 'B';
+
+    printf("Age: %d\n", age);
+    printf("Height: %.1f\n", height);
+    printf("Grade: %c\n", grade);
+
+    return 0;
+}
+</code></pre>
+
+<h2>Output:</h2>
+<pre><code>Age: 30
+Height: 5.9
+Grade: B
+</code></pre>
+
+<h2>Constants vs Variables</h2>
+<p>Variables can change their values during program execution. If you want to create a value that cannot be changed, use <code>const</code>:</p>
+<pre><code>const float PI = 3.14159;
+</code></pre>
+
+<p>Attempting to modify a constant results in a compilation error.</p>
+
+<h2>Summary</h2>
+<ul>
+  <li>Variables hold data values and must be declared with a data type.</li>
+  <li>Variable names must follow specific rules and are case-sensitive.</li>
+  <li>Variables can be local, global, or static.</li>
+  <li>Use <code>const</code> to define constants whose values should not change.</li>
+</ul>
+
+<footer>
+  &copy; 2025 Your C Programming Course
+</footer>
+
+</body>
+
+</html>

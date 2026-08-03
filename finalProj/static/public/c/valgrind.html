@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Valgrind</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 900px;
+      margin: 30px auto;
+      line-height: 1.6;
+      color: #222;
+      padding: 0 20px;
+      background: #f9f9f9;
+    }
+    h1, h2, h3 {
+      color: #005a9c;
+    }
+    pre {
+      background: #272822;
+      color: #f8f8f2;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 1rem;
+    }
+    code {
+      font-family: Consolas, monospace;
+      background: #eee;
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: #c7254e;
+    }
+    .note {
+      background: #fff3cd;
+      border-left: 6px solid #ffeeba;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #856404;
+    }
+    .warning {
+      background: #f8d7da;
+      border-left: 6px solid #f5c6cb;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #721c24;
+    }
+    ul {
+      margin-left: 20px;
+    }
+    a {
+      color: #005a9c;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      margin-top: 40px;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head><body>
+
+<h1>Valgrind</h1>
+
+<p><strong>Valgrind</strong> is a powerful tool for detecting memory management and threading bugs in programs, especially those written in C and C++. It helps identify issues such as memory leaks, use of uninitialized memory, invalid memory access, and incorrect freeing of memory.</p>
+
+<h2>Why Use Valgrind?</h2>
+<ul>
+  <li>Detects memory leaks where allocated memory is never freed.</li>
+  <li>Finds accesses to uninitialized memory which can cause undefined behavior.</li>
+  <li>Detects use-after-free errors (accessing memory after it has been freed).</li>
+  <li>Helps catch buffer overruns and invalid memory accesses.</li>
+  <li>Improves program reliability and stability by debugging memory issues early.</li>
+</ul>
+
+<h2>Installing Valgrind</h2>
+<p>On Linux systems, Valgrind can be installed via package managers:</p>
+<pre><code># On Ubuntu/Debian
+sudo apt-get install valgrind
+
+# On Fedora
+sudo dnf install valgrind
+</code></pre>
+
+<h2>Basic Usage</h2>
+<p>To check your program for memory errors, run it under Valgrind like this:</p>
+<pre><code>valgrind --leak-check=full ./your_program
+</code></pre>
+
+<p>This will execute <code>your_program</code> and report detailed information about memory leaks and errors.</p>
+
+<h2>Common Valgrind Output Explained</h2>
+<ul>
+  <li><code>definitely lost:</code> Memory definitely leaked (no pointers to it remain).</li>
+  <li><code>indirectly lost:</code> Memory leaked because it was pointed to by another leaked block.</li>
+  <li><code>possibly lost:</code> Valgrind suspects a leak but is not sure.</li>
+  <li><code>still reachable:</code> Memory that was not freed but is still accessible at program exit.</li>
+</ul>
+
+<h2>Example: Detecting Memory Leak</h2>
+<pre><code>#include &lt;stdlib.h&gt;
+
+int main() {
+    int *ptr = malloc(sizeof(int) * 10); // Allocated but never freed
+    return 0;
+}
+</code></pre>
+
+<p>Run this program with Valgrind:</p>
+<pre><code>valgrind --leak-check=full ./a.out
+</code></pre>
+
+<p>Valgrind will report that memory was allocated but never freed.</p>
+
+<h2>Tips for Using Valgrind</h2>
+<ul>
+  <li>Compile your programs with debugging symbols using <code>-g</code> flag for better error reports:</li>
+  <pre><code>gcc -g program.c -o program</code></pre>
+  <li>Use Valgrind frequently during development to catch issues early.</li>
+  <li>Interpret Valgrind messages carefully; some "errors" may be false positives, so review carefully.</li>
+  <li>Valgrind can also check for threading bugs with <code>helgrind</code> tool.</li>
+</ul>
+
+<h2>Additional Resources</h2>
+<ul>
+  <li><a href="http://valgrind.org/docs/manual/mc-manual.html" target="_blank">Official Valgrind Documentation</a></li>
+  <li><a href="https://valgrind.org/docs/manual/quick-start.html" target="_blank">Quick Start Guide</a></li>
+</ul>
+
+<footer>
+  &copy; 2025 Your C Programming Course
+</footer>
+
+</body>
+
+</html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Debugging</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 900px;
+      margin: 30px auto;
+      line-height: 1.6;
+      color: #222;
+      padding: 0 20px;
+      background: #f9f9f9;
+    }
+    h1, h2, h3 {
+      color: #005a9c;
+    }
+    pre {
+      background: #272822;
+      color: #f8f8f2;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 1rem;
+    }
+    code {
+      font-family: Consolas, monospace;
+      background: #eee;
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: #c7254e;
+    }
+    .note {
+      background: #fff3cd;
+      border-left: 6px solid #ffeeba;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #856404;
+    }
+    .warning {
+      background: #f8d7da;
+      border-left: 6px solid #f5c6cb;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #721c24;
+    }
+    ul {
+      margin-left: 20px;
+    }
+    a {
+      color: #005a9c;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      margin-top: 40px;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Debugging</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 900px;
+      margin: 30px auto;
+      line-height: 1.6;
+      color: #222;
+      padding: 0 20px;
+      background: #f9f9f9;
+    }
+    h1, h2, h3 {
+      color: #005a9c;
+    }
+    pre {
+      background: #272822;
+      color: #f8f8f2;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 1rem;
+    }
+    code {
+      font-family: Consolas, monospace;
+      background: #eee;
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: #c7254e;
+    }
+    .note {
+      background: #fff3cd;
+      border-left: 6px solid #ffeeba;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #856404;
+    }
+    .warning {
+      background: #f8d7da;
+      border-left: 6px solid #f5c6cb;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #721c24;
+    }
+    ul {
+      margin-left: 20px;
+    }
+    a {
+      color: #005a9c;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      margin-top: 40px;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Debugging</h1>
+
+<p><strong>Debugging</strong> is the process of identifying, analyzing, and fixing errors or bugs in your C programs to make them behave as expected.</p>
+
+<h2>Types of Errors</h2>
+<ul>
+  <li><strong>Syntax errors:</strong> Mistakes in the code structure, such as missing semicolons or mismatched braces. These errors prevent the program from compiling.</li>
+  <li><strong>Runtime errors:</strong> Errors that occur while the program is running, like division by zero or invalid memory access.</li>
+  <li><strong>Logical errors:</strong> The program runs but produces incorrect results due to faulty logic.</li>
+</ul>
+
+<h2>Common Debugging Techniques</h2>
+<ul>
+  <li><strong>Reading error messages:</strong> Carefully check compiler and runtime error messages to locate issues.</li>
+  <li><strong>Using print statements:</strong> Insert <code>printf()</code> statements to track variable values and program flow.</li>
+  <li><strong>Code review:</strong> Read your code carefully or have someone else review it to spot mistakes.</li>
+  <li><strong>Using a debugger tool:</strong> Tools like <code>gdb</code> allow you to run programs step-by-step, inspect variables, and set breakpoints.</li>
+</ul>
+
+<h2>Example: Using <code>gdb</code> to Debug</h2>
+<pre><code>// Compile with debug info:
+gcc -g program.c -o program
+
+// Start debugger:
+gdb ./program
+
+// Inside gdb:
+break main       // set breakpoint at main function
+run              // start program
+next             // go to next line
+print variable   // print value of variable
+continue         // resume execution
+quit             // exit debugger
+</code></pre>
+
+<h2>Tips for Effective Debugging</h2>
+<ul>
+  <li>Test small parts of your code incrementally.</li>
+  <li>Keep your code clean and well-commented.</li>
+  <li>Understand the problem before changing code.</li>
+  <li>Use version control to keep track of changes.</li>
+</ul>
+
+<div class="note">
+  <strong>Note:</strong> Debugging is a skill that improves with practice. The more you debug, the better you become at quickly identifying and solving problems.
+</div>
+
+<footer>
+  &copy; 2025 Your C Programming Course
+</footer>
+
+</body>
+</html>
+
+
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Express.js Middleware</title>
+  <link rel="stylesheet" href="styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+
+  <h1>Express.js Middleware</h1>
+
+  <section id="what-is-middleware">
+    <h2>What is Middleware?</h2>
+    <p>
+      Middleware functions are functions that have access to the <code>request</code> and <code>response</code> objects in an Express.js app,
+      and the next middleware function in the application’s request-response cycle.
+    </p>
+    <p>
+      They can execute code, make changes to the request/response objects, end the request-response cycle, or call the next middleware.
+    </p>
+  </section>
+
+  <section id="types-of-middleware">
+    <h2>Types of Middleware</h2>
+    <ul>
+      <li><strong>Application-level Middleware:</strong> Bound to an instance of <code>express()</code> and applies to all routes or specific routes.</li>
+      <li><strong>Router-level Middleware:</strong> Bound to an instance of <code>express.Router()</code>.</li>
+      <li><strong>Built-in Middleware:</strong> Provided by Express.js like <code>express.static()</code> to serve static files.</li>
+      <li><strong>Third-party Middleware:</strong> Middleware created by the community, such as <code>body-parser</code>, <code>cors</code>, etc.</li>
+    </ul>
+  </section>
+  <div style="
+  margin: 40px auto;
+  max-width: 800px;
+  width: 90%;
+  aspect-ratio: 16 / 9;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #000;
+">
+  <iframe
+    src="https://www.youtube.com/embed/n2c0mf1sza4"
+    title="YouTube video player"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen
+    style="width: 100%; height: 100%; border: none; display: block;"
+  ></iframe>
+</div>
+
+
+  <section id="basic-middleware-example">
+    <h2>Basic Middleware Example</h2>
+    <pre><code>const express = require('express');
+const app = express();
+
+// Simple logger middleware
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
+  next(); // Pass control to the next middleware
+});
+
+app.get('/', (req, res) => {
+  res.send('Hello World!');
+});
+
+app.listen(3000, () => console.log('Server running on port 3000'));
+</code></pre>
+  </section>
+
+  <section id="middleware-order">
+    <h2>Middleware Execution Order</h2>
+    <p>
+      Middleware functions are executed sequentially in the order they are added using <code>app.use()</code> or router methods.
+      If a middleware does not call <code>next()</code>, the request-response cycle ends there.
+    </p>
+  </section>
+
+  <section id="error-handling-middleware">
+    <h2>Error Handling Middleware</h2>
+    <p>
+      Special middleware to handle errors has four arguments: <code>(err, req, res, next)</code>.
+      It is used to catch and respond to errors in the app.
+    </p>
+    <pre><code>app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
+</code></pre>
+  </section>
+
+  <section id="common-middleware">
+    <h2>Commonly Used Middleware</h2>
+    <ul>
+      <li><code>express.json()</code> – Parses incoming JSON requests.</li>
+      <li><code>express.urlencoded()</code> – Parses URL-encoded bodies.</li>
+      <li><code>cors()</code> – Enables Cross-Origin Resource Sharing.</li>
+      <li><code>morgan</code> – HTTP request logger middleware.</li>
+      <li><code>helmet</code> – Helps secure Express apps by setting various HTTP headers.</li>
+    </ul>
+  </section>
+
+  <footer>
+    &copy; 2025 Express Middleware Guide — All rights reserved.
+  </footer>
+
+</body>
+</html>

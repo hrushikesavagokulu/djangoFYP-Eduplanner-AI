@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Stdio</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 900px;
+      margin: 30px auto;
+      line-height: 1.6;
+      color: #222;
+      padding: 0 20px;
+      background: #f9f9f9;
+    }
+    h1, h2, h3 {
+      color: #005a9c;
+    }
+    pre {
+      background: #272822;
+      color: #f8f8f2;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 1rem;
+    }
+    code {
+      font-family: Consolas, monospace;
+      background: #eee;
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: #c7254e;
+    }
+    .note {
+      background: #fff3cd;
+      border-left: 6px solid #ffeeba;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #856404;
+    }
+    .warning {
+      background: #f8d7da;
+      border-left: 6px solid #f5c6cb;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #721c24;
+    }
+    ul {
+      margin-left: 20px;
+    }
+    a {
+      color: #005a9c;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      margin-top: 40px;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<h1>Standard Input and Output (<code>stdio.h</code>) in C</h1>
+
+<p>The <code>stdio.h</code> header file is one of the most essential libraries in C programming. It provides functions for input and output (I/O) operations, such as reading from the keyboard and writing to the screen.</p>
+
+<h2>Including <code>stdio.h</code></h2>
+<p>To use the standard I/O functions, include the header at the top of your C program:</p>
+<pre><code>#include &lt;stdio.h&gt;</code></pre>
+
+<h2>Commonly Used Functions in <code>stdio.h</code></h2>
+
+<ul>
+  <li><code>printf()</code> - Outputs formatted text to the console.</li>
+  <li><code>scanf()</code> - Reads formatted input from the keyboard.</li>
+  <li><code>getchar()</code> - Reads a single character from the keyboard.</li>
+  <li><code>putchar()</code> - Writes a single character to the console.</li>
+  <li><code>gets()</code> - Reads a string from the keyboard (unsafe, avoid using).</li>
+  <li><code>fgets()</code> - Safely reads a string from the keyboard or file.</li>
+  <li><code>puts()</code> - Writes a string to the console followed by a newline.</li>
+</ul>
+
+<h2>Syntax and Examples</h2>
+
+<h3><code>printf()</code></h3>
+<p>Used to print formatted output.</p>
+<pre><code>printf("Hello, World!\n");
+printf("Age: %d\n", 25);
+printf("Pi approx: %.2f\n", 3.14159);</code></pre>
+
+<h3><code>scanf()</code></h3>
+<p>Used to read formatted input from the user.</p>
+<pre><code>int age;
+printf("Enter your age: ");
+scanf("%d", &age);
+printf("You entered: %d\n", age);</code></pre>
+
+<h3><code>getchar()</code> and <code>putchar()</code></h3>
+<p>Reading and writing single characters.</p>
+<pre><code>char ch;
+printf("Enter a character: ");
+ch = getchar();
+printf("You entered: ");
+putchar(ch);
+printf("\n");</code></pre>
+
+<h3><code>fgets()</code> and <code>puts()</code></h3>
+<p>Reading and printing strings safely.</p>
+<pre><code>char name[30];
+printf("Enter your name: ");
+fgets(name, sizeof(name), stdin);  // Reads including spaces
+puts("Hello,");
+puts(name);  // Prints the name followed by a newline</code></pre>
+
+<h2>Important Notes</h2>
+<ul>
+  <li><code>printf</code> format specifiers include: <code>%d</code> (int), <code>%f</code> (float), <code>%c</code> (char), <code>%s</code> (string), and more.</li>
+  <li><code>scanf</code> requires pointers (use <code>&amp;</code> before variable names) except for strings.</li>
+  <li><code>gets()</code> is unsafe because it does not prevent buffer overflow; prefer <code>fgets()</code> instead.</li>
+  <li><code>stdin</code> and <code>stdout</code> are standard streams used by <code>stdio.h</code>.</li>
+</ul>
+
+<h2>Example Program</h2>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    char name[50];
+    int age;
+
+    printf("Enter your name: ");
+    fgets(name, sizeof(name), stdin);
+
+    printf("Enter your age: ");
+    scanf("%d", &age);
+
+    printf("Hello, %sYou are %d years old.\n", name, age);
+
+    return 0;
+}
+</code></pre>
+
+<footer>
+  &copy; 2025 Your C Programming Course
+</footer>
+
+</body>
+</html>

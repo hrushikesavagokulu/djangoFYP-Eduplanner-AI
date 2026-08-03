@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Express.js File Uploads</title>
+  <link rel="stylesheet" href="styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+
+  <h1>Express.js File Uploads</h1>
+
+  <section id="what-is-file-upload">
+    <h2>What is File Upload?</h2>
+    <p>
+      File upload allows users to send files (images, documents, etc.) from their client device to the server.
+      Handling file uploads in an Express.js application requires middleware that can parse multipart/form-data requests.
+    </p>
+  </section>
+
+  <section id="common-file-upload-methods">
+    <h2>Common Methods to Handle File Uploads</h2>
+    <ul>
+      <li><strong>Multer:</strong> Popular middleware for handling multipart/form-data, primarily used for uploading files.</li>
+      <li><strong>Express-FileUpload:</strong> Simple middleware to handle file uploads with minimal setup.</li>
+      <li><strong>Busboy:</strong> Low-level module for parsing incoming HTML form data.</li>
+    </ul>
+  </section>
+
+  <section id="basic-multer-setup">
+    <h2>Basic Multer Setup</h2>
+    <p>This example shows how to set up <code>multer</code> to handle single file uploads.</p>
+    <pre><code>const express = require('express');
+const multer = require('multer');
+const app = express();
+
+// Configure storage and filename
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/');
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + '-' + file.originalname);
+  }
+});
+
+const upload = multer({ storage: storage });
+
+// Single file upload route
+app.post('/upload', upload.single('file'), (req, res) => {
+  if (!req.file) {
+    return res.status(400).send('No file uploaded.');
+  }
+  res.send(`File uploaded: ${req.file.filename}`);
+});
+
+app.listen(3000, () => console.log('Server running on port 3000'));
+</code></pre>
+  </section>
+
+  <section id="uploading-multiple-files">
+    <h2>Uploading Multiple Files</h2>
+    <p>Multer also supports uploading multiple files at once:</p>
+    <pre><code>app.post('/upload-multiple', upload.array('files', 5), (req, res) => {
+  if (!req.files || req.files.length === 0) {
+    return res.status(400).send('No files uploaded.');
+  }
+  res.send(`${req.files.length} files uploaded successfully.`);
+});
+</code></pre>
+  </section>
+
+  <section id="file-upload-form">
+    <h2>File Upload HTML Form Example</h2>
+    <p>This is a simple HTML form that can be used to upload files to your Express server.</p>
+    <pre><code>&lt;form action="/upload" method="POST" enctype="multipart/form-data"&gt;
+  &lt;input type="file" name="file" /&gt;
+  &lt;button type="submit"&gt;Upload File&lt;/button&gt;
+&lt;/form&gt;
+</code></pre>
+  </section>
+
+  <section id="file-validation">
+    <h2>File Validation and Filtering</h2>
+    <p>You can add file type validation to ensure only certain file types are uploaded:</p>
+    <pre><code>const upload = multer({
+  storage: storage,
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+      cb(null, true);
+    } else {
+      cb(new Error('Only JPG and PNG files are allowed!'), false);
+    }
+  }
+});
+</code></pre>
+  </section>
+
+  <section id="handling-errors">
+    <h2>Error Handling in File Uploads</h2>
+    <p>Handle errors gracefully using Express error-handling middleware:</p>
+    <pre><code>app.post('/upload', upload.single('file'), (req, res) => {
+  res.send('File uploaded successfully!');
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  if (err instanceof multer.MulterError) {
+    return res.status(400).send(`Multer error: ${err.message}`);
+  } else if (err) {
+    return res.status(500).send(`Server error: ${err.message}`);
+  }
+  next();
+});
+</code></pre>
+  </section>
+
+  <section id="security-considerations">
+    <h2>Security Considerations</h2>
+    <ul>
+      <li>Validate file types and sizes to prevent malicious uploads.</li>
+      <li>Store uploads outside of the public directory or use unique filenames to avoid overwriting.</li>
+      <li>Sanitize file names to prevent directory traversal attacks.</li>
+      <li>Limit upload size using Multer's <code>limits</code> option.</li>
+    </ul>
+  </section>
+
+  <section id="alternative-libraries">
+    <h2>Alternative File Upload Libraries</h2>
+    <p>Besides Multer, you might consider:</p>
+    <ul>
+      <li><code>express-fileupload</code>: Easy to use, minimal setup.</li>
+      <li><code>busboy</code>: More control, but lower-level API.</li>
+      <li><code>formidable</code>: Popular for parsing form data including files.</li>
+    </ul>
+  </section>
+
+  <footer>
+    &copy; 2025 Express File Uploads Guide — All rights reserved.
+  </footer>
+
+</body>
+</html>

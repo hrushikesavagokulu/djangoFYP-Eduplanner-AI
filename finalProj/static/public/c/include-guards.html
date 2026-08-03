@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Include Guards</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 900px;
+      margin: 30px auto;
+      line-height: 1.6;
+      color: #222;
+      padding: 0 20px;
+      background: #f9f9f9;
+    }
+    h1, h2, h3 {
+      color: #005a9c;
+    }
+    pre {
+      background: #272822;
+      color: #f8f8f2;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 1rem;
+    }
+    code {
+      font-family: Consolas, monospace;
+      background: #eee;
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: #c7254e;
+    }
+    .note {
+      background: #fff3cd;
+      border-left: 6px solid #ffeeba;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #856404;
+    }
+    .warning {
+      background: #f8d7da;
+      border-left: 6px solid #f5c6cb;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #721c24;
+    }
+    ul {
+      margin-left: 20px;
+    }
+    a {
+      color: #005a9c;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      margin-top: 40px;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<h1>Include Guards</h1>
+
+<p>Include guards are a common technique in C and C++ programming used to prevent multiple inclusions of the same header file. This is essential to avoid errors such as redefinition of classes, structs, functions, or variables when the same header is included more than once in a project.</p>
+
+<h2>Why Are Include Guards Needed?</h2>
+<ul>
+  <li>When multiple source files include the same header file, the compiler processes it multiple times.</li>
+  <li>This can cause compilation errors due to redefinitions.</li>
+  <li>Include guards ensure the compiler includes the header content only once per compilation unit.</li>
+</ul>
+
+<h2>How Include Guards Work</h2>
+<p>Include guards use preprocessor directives <code>#ifndef</code>, <code>#define</code>, and <code>#endif</code> to wrap the entire content of a header file.</p>
+
+<h2>Syntax Example</h2>
+<pre><code>#ifndef HEADER_FILE_NAME_H
+#define HEADER_FILE_NAME_H
+
+// Header file content here
+
+#endif // HEADER_FILE_NAME_H
+</code></pre>
+
+<h2>Practical Example</h2>
+<pre><code>// myheader.h
+#ifndef MYHEADER_H
+#define MYHEADER_H
+
+void myFunction();
+
+#endif // MYHEADER_H
+</code></pre>
+
+<h2>Explanation</h2>
+<ul>
+  <li><code>#ifndef MYHEADER_H</code> checks if <code>MYHEADER_H</code> has not been defined.</li>
+  <li>If it hasn’t, <code>#define MYHEADER_H</code> defines it and includes the header content.</li>
+  <li>On subsequent includes, since <code>MYHEADER_H</code> is already defined, the content is skipped.</li>
+</ul>
+
+<div class="note">
+  <strong>Note:</strong> The macro name <code>MYHEADER_H</code> is typically the header file name in uppercase with underscores instead of dots. It should be unique across your project.
+</div>
+
+<h2>Alternative: <code>#pragma once</code></h2>
+<p>Many modern compilers support <code>#pragma once</code> as a simpler alternative:</p>
+<pre><code>#pragma once
+
+// Header file content here
+</code></pre>
+<p>This directive tells the compiler to include the file only once. However, <code>#ifndef</code> guards are more portable.</p>
+
+<footer>
+  &copy; 2025 Your C Programming Course
+</footer>
+
+
+</body>
+</html>

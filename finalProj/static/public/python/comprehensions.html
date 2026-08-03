@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>DevHive - Comprehensions in Python</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f4f7fa;
+      color: #2c3e50;
+      max-width: 900px;
+      margin: 20px auto;
+      padding: 0 15px;
+      line-height: 1.7;
+    }
+    h1 {
+      color: #1abc9c;
+      text-align: center;
+      margin-bottom: 30px;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+    h2 {
+      color: #34495e;
+      border-bottom: 2px solid #1abc9c;
+      padding-bottom: 6px;
+      margin-top: 40px;
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+    p {
+      font-size: 17px;
+      color: #34495e;
+      margin-bottom: 20px;
+    }
+    code {
+      background: #ecf0f1;
+      padding: 3px 7px;
+      border-radius: 5px;
+      font-family: 'Courier New', Courier, monospace;
+      color: #e74c3c;
+      font-size: 16px;
+    }
+    pre {
+      background: #ecf0f1;
+      border-radius: 8px;
+      padding: 15px 20px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 16px;
+      margin-bottom: 25px;
+      overflow-x: auto;
+      box-shadow: inset 0 0 5px rgba(0,0,0,0.05);
+      line-height: 1.5;
+    }
+    .try-it {
+      background: #e8f6f3;
+      border: 2px solid #1abc9c;
+      border-radius: 10px;
+      padding: 15px 20px;
+      box-shadow: 0 5px 10px rgba(26, 188, 156, 0.2);
+      margin-top: 35px;
+    }
+    textarea.code-input {
+      width: 100%;
+      height: 180px;
+      font-family: monospace;
+      font-size: 16px;
+      border: 2px solid #1abc9c;
+      border-radius: 6px;
+      padding: 12px;
+      background: #f0fcfb;
+      resize: vertical;
+      color: #222;
+    }
+    button.run-btn {
+      margin-top: 10px;
+      background-color: #1abc9c;
+      border: none;
+      color: white;
+      font-weight: 700;
+      padding: 10px 18px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+    button.run-btn:hover {
+      background-color: #16a085;
+    }
+    .output {
+      margin-top: 15px;
+      background: #fff;
+      border: 2px solid #16a085;
+      border-radius: 8px;
+      min-height: 50px;
+      padding: 12px 18px;
+      font-family: monospace;
+      font-size: 15px;
+      color: #34495e;
+      white-space: pre-wrap;
+    }
+    .error {
+      color: #e74c3c;
+      font-weight: 700;
+    }
+  </style>
+<link rel="stylesheet" href="styles.css">
+  <!-- ✅ Skulpt scripts to run Python in browser -->
+  <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/skulpt.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/skulpt-stdlib.js"></script>
+</head>
+<body>
+
+  <h1>Comprehensions in Python - DevHive</h1>
+
+  <p><strong>Comprehensions</strong> provide a concise way to create lists, dictionaries, sets, or generators from iterable objects.</p>
+
+  <h2>List Comprehensions</h2>
+  <p>Create lists in a single readable line instead of loops.</p>
+  <pre><code># Example: List of squares from 1 to 5
+squares = [x**2 for x in range(1, 6)]
+print(squares)
+# Output: [1, 4, 9, 16, 25]</code></pre>
+
+  <h2>Dictionary Comprehensions</h2>
+  <p>Create dictionaries with key-value pairs.</p>
+  <pre><code># Example: Numbers and their squares
+square_dict = {x: x**2 for x in range(1, 6)}
+print(square_dict)
+# Output: {1: 1, 2: 4, 3: 9, 4: 16, 5: 25}</code></pre>
+
+  <h2>Set Comprehensions</h2>
+  <p>Create sets without duplicates.</p>
+  <pre><code># Example: Set of even numbers
+even_set = {x for x in range(10) if x % 2 == 0}
+print(even_set)
+# Output: {0, 2, 4, 6, 8}</code></pre>
+
+  <h2>Generator Expressions</h2>
+  <p>Generate items one by one without storing whole list in memory.</p>
+  <pre><code># Example: Generator of squares
+gen = (x**2 for x in range(5))
+for val in gen:
+    print(val)</code></pre>
+
+  <div class="try-it">
+    <h3>Try it Yourself</h3>
+    <textarea class="code-input" id="codeAreaComprehensions"># List comprehension: squares from 1 to 10
+squares = [x**2 for x in range(1, 11)]
+print("Squares:", squares)
+
+# Dictionary comprehension: number to cube
+cubes = {x: x**3 for x in range(1, 6)}
+print("Cubes:", cubes)
+
+# Set comprehension: odd numbers
+odds = {x for x in range(10) if x % 2 != 0}
+print("Odds:", odds)
+
+# Generator: first 5 factorial numbers
+import math
+fact_gen = (math.factorial(x) for x in range(6))
+print("Factorials:")
+for val in fact_gen:
+    print(val)</textarea>
+    <button class="run-btn" onclick="runCode()">Run Code</button>
+    <div class="output" id="output"></div>
+  </div>
+
+  <script>
+    function builtinRead(x) {
+      if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][x] === undefined) {
+        throw "File not found: '" + x + "'";
+      }
+      return Sk.builtinFiles["files"][x];
+    }
+
+    function runCode() {
+      const code = document.getElementById("codeAreaComprehensions").value;
+      const output = document.getElementById("output");
+      output.innerHTML = "";
+
+      Sk.pre = "output";
+      Sk.configure({
+        output: function (text) {
+          output.innerHTML += text;
+        },
+        read: builtinRead
+      });
+
+      Sk.misceval.asyncToPromise(() => {
+        return Sk.importMainWithBody("<stdin>", false, code, true);
+      }).catch(err => {
+        output.innerHTML = `<span class="error">${err.toString()}</span>`;
+      });
+    }
+  </script>
+
+</body>
+</html>

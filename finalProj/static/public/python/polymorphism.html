@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>DevHive - Inheritance in Python</title>
+  <style>
+    /* Same CSS as your previous pages */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 900px;
+      margin: 20px auto;
+      padding: 0 15px;
+      background: #f4f7fa;
+      color: #2c3e50;
+      line-height: 1.7;
+    }
+    h1 {
+      text-align: center;
+      color: #1abc9c;
+      margin-bottom: 30px;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+    }
+    h2 {
+      color: #34495e;
+      margin-top: 40px;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #1abc9c;
+      padding-bottom: 6px;
+      font-weight: 600;
+    }
+    pre {
+      background: #ecf0f1;
+      padding: 15px 20px;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin-bottom: 25px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 16px;
+      line-height: 1.5;
+      box-shadow: inset 0 0 5px rgba(0,0,0,0.05);
+    }
+    code {
+      background: #ecf0f1;
+      padding: 3px 7px;
+      border-radius: 5px;
+      font-family: 'Courier New', Courier, monospace;
+      color: #e74c3c;
+      font-size: 16px;
+    }
+    .highlight {
+      background-color: #dff9fb;
+      border-left: 5px solid #1abc9c;
+      padding: 18px 25px;
+      margin: 40px 0;
+      border-radius: 8px;
+      color: #16a085;
+      font-weight: 600;
+      font-size: 18px;
+    }
+    .exercise {
+      background: #dfe6e9;
+      border-left: 5px solid #0984e3;
+      padding: 20px 25px;
+      margin-top: 50px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .exercise h3 {
+      margin-top: 0;
+      color: #0984e3;
+      font-weight: 700;
+      font-size: 22px;
+      letter-spacing: 0.8px;
+    }
+    .exercise p {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: #2d3436;
+    }
+    .try-it {
+      background: #fff;
+      border: 2px solid #1abc9c;
+      padding: 20px;
+      border-radius: 8px;
+      margin-top: 40px;
+      box-shadow: 0 4px 10px rgba(26, 188, 156, 0.2);
+    }
+    textarea.code-input {
+      width: 100%;
+      height: 160px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 15px;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      resize: vertical;
+      box-sizing: border-box;
+    }
+    button.run-btn {
+      background-color: #1abc9c;
+      border: none;
+      color: white;
+      padding: 10px 18px;
+      margin-top: 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 16px;
+    }
+    button.run-btn:hover {
+      background-color: #16a085;
+    }
+    .output {
+      margin-top: 15px;
+      padding: 15px;
+      background-color: #ecf0f1;
+      border-radius: 6px;
+      font-family: monospace;
+      white-space: pre-wrap;
+      min-height: 60px;
+      box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
+    }
+    .error {
+      color: red;
+      font-weight: 700;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <h1>Inheritance in Python - DevHive</h1>
+
+  <p><code>Inheritance</code> allows a class (child class) to inherit attributes and methods from another class (parent class). It promotes code reuse and establishes a natural hierarchy between classes.</p>
+
+  <div class="highlight">
+    Inheritance lets new classes receive or override behaviors from existing classes.
+  </div>
+
+  <h2>Example: Basic Inheritance</h2>
+  <pre><code>class Animal:
+    def sound(self):
+        print("Some generic animal sound")
+
+class Dog(Animal):
+    def sound(self):
+        print("Woof!")
+
+dog = Dog()
+dog.sound()  # Woof!
+  </code></pre>
+
+  <h2>Using Parent Class Methods</h2>
+  <pre><code>class Animal:
+    def sleep(self):
+        print("Sleeping")
+
+class Cat(Animal):
+    def sound(self):
+        print("Meow!")
+
+cat = Cat()
+cat.sound()  # Meow!
+cat.sleep()  # Sleeping (inherited from Animal)
+  </code></pre>
+
+  <h2>Multiple Inheritance</h2>
+  <pre><code>class Flyer:
+    def fly(self):
+        print("Flying")
+
+class Swimmer:
+    def swim(self):
+        print("Swimming")
+
+class Duck(Flyer, Swimmer):
+    pass
+
+duck = Duck()
+duck.fly()   # Flying
+duck.swim()  # Swimming
+  </code></pre>
+
+  <h2>Try it Yourself: Polymorphism Example</h2>
+  <textarea class="code-input" id="codeArea">class Bird:
+    def sound(self):
+        print("Some generic bird sound")
+
+class Sparrow(Bird):
+    def sound(self):
+        print("Chirp chirp")
+
+class Crow(Bird):
+    def sound(self):
+        print("Caw caw")
+
+def make_bird_sound(bird):
+    bird.sound()
+
+sparrow = Sparrow()
+crow = Crow()
+
+make_bird_sound(sparrow)
+make_bird_sound(crow)
+</textarea>
+
+  <button class="run-btn" onclick="runCode()">Run Code</button>
+  <div class="output" id="output"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/skulpt.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/skulpt-stdlib.js"></script>
+  <script>
+    function builtinRead(x) {
+      if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][x] === undefined)
+          throw "File not found: '" + x + "'";
+      return Sk.builtinFiles["files"][x];
+    }
+
+    function runCode() {
+      let output = document.getElementById("output");
+      let prog = document.getElementById("codeArea").value;
+      output.innerHTML = "";
+      Sk.configure({
+        output: function(text) {
+          output.innerHTML += text;
+        },
+        read: builtinRead,
+      });
+      (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'mycanvas';
+      let myPromise = Sk.misceval.asyncToPromise(function() {
+        return Sk.importMainWithBody("<stdin>", false, prog, true);
+      });
+      myPromise.then(function(mod) {
+        // Success - do nothing extra
+      }, function(err) {
+        output.innerHTML = '<span class="error">' + err.toString() + '</span>';
+      });
+    }
+  </script>
+
+</body>
+</html>

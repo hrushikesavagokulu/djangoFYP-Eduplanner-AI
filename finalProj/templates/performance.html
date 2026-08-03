@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Performance Tracker</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+  body { font-family: Inter, Segoe UI; background:#f5f7fb; color:#1e293b; margin:0; }
+  header { display:flex; justify-content:space-between; padding:18px 40px; background:#0f172a; color:white; position:sticky; top:0; }
+  header a { background:#2563eb; padding:8px 16px; border-radius:8px; text-decoration:none; color:white; }
+  .container { max-width:1200px; margin:auto; padding:30px; }
+  .setup-box, .controls, .stats, .table-box, .chart-box { margin-bottom:25px; }
+  .hidden { display:none; }
+  input, button { padding:10px; border-radius:8px; border:1px solid #d4d4d4; }
+  button { background:#2563eb; color:white; cursor:pointer; border:none; }
+  table { border-collapse:collapse; width:100%; min-width:700px; }
+  th, td { border:1px solid #ddd; padding:8px; text-align:center; white-space:nowrap; }
+  th { background:#0b1d3a; color:#fff; }
+  .task-name { display:flex; justify-content:space-between; align-items:center; font-weight:600; }
+  .delete-task { background:none; border:none; color:#ef4444; cursor:pointer; font-size:16px; }
+</style>
+</head>
+<body>
+<header>
+<h1>📊 Performance Tracker</h1>
+<a href="{% url 'home' %}">📘 DSA Planner</a>
+</header>
+
+<div class="container">
+  <div id="setup" class="setup-box">
+    <h3>Initial Setup</h3>
+    <input type="number" id="initialDays" min="1" placeholder="Enter number of days">
+    <button onclick="generateTracker()">Generate Tracker</button>
+  </div>
+
+  <div id="app" class="hidden">
+    <div class="controls">
+      <input type="text" id="taskInput" placeholder="Enter task name">
+      <button onclick="addTask()">Add Task</button>
+      <button onclick="addDay()">+ Day</button>
+      <button onclick="removeDay()">- Day</button>
+      <button onclick="resetTracker()">Reset</button>
+    </div>
+
+    <div class="stats">
+      <div><h2 id="taskCount">0</h2><p>Tasks</p></div>
+      <div><h2 id="dayCount">0</h2><p>Days</p></div>
+      <div><h2 id="progress">0%</h2><p>Completion</p></div>
+    </div>
+
+    <div class="table-box">
+      <div style="overflow-x:auto">
+        <table>
+          <thead id="tableHead"></thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="chart-box">
+      <h3>📊 Task Completion</h3>
+      <canvas id="barChart"></canvas>
+    </div>
+    <div class="chart-box">
+      <h3>📈 Daily Progress</h3>
+      <canvas id="lineChart"></canvas>
+    </div>
+  </div>
+</div>
+
+<script>
+let barChart, lineChart;
+const setup = document.getElementById("setup");
+const app = document.getElementById("app");
+const taskInput = document.getElementById("taskInput");
+const tableHead = document.getElementById("tableHead");
+const tableBody = document.getElementById("tableBody");
+const taskCount = document.getElementById("taskCount");
+const dayCount = document.getElementById("dayCount");
+const progress = document.getElementById("progress");
+
+function getCSRFToken(){
+  return document.cookie.split("; ").find(c=>c.trim().startsWith("csrftoken="))?.split("=")[1];
+}
+
+async function generateTracker(){
+  const days = Number(document.getElementById("initialDays").value);
+  if(days <=0){ alert("Enter valid days"); return; }
+  await fetch("/api/init/", {
+    method:"POST",
+    headers:{ "Content-Type":"application/json", "X-CSRFToken":getCSRFToken() },
+    body: JSON.stringify({ days })
+  });
+  loadAll();
+}
+
+async function loadAll(){
+  const res = await fetch("/api/data/");
+  if(!res.ok) return;
+  const data = await res.json();
+  if(data.days <=0){ setup.classList.remove("hidden"); app.classList.add("hidden"); return; }
+  setup.classList.add("hidden"); app.classList.remove("hidden");
+  renderTable(data); updateStats(data); loadCharts();
+}
+
+function renderTable(data){
+  tableHead.innerHTML = "<tr><th>Task</th>" + Array.from({length:data.days},(_,i)=>`<th>Day ${i+1}</th>`).join("") + "</tr>";
+  tableBody.innerHTML="";
+  data.tasks.forEach(task=>{
+    let row=`<tr><td class="task-name">${task.name}<button class="delete-task" onclick="deleteTask(${task.id})">✖</button></td>`;
+    for(let i=0;i<data.days;i++){
+      row+=`<td><input type="checkbox" onchange="toggle(${task.id},${i+1},this.checked)" ${task.progress[i]?"checked":""}></td>`;
+    }
+    row+="</tr>"; tableBody.innerHTML+=row;
+  });
+}
+
+async function addTask(){
+  if(!taskInput.value.trim()) return;
+  await fetch("/api/add-task/",{
+    method:"POST",
+    headers:{ "Content-Type":"application/json", "X-CSRFToken":getCSRFToken() },
+    body: JSON.stringify({ name: taskInput.value })
+  });
+  taskInput.value=""; loadAll();
+}
+
+async function toggle(taskId, day, val){
+  await fetch("/api/toggle/",{
+    method:"POST",
+    headers:{ "Content-Type":"application/json", "X-CSRFToken":getCSRFToken() },
+    body: JSON.stringify({ task_id: taskId, day: day, value: val })
+  });
+  loadAll();
+}
+
+async function addDay(){ await fetch("/api/add-day/",{method:"POST", headers:{ "X-CSRFToken":getCSRFToken() }}); loadAll(); }
+async function removeDay(){ await fetch("/api/remove-day/",{method:"POST", headers:{ "X-CSRFToken":getCSRFToken() }}); loadAll(); }
+async function deleteTask(id){ await fetch("/api/delete-task/",{method:"POST", headers:{ "Content-Type":"application/json","X-CSRFToken":getCSRFToken() },body:JSON.stringify({task_id:id})}); loadAll(); }
+async function resetTracker(){
+  await fetch("/api/reset/",{method:"POST", headers:{ "X-CSRFToken":getCSRFToken() }});
+  setup.classList.remove("hidden"); app.classList.add("hidden");
+  document.getElementById("initialDays").value=""; taskInput.value=""; taskCount.innerText="0"; dayCount.innerText="0"; progress.innerText="0%";
+  tableHead.innerHTML=""; tableBody.innerHTML=""; if(barChart) barChart.destroy(); if(lineChart) lineChart.destroy();
+}
+
+function updateStats(data){
+  taskCount.innerText = data.tasks.length;
+  dayCount.innerText = data.days;
+  const total = data.tasks.length * data.days;
+  const done = data.tasks.reduce((s,t)=>s+t.progress.filter(x=>x).length,0);
+  progress.innerText = total ? Math.round(done/total*100)+"%" : "0%";
+}
+
+async function loadCharts(){
+  const res = await fetch("/api/charts/"); if(!res.ok) return; const data = await res.json();
+  if(barChart) barChart.destroy();
+  barChart = new Chart(document.getElementById("barChart"),{type:"bar",data:{labels:data.bar.map(x=>x.task),datasets:[{label:"Completion %", data:data.bar.map(x=>x.percent), backgroundColor:"#2563eb"}]}, options:{scales:{y:{beginAtZero:true,max:100}}}});
+  if(lineChart) lineChart.destroy();
+  lineChart = new Chart(document.getElementById("lineChart"),{type:"line",data:{labels:data.line.map(x=>x.day),datasets:[{label:"Completed Tasks", data:data.line.map(x=>x.value), borderColor:"#16a34a", tension:0.3}]}, options:{}});
+}
+
+window.onload = loadAll;
+</script>
+</body>
+</html>
+
+
+{% comment %} <!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Performance Tracker</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family:
+          Inter,
+          Segoe UI,
+          system-ui;
+        background: #f5f7fb;
+        color: #1e293b;
+      }
+
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 18px 40px;
+        background: #0f172a;
+        color: white;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+
+      header h1 {
+        font-size: 22px;
+        font-weight: 600;
+      }
+
+      header a {
+        background: #2563eb;
+        padding: 8px 16px;
+        border-radius: 8px;
+        text-decoration: none;
+        color: white;
+        font-size: 14px;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: auto;
+        padding: 30px;
+      }
+
+      .setup-box {
+        max-width: 420px;
+        margin: auto;
+        text-align: center;
+      }
+
+      .setup-box input {
+        width: 100%;
+        padding: 12px;
+        margin-top: 15px;
+        border-radius: 8px;
+        border: 1px solid #d4d4d4;
+        font-size: 15px;
+      }
+
+      .setup-box button {
+        margin-top: 15px;
+        width: 100%;
+        padding: 12px;
+        background: #2563eb;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 15px;
+        cursor: pointer;
+      }
+
+      .controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 25px;
+      }
+
+      .controls input {
+        flex: 1;
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid #d4d4d4;
+      }
+
+      .controls button {
+        background: #2563eb;
+        color: white;
+        border: none;
+        padding: 10px 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 14px;
+      }
+
+      .controls button:nth-child(4) {
+        background: #16a34a;
+      }
+
+      .controls button:nth-child(5) {
+        background: #f59e0b;
+      }
+
+      .controls button:nth-child(6) {
+        background: #ef4444;
+      }
+
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin-bottom: 25px;
+      }
+
+      .stat {
+        background: white;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+        text-align: center;
+      }
+
+      .stat h2 {
+        font-size: 30px;
+        margin-bottom: 6px;
+      }
+
+      .table-box {
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+        margin-bottom: 30px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      th {
+        background: #0f172a;
+        color: white;
+        padding: 12px;
+        font-weight: 500;
+      }
+
+      td {
+        padding: 10px;
+        border-bottom: 1px solid #eee;
+      }
+
+      tr:hover {
+        background: #f9fafb;
+      }
+
+      .task-name {
+        font-weight: 600;
+        text-align: left;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .delete-task {
+        background: none;
+        border: none;
+        color: #ef4444;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      .chart-box {
+        background: white;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+        margin-bottom: 25px;
+      }
+
+      .chart-box h3 {
+        margin-bottom: 15px;
+        font-size: 18px;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      .table-box {
+        background: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .table-scroll {
+        width: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
+      }
+
+      table {
+        border-collapse: collapse;
+        min-width: 700px; /* keeps table wider so scrolling works */
+      }
+
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: center;
+        white-space: nowrap;
+      }
+
+      th {
+        background: #0b1d3a;
+        color: #fff;
+      }
+
+      .table-scroll::-webkit-scrollbar {
+        height: 8px;
+      }
+
+      .table-scroll::-webkit-scrollbar-thumb {
+        background: #0b1d3a;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <h1>📊 Performance Tracker</h1>
+
+      <a href="{% url 'home' %}"> 📘 DSA Planner </a>
+    </header>
+
+    <div class="container">
+      <!-- SETUP FORM -->
+      <div id="setup" class="setup-box">
+        <h3>Initial Setup</h3>
+
+        <input
+          type="number"
+          id="initialDays"
+          min="1"
+          placeholder="Enter number of days"
+        />
+
+        <button onclick="generateTracker()">Generate Tracker</button>
+      </div>
+
+      <!-- MAIN APP -->
+      <div id="app" class="hidden">
+        <div class="controls">
+          <input type="text" id="taskInput" placeholder="Enter task name" />
+
+          <button onclick="addTask()">Add Task</button>
+
+          <button onclick="addDay()">+ Day</button>
+
+          <button onclick="removeDay()">- Day</button>
+
+          <button onclick="resetTracker()">Reset</button>
+        </div>
+
+        <div class="stats">
+          <div class="stat">
+            <h2 id="taskCount">0</h2>
+            <p>Tasks</p>
+          </div>
+
+          <div class="stat">
+            <h2 id="dayCount">0</h2>
+            <p>Days</p>
+          </div>
+
+          <div class="stat">
+            <h2 id="progress">0%</h2>
+            <p>Completion</p>
+          </div>
+        </div>
+
+        <div class="table-box">
+          <div class="table-scroll">
+            <table>
+              <thead id="tableHead"></thead>
+              <tbody id="tableBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="chart-box">
+          <h3>📊 Task Completion</h3>
+          <canvas id="barChart"></canvas>
+        </div>
+
+        <div class="chart-box">
+          <h3>📈 Daily Progress</h3>
+          <canvas id="lineChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let barChart;
+      let lineChart;
+
+      function getCSRFToken() {
+        return document.cookie
+          .split("; ")
+          .find((r) => r.startsWith("csrftoken="))
+          ?.split("=")[1];
+      }
+
+      async function generateTracker() {
+        const days = Number(initialDays.value);
+
+        if (days <= 0) {
+          alert("Enter valid days");
+          return;
+        }
+
+        await fetch("/api/init", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": getCSRFToken(),
+          },
+          body: JSON.stringify({ days }),
+        });
+
+        loadAll();
+      }
+
+      async function loadAll() {
+        const res = await fetch("/api/data");
+
+        if (!res.ok) return;
+
+        const data = await res.json();
+
+        /* IMPORTANT FIX */
+
+        if (data.days <= 0) {
+          setup.classList.remove("hidden");
+          app.classList.add("hidden");
+
+          return;
+        }
+
+        setup.classList.add("hidden");
+        app.classList.remove("hidden");
+
+        renderTable(data);
+        updateStats(data);
+        loadCharts();
+      }
+
+      function renderTable(data) {
+        tableHead.innerHTML =
+          "<tr><th>Task</th>" +
+          Array.from(
+            { length: data.days },
+            (_, i) => `<th>Day ${i + 1}</th>`,
+          ).join("") +
+          "</tr>";
+
+        tableBody.innerHTML = "";
+
+        data.tasks.forEach((task, t) => {
+          let row = `
+<tr>
+<td class="task-name">
+${task.name}
+<button class="delete-task" onclick="deleteTask(${t})">✖</button>
+</td>
+`;
+
+          task.progress.forEach((v, d) => {
+            row += `
+<td>
+<input type="checkbox" ${v ? "checked" : ""}
+onchange="toggle(${t},${d},this.checked)">
+</td>
+`;
+          });
+
+          row += "</tr>";
+
+          tableBody.innerHTML += row;
+        });
+      }
+
+      async function addTask() {
+        if (!taskInput.value.trim()) return;
+
+        await fetch("/api/add-task", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": getCSRFToken(),
+          },
+          body: JSON.stringify({ name: taskInput.value }),
+        });
+
+        taskInput.value = "";
+
+        loadAll();
+      }
+
+      async function toggle(t, d, val) {
+        await fetch("/api/toggle", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": getCSRFToken(),
+          },
+          body: JSON.stringify({
+            task_index: t,
+            day_index: d,
+            value: val ? 1 : 0,
+          }),
+        });
+
+        loadAll();
+      }
+
+      async function addDay() {
+        await fetch("/api/add-day", {
+          method: "POST",
+          headers: {
+            "X-CSRFToken": getCSRFToken(),
+          },
+        });
+
+        loadAll();
+      }
+
+      async function removeDay() {
+        await fetch("/api/remove-day", {
+          method: "POST",
+          headers: {
+            "X-CSRFToken": getCSRFToken(),
+          },
+        });
+
+        loadAll();
+      }
+
+      async function deleteTask(index) {
+        await fetch("/api/delete-task", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": getCSRFToken(),
+          },
+          body: JSON.stringify({ task_index: index }),
+        });
+
+        loadAll();
+      }
+
+      async function resetTracker() {
+        await fetch("/api/reset", {
+          method: "POST",
+          headers: {
+            "X-CSRFToken": getCSRFToken(),
+          },
+        });
+
+        // Hide the main app
+        document.getElementById("app").classList.add("hidden");
+        // Show the setup form
+        document.getElementById("setup").classList.remove("hidden");
+
+        // Clear input fields and stats
+        document.getElementById("initialDays").value = "";
+        document.getElementById("taskInput").value = "";
+        taskCount.innerText = "0";
+        dayCount.innerText = "0";
+        progress.innerText = "0%";
+
+        // Clear table and charts
+        tableHead.innerHTML = "";
+        tableBody.innerHTML = "";
+        if (barChart) barChart.destroy();
+        if (lineChart) lineChart.destroy();
+      }
+
+      function updateStats(data) {
+        taskCount.innerText = data.tasks.length;
+        dayCount.innerText = data.days;
+
+        const total = data.tasks.length * data.days;
+
+        const done = data.tasks.reduce(
+          (s, t) => s + t.progress.filter((x) => x).length,
+          0,
+        );
+
+        progress.innerText = total
+          ? Math.round((done / total) * 100) + "%"
+          : "0%";
+      }
+
+      async function loadCharts() {
+        const res = await fetch("/api/charts");
+
+        if (!res.ok) return;
+
+        const data = await res.json();
+
+        if (barChart) barChart.destroy();
+
+        barChart = new Chart(document.getElementById("barChart"), {
+          type: "bar",
+          data: {
+            labels: data.bar.map((x) => x.task),
+            datasets: [
+              {
+                label: "Completion %",
+                data: data.bar.map((x) => x.percent),
+              },
+            ],
+          },
+          options: { scales: { y: { beginAtZero: true, max: 100 } } },
+        });
+
+        if (lineChart) lineChart.destroy();
+
+        lineChart = new Chart(document.getElementById("lineChart"), {
+          type: "line",
+          data: {
+            labels: data.line.map((x) => x.day),
+            datasets: [
+              {
+                label: "Completed Tasks",
+                data: data.line.map((x) => x.value),
+                tension: 0.3,
+              },
+            ],
+          },
+        });
+      }
+
+      window.onload = loadAll;
+    </script>
+  </body>
+</html> {% endcomment %}
+{% comment %} <!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Performance Tracker</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+      body {
+        margin: 0;
+        font-family: Segoe UI;
+        background: #f4f6fb;
+      }
+      header {
+        background: #0b1d3a;
+        color: #fff;
+        padding: 20px;
+        text-align: center;
+      }
+      .container {
+        padding: 20px;
+      }
+      .hidden {
+        display: none;
+      }
+      .setup-box,
+      .table-box,
+      .chart-box,
+      .stat {
+        background: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+      .controls {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+      }
+      .controls input {
+        padding: 8px;
+      }
+      .controls button {
+        padding: 8px 12px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .stats {
+        display: flex;
+        gap: 15px;
+        margin: 20px 0;
+      }
+      .stat {
+        flex: 1;
+        text-align: center;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: center;
+      }
+      th {
+        background: #0b1d3a;
+        color: #fff;
+      }
+      .task-name {
+        text-align: left;
+        font-weight: 600;
+      }
+      .delete-task {
+        background: none;
+        border: none;
+        color: red;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <h1>📊 Performance Tracker</h1>
+      <p>Task & Day Based Progress System</p>
+    </header>
+
+    <div class="container">
+      <div id="setup" class="setup-box">
+        <h3>Initial Setup</h3>
+        <input
+          type="number"
+          id="initialDays"
+          min="1"
+          placeholder="Enter number of days"
+        />
+        <button onclick="generateTracker()">Generate Tracker</button>
+      </div>
+
+      <div id="app" class="hidden">
+        <div class="controls">
+          <input type="text" id="taskInput" placeholder="New task name" />
+          <button onclick="addTask()">Add Task</button>
+          <button onclick="addDay()">Add Day</button>
+          <button onclick="removeDay()">Remove Day</button>
+          <button onclick="resetTracker()">Delete Tracker</button>
+        </div>
+
+        <div class="stats">
+          <div class="stat">
+            <h2 id="taskCount">0</h2>
+            <p>Tasks</p>
+          </div>
+          <div class="stat">
+            <h2 id="dayCount">0</h2>
+            <p>Days</p>
+          </div>
+          <div class="stat">
+            <h2 id="progress">0%</h2>
+            <p>Completion</p>
+          </div>
+        </div>
+
+        <div class="table-box">
+          <table>
+            <thead id="tableHead"></thead>
+            <tbody id="tableBody"></tbody>
+          </table>
+        </div>
+
+        <div class="chart-box">
+          <h3>📊 Task Completion</h3>
+          <canvas id="barChart"></canvas>
+        </div>
+
+        <div class="chart-box">
+          <h3>📈 Daily Progress</h3>
+          <canvas id="lineChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let barChart, lineChart;
+
+      function getCSRFToken() {
+        return document.cookie
+          .split("; ")
+          .find((r) => r.startsWith("csrftoken="))
+          ?.split("=")[1];
+      }
+
+      async function generateTracker() {
+        const days = Number(initialDays.value);
+        if (days <= 0) return alert("Enter valid days");
+
+        await fetch("/api/init", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": getCSRFToken(),
+          },
+          body: JSON.stringify({ days }),
+        });
+
+        setup.classList.add("hidden");
+        app.classList.remove("hidden");
+        loadAll();
+      }
+
+      async function loadAll() {
+        const res = await fetch("/api/data");
+        if (!res.ok) return;
+        const data = await res.json();
+        renderTable(data);
+        updateStats(data);
+        loadCharts();
+      }
+
+      function renderTable(data) {
+        if (data.days === 0) {
+          setup.classList.remove("hidden");
+          app.classList.add("hidden");
+          return;
+        }
+
+        tableHead.innerHTML =
+          "<tr><th>Task</th>" +
+          Array.from(
+            { length: data.days },
+            (_, i) => `<th>Day ${i + 1}</th>`,
+          ).join("") +
+          "</tr>";
+
+        tableBody.innerHTML = "";
+
+        data.tasks.forEach((task, t) => {
+          let row = `<tr>
+<td class="task-name">
+${task.name}
+<button class="delete-task" onclick="deleteTask(${t})">✖</button>
+</td>`;
+
+          task.progress.forEach((v, d) => {
+            row += `<td>
+<input type="checkbox" ${v ? "checked" : ""}
+onchange="toggle(${t},${d},this.checked)">
+</td>`;
+          });
+
+          row += "</tr>";
+          tableBody.innerHTML += row;
+        });
+      }
+
+      async function addTask() {
+        if (!taskInput.value.trim()) return;
+        await fetch("/api/add-task", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": getCSRFToken(),
+          },
+          body: JSON.stringify({ name: taskInput.value }),
+        });
+        taskInput.value = "";
+        loadAll();
+      }
+
+      async function toggle(t, d, val) {
+        await fetch("/api/toggle", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": getCSRFToken(),
+          },
+          body: JSON.stringify({
+            task_index: t,
+            day_index: d,
+            value: val ? 1 : 0,
+          }),
+        });
+        loadAll();
+      }
+
+      async function addDay() {
+        await fetch("/api/add-day", {
+          method: "POST",
+          headers: { "X-CSRFToken": getCSRFToken() },
+        });
+        loadAll();
+      }
+
+      async function removeDay() {
+        await fetch("/api/remove-day", {
+          method: "POST",
+          headers: { "X-CSRFToken": getCSRFToken() },
+        });
+        loadAll();
+      }
+
+      async function deleteTask(index) {
+        await fetch("/api/delete-task", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": getCSRFToken(),
+          },
+          body: JSON.stringify({ task_index: index }),
+        });
+        loadAll();
+      }
+
+      async function resetTracker() {
+        await fetch("/api/reset", {
+          method: "POST",
+          headers: { "X-CSRFToken": getCSRFToken() },
+        });
+        location.reload();
+      }
+
+      function updateStats(data) {
+        taskCount.innerText = data.tasks.length;
+        dayCount.innerText = data.days;
+        const total = data.tasks.length * data.days;
+        const done = data.tasks.reduce(
+          (s, t) => s + t.progress.filter((x) => x).length,
+          0,
+        );
+        progress.innerText = total
+          ? Math.round((done / total) * 100) + "%"
+          : "0%";
+      }
+
+      async function loadTracker() {
+        const res = await fetch("/api/data");
+        const data = await res.json();
+
+        if (data.tasks.length > 0) {
+          document.getElementById("trackerSection").style.display = "block";
+          document.getElementById("setupSection").style.display = "none";
+
+          renderTracker(data);
+        } else {
+          document.getElementById("setupSection").style.display = "block";
+          document.getElementById("trackerSection").style.display = "none";
+        }
+      }
+
+      window.onload = loadTracker;
+
+      async function loadCharts() {
+        const res = await fetch("/api/charts");
+        if (!res.ok) return;
+        const data = await res.json();
+
+        if (barChart) barChart.destroy();
+        barChart = new Chart(document.getElementById("barChart"), {
+          type: "bar",
+          data: {
+            labels: data.bar.map((x) => x.task),
+            datasets: [
+              { label: "Completion %", data: data.bar.map((x) => x.percent) },
+            ],
+          },
+          options: { scales: { y: { beginAtZero: true, max: 100 } } },
+        });
+
+        if (lineChart) lineChart.destroy();
+        lineChart = new Chart(document.getElementById("lineChart"), {
+          type: "line",
+          data: {
+            labels: data.line.map((x) => x.day),
+            datasets: [
+              {
+                label: "Completed Tasks",
+                data: data.line.map((x) => x.value),
+                tension: 0.3,
+              },
+            ],
+          },
+        });
+      }
+
+      window.onload = loadAll;
+    </script>
+  </body>
+</html>
+{% endcomment %}

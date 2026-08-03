@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>MongoDB Indexes and Aggregation</title>
+  <link rel="stylesheet" href="styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+      background: #f5f7fa;
+      color: #333;
+    }
+    h1, h2 {
+      color: #2c3e50;
+    }
+    pre {
+      background: #2d2d2d;
+      color: #f8f8f2;
+      padding: 15px;
+      border-radius: 5px;
+      overflow-x: auto;
+    }
+    section {
+      margin-bottom: 40px;
+    }
+    ul {
+      margin-left: 20px;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <h1>MongoDB Indexes and Aggregation</h1>
+
+  <section id="indexes-intro">
+    <h2>What are Indexes?</h2>
+    <p>
+      Indexes in MongoDB are special data structures that store a small portion of the collection’s data set in an easy-to-traverse form.
+      They improve the efficiency of search queries by reducing the number of documents MongoDB scans.
+    </p>
+    <p>
+      Without indexes, MongoDB must perform a collection scan, i.e., scan every document to find those matching the query.
+    </p>
+  </section>
+
+  <section id="types-of-indexes">
+    <h2>Types of Indexes in MongoDB</h2>
+    <ul>
+      <li><strong>Single Field Index:</strong> Index on a single field (e.g., `{ age: 1 }` for ascending order).</li>
+      <li><strong>Compound Index:</strong> Index on multiple fields (e.g., `{ age: 1, name: -1 }`).</li>
+      <li><strong>Multikey Index:</strong> Used for indexing array fields.</li>
+      <li><strong>Text Index:</strong> Supports text search on string content.</li>
+      <li><strong>Hashed Index:</strong> Indexes the hashed value of a field, used mainly for sharding.</li>
+      <li><strong>Geospatial Index:</strong> Supports location-based queries.</li>
+    </ul>
+  </section>
+
+  <section id="creating-indexes">
+    <h2>Creating Indexes</h2>
+    <p>You can create indexes using the <code>createIndex()</code> method in MongoDB shell or driver:</p>
+    <pre><code>// Create a single field ascending index on "username"
+db.users.createIndex({ username: 1 });
+
+// Create a compound index on "lastName" ascending and "age" descending
+db.users.createIndex({ lastName: 1, age: -1 });
+
+// Create a text index for full-text search on "description"
+db.products.createIndex({ description: "text" });
+</code></pre>
+  </section>
+
+  <section id="index-usage">
+    <h2>How MongoDB Uses Indexes</h2>
+    <p>
+      When you run a query, MongoDB checks if it can use any indexes to limit the number of documents it scans.
+      You can verify the index usage by using <code>explain()</code>:
+    </p>
+    <pre><code>// Check index usage for a query
+db.users.find({ username: "alice" }).explain("executionStats");
+</code></pre>
+  </section>
+
+  <section id="aggregation-framework">
+    <h2>MongoDB Aggregation Framework</h2>
+    <p>
+      Aggregation operations process data records and return computed results.
+      It’s similar to SQL’s GROUP BY but far more powerful and flexible.
+    </p>
+    <p>
+      Aggregation pipelines consist of multiple stages that process documents sequentially.
+    </p>
+  </section>
+
+  <section id="common-aggregation-stages">
+    <h2>Common Aggregation Pipeline Stages</h2>
+    <ul>
+      <li><code>$match</code>: Filters documents (like a WHERE clause).</li>
+      <li><code>$group</code>: Groups documents by some expression and computes aggregates.</li>
+      <li><code>$sort</code>: Sorts documents by a specified field.</li>
+      <li><code>$project</code>: Reshapes documents, including/excluding fields.</li>
+      <li><code>$limit</code>: Limits the number of documents.</li>
+      <li><code>$lookup</code>: Performs left outer join with another collection.</li>
+    </ul>
+  </section>
+
+  <section id="aggregation-example">
+    <h2>Aggregation Example: Group and Count</h2>
+    <p>Count the number of users in each age group:</p>
+    <pre><code>db.users.aggregate([
+  { $match: { age: { $gte: 18 } } },
+  { $group: { _id: "$age", count: { $sum: 1 } } },
+  { $sort: { count: -1 } }
+]);
+</code></pre>
+  </section>
+
+  <section id="index-and-aggregation-tips">
+    <h2>Tips for Indexes and Aggregation</h2>
+    <ul>
+      <li>Create indexes on fields that are frequently queried or used in <code>$match</code> stages for better performance.</li>
+      <li>Compound indexes can support queries filtering on multiple fields.</li>
+      <li>Use <code>explain()</code> to analyze query and aggregation performance.</li>
+      <li>Aggregation pipelines can leverage indexes on the initial <code>$match</code> stage.</li>
+      <li>Avoid unnecessary large data transfers by filtering early in the pipeline.</li>
+    </ul>
+  </section>
+
+  <footer>
+    &copy; 2025 MongoDB Guide — All rights reserved.
+  </footer>
+
+</body>
+</html>

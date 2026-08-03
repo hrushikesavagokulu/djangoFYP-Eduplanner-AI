@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Introduction to data visualization with Matplotlib</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 900px;
+      margin: auto;
+      padding: 20px;
+      line-height: 1.6;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+    h1, h2 {
+      color: #2c3e50;
+    }
+    hr {
+      border: none;
+      border-top: 2px solid #ccc;
+      margin: 30px 0;
+    }
+    pre {
+      background-color: #eee;
+      padding: 15px;
+      overflow-x: auto;
+      border-radius: 4px;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 10px;
+      border-top: 1px solid #ccc;
+      font-size: 0.9em;
+      color: #777;
+      text-align: center;
+    }
+    .plot-container {
+      margin: 20px 0;
+    }
+#top{
+  margin-top: 80px;
+}
+  </style>
+  <link rel="stylesheet" href="styles.css">
+  <!-- Load Plotly.js from CDN -->
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+
+<h1 id="top">Introduction to Data Visualization with Matplotlib</h1>
+
+<p>Data visualization is a critical step in data analysis and scientific research. It helps communicate insights, discover patterns, and detect anomalies in data effectively.</p>
+
+<p><strong>Matplotlib</strong> is one of the most widely used Python libraries for creating static, animated, and interactive visualizations. It provides a flexible and comprehensive set of tools for producing high-quality graphs, charts, and plots.</p>
+
+<hr />
+
+<h2>Why Use Matplotlib?</h2>
+<ul>
+  <li><strong>Versatile:</strong> Supports line plots, scatter plots, bar charts, histograms, pie charts, 3D plots, and more.</li>
+  <li><strong>Customizable:</strong> Nearly every element of a plot can be styled, from colors and fonts to layouts and interactivity.</li>
+  <li><strong>Integration:</strong> Works well with NumPy, Pandas, and other scientific libraries.</li>
+  <li><strong>Open Source:</strong> Free and actively maintained by a large community.</li>
+</ul>
+
+<hr />
+
+<h2>Getting Started</h2>
+<p>First, install Matplotlib if you haven't already:</p>
+<pre><code>pip install matplotlib</code></pre>
+
+<p>Next, import Matplotlib in your Python script:</p>
+<pre><code>import matplotlib.pyplot as plt</code></pre>
+
+<hr />
+
+<h2>Basic Plot Example</h2>
+<p>Let's create a simple line plot of some data points:</p>
+<pre><code>import matplotlib.pyplot as plt
+
+# Sample data
+x = [1, 2, 3, 4, 5]
+y = [10, 8, 6, 4, 2]
+
+# Create a plot
+plt.plot(x, y)
+
+# Add title and labels
+plt.title('Simple Line Plot')
+plt.xlabel('X-axis')
+plt.ylabel('Y-axis')
+
+# Show the plot
+plt.show()
+</code></pre>
+
+<div class="plot-container" id="line-plot"></div>
+
+<hr />
+
+<h2>Common Plot Types</h2>
+
+<ul>
+  <li><strong>Line Plot:</strong> Useful for showing trends over time or ordered categories.</li>
+  <li><strong>Scatter Plot:</strong> Displays relationships between two variables.</li>
+  <li><strong>Bar Chart:</strong> Compares categorical data.</li>
+  <li><strong>Histogram:</strong> Shows distribution of numerical data.</li>
+  <li><strong>Pie Chart:</strong> Displays proportions within a whole.</li>
+</ul>
+
+<hr />
+
+<h2>Example: Scatter Plot</h2>
+<pre><code>import matplotlib.pyplot as plt
+
+x = [5, 7, 8, 7, 2, 17, 2, 9]
+y = [99, 86, 87, 88, 100, 86, 103, 87]
+
+plt.scatter(x, y, color='green')
+plt.title('Scatter Plot Example')
+plt.xlabel('X-axis')
+plt.ylabel('Y-axis')
+plt.show()
+</code></pre>
+
+<div class="plot-container" id="scatter-plot"></div>
+
+<hr />
+
+<h2>Customizing Your Plots</h2>
+<p>Matplotlib allows extensive customization. For example, you can change colors, line styles, markers, add legends, grids, and annotations.</p>
+
+<pre><code>plt.plot(x, y, color='blue', linestyle='--', marker='o', label='Data Line')
+plt.legend()
+plt.grid(True)
+plt.title('Customized Plot')
+plt.show()
+</code></pre>
+
+<div class="plot-container" id="custom-plot"></div>
+
+<hr />
+
+<h2>Saving Plots</h2>
+<p>You can save your plots to files in formats like PNG, PDF, SVG using <code>plt.savefig()</code>:</p>
+
+<pre><code>plt.savefig('plot.png', dpi=300, bbox_inches='tight')</code></pre>
+
+<hr />
+
+<h2>Summary</h2>
+<ul>
+  <li>Matplotlib is a versatile tool for data visualization in Python.</li>
+  <li>Supports many types of plots including line, scatter, bar, histogram, and pie charts.</li>
+  <li>Highly customizable to fit the needs of your data presentation.</li>
+  <li>Easy to integrate with data manipulation libraries like Pandas and NumPy.</li>
+</ul>
+
+<footer>
+  &copy; 2025 Your Python Visualization Course
+</footer>
+
+<script>
+  // Line plot data and layout for Plotly
+  var lineTrace = {
+    x: [1, 2, 3, 4, 5],
+    y: [10, 8, 6, 4, 2],
+    mode: 'lines+markers',
+    type: 'scatter',
+    marker: { color: 'blue' },
+    name: 'Line Plot'
+  };
+  var lineLayout = {
+    title: 'Simple Line Plot',
+    xaxis: { title: 'X-axis' },
+    yaxis: { title: 'Y-axis' },
+    margin: { t: 40 }
+  };
+  Plotly.newPlot('line-plot', [lineTrace], lineLayout);
+
+  // Scatter plot data and layout
+  var scatterTrace = {
+    x: [5, 7, 8, 7, 2, 17, 2, 9],
+    y: [99, 86, 87, 88, 100, 86, 103, 87],
+    mode: 'markers',
+    type: 'scatter',
+    marker: { color: 'green', size: 10 },
+    name: 'Scatter Plot'
+  };
+  var scatterLayout = {
+    title: 'Scatter Plot Example',
+    xaxis: { title: 'X-axis' },
+    yaxis: { title: 'Y-axis' },
+    margin: { t: 40 }
+  };
+  Plotly.newPlot('scatter-plot', [scatterTrace], scatterLayout);
+
+  // Customized plot data and layout
+  var customTrace = {
+    x: [5, 7, 8, 7, 2, 17, 2, 9],
+    y: [99, 86, 87, 88, 100, 86, 103, 87],
+    mode: 'lines+markers',
+    line: { color: 'blue', dash: 'dash' },
+    marker: { symbol: 'circle', size: 8 },
+    name: 'Data Line'
+  };
+  var customLayout = {
+    title: 'Customized Plot',
+    xaxis: { title: 'X-axis' },
+    yaxis: { title: 'Y-axis' },
+    showlegend: true,
+    legend: { x: 0, y: 1 },
+    margin: { t: 40 },
+    grid: { rows: 1, columns: 1, pattern: 'independent' }
+  };
+  Plotly.newPlot('custom-plot', [customTrace], customLayout);
+</script>
+
+</body>
+</html>

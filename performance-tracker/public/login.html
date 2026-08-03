@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Performance Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="auth-wrapper">
+        <div class="auth-card">
+            <h2>Welcome Back</h2>
+            <p>Log in to track your performance</p>
+            <form id="loginForm">
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; font-size: 0.875rem; font-weight: 500; margin-bottom: 0.5rem;">Username</label>
+                    <input type="text" id="username" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 8px; outline: none;">
+                </div>
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; font-size: 0.875rem; font-weight: 500; margin-bottom: 0.5rem;">Password</label>
+                    <input type="password" id="password" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 8px; outline: none;">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.75rem;">Login</button>
+            </form>
+            <p style="margin-top: 1.5rem; font-size: 0.875rem;">
+                Don't have an account? <a href="register.html" style="color: var(--primary); font-weight: 600; text-decoration: none;">Register</a>
+            </p>
+            <a href="http://localhost:8000/dashboard/" class="btn btn-primary">Dashboard</a>
+            <div id="errorMessage" style="margin-top: 1rem; color: var(--danger); font-size: 0.875rem; text-align: center; display: none;"></div>
+        </div>
+        
+    </div>
+
+    <script>
+        const loginForm = document.getElementById('loginForm');
+        const errorMessage = document.getElementById('errorMessage');
+
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    window.location.href = '/';
+                } else {
+                    errorMessage.textContent = data.error || 'Login failed';
+                    errorMessage.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                errorMessage.textContent = 'An error occurred. Please try again.';
+                errorMessage.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>DevHive - Recursion</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>/* Same CSS as your previous pages */</style>
+</head>
+<body>
+
+  <h1>Recursion - DevHive</h1>
+
+  <p>Recursion is a technique where a function calls itself to solve smaller instances of the same problem until a base condition is met.</p>
+
+  <h2>Example: Factorial</h2>
+  <pre><code>function factorial(n) {
+  if (n === 0) return 1;
+  return n * factorial(n - 1);
+}
+
+console.log(factorial(5)); // 120</code></pre>
+
+  <h2>How Recursion Works</h2>
+  <p>Each recursive call breaks the problem down into smaller parts and solves those parts until the base case is reached, preventing infinite recursion.</p>
+
+  <h2>Example: Fibonacci Sequence</h2>
+  <pre><code>function fib(n) {
+  if (n <= 1) return n;
+  return fib(n - 1) + fib(n - 2);
+}
+
+console.log(fib(6)); // 8</code></pre>
+<div style="margin: 40px auto; max-width: 800px; width: 90%; aspect-ratio: 16 / 9; box-shadow: 0 8px 20px rgba(0,0,0,0.2); border-radius: 12px; overflow: hidden; background: #000;">
+  <iframe
+    src="https://www.youtube.com/embed/XkL3SUioNvo"
+    title="Python Tutorial for Beginners | Recursion"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen
+    style="width: 100%; height: 100%; border: none; display: block;"
+  ></iframe>
+</div>
+
+  <h2>Recursion vs Iteration</h2>
+  <ul>
+    <li><strong>Recursion:</strong> Elegant and simple for problems naturally defined recursively.</li>
+    <li><strong>Iteration:</strong> Sometimes more efficient and avoids call stack overhead.</li>
+  </ul>
+
+  <h2>Common Uses of Recursion</h2>
+  <ul>
+    <li>Tree and graph traversals (DFS)</li>
+    <li>Divide and conquer algorithms (Merge Sort, Quick Sort)</li>
+    <li>Backtracking (e.g., puzzles, permutations)</li>
+    <li>Mathematical computations (factorials, Fibonacci, power functions)</li>
+  </ul>
+
+  <h2>Example: Sum of Array Elements</h2>
+  <pre><code>function sumArray(arr, n) {
+  if (n <= 0) return 0;
+  return sumArray(arr, n - 1) + arr[n - 1];
+}
+
+console.log(sumArray([1, 2, 3, 4, 5], 5)); // 15</code></pre>
+
+  <h2>Tips for Writing Recursive Functions</h2>
+  <ul>
+    <li>Define a clear base case to stop recursion.</li>
+    <li>Make sure each recursive call progresses toward the base case.</li>
+    <li>Be mindful of stack overflow for deep recursion; consider iterative alternatives if needed.</li>
+  </ul>
+
+  <div class="try-it">
+    <h3>Try it Yourself</h3>
+    <textarea class="code-input" id="codeArea">function fib(n) {
+  if (n <= 1) return n;
+  return fib(n - 1) + fib(n - 2);
+}
+console.log(fib(6));</textarea>
+    <button class="run-btn" onclick="runCode()">Run Code</button>
+    <div class="output" id="output"></div>
+  </div>
+
+  <script>
+    function runCode() {
+      const code = document.getElementById("codeArea").value;
+      const output = document.getElementById("output");
+      output.innerHTML = '';
+      try {
+        const logs = [];
+        console.log = (...args) => logs.push(args.join(' '));
+        new Function(code)();
+        output.innerText = logs.join('\n');
+      } catch (e) {
+        output.innerHTML = "<span class='error'>Error: " + e.message + "</span>";
+      }
+    }
+  </script>
+
+</body>
+</html>

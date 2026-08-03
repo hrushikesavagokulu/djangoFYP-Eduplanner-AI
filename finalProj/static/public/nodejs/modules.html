@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>JavaScript Modules</title>
+  <link rel="stylesheet" href="styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+
+  <h1>JavaScript Modules</h1>
+
+  <section id="introduction">
+    <h2>What are Modules?</h2>
+    <p>
+      Modules are reusable pieces of code that encapsulate implementation details and expose only what is necessary.
+      They help keep code organized, maintainable, and avoid polluting the global namespace.
+    </p>
+  </section>
+
+  <section id="module-types">
+    <h2>Types of Modules</h2>
+    <ul>
+      <li><strong>ES6 Modules:</strong> Use <code>export</code> and <code>import</code> syntax and are supported natively in modern browsers and Node.js.</li>
+      <li><strong>CommonJS Modules:</strong> Used primarily in Node.js, use <code>module.exports</code> and <code>require()</code>.</li>
+      <li><strong>AMD Modules:</strong> Asynchronous module definition, used in browsers with libraries like RequireJS.</li>
+    </ul>
+  </section>
+<div style="
+  margin: 40px auto;
+  max-width: 800px;
+  width: 90%;
+  aspect-ratio: 16 / 9;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #000;
+">
+  <iframe
+    src="https://www.youtube.com/embed/FSRo41TaHFU"
+    title="YouTube video player"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen
+    style="width: 100%; height: 100%; border: none; display: block;"
+  ></iframe>
+</div>
+
+  <section id="es6-modules">
+    <h2>ES6 Module Syntax</h2>
+    <h3>Exporting</h3>
+    <pre><code>// file: math.js
+export function add(a, b) {
+  return a + b;
+}
+
+export const PI = 3.14159;
+</code></pre>
+
+    <h3>Importing</h3>
+    <pre><code>// file: main.js
+import { add, PI } from './math.js';
+
+console.log(add(2, 3)); // 5
+console.log(PI); // 3.14159
+</code></pre>
+
+    <h3>Default Export</h3>
+    <pre><code>// file: logger.js
+export default function log(message) {
+  console.log(message);
+}
+
+// file: app.js
+import log from './logger.js';
+log('Hello from default export!');
+</code></pre>
+  </section>
+
+  <section id="commonjs-modules">
+    <h2>CommonJS Module Syntax (Node.js)</h2>
+    <pre><code>// file: utils.js
+function multiply(a, b) {
+  return a * b;
+}
+
+module.exports = multiply;
+
+// file: index.js
+const multiply = require('./utils.js');
+console.log(multiply(4, 5)); // 20
+</code></pre>
+  </section>
+
+  <section id="using-modules-in-html">
+    <h2>Using ES6 Modules in the Browser</h2>
+    <p>
+      To use ES6 modules in the browser, include the <code>type="module"</code> attribute in your script tag:
+    </p>
+    <pre><code>&lt;script type="module" src="main.js"&gt;&lt;/script&gt;</code></pre>
+    <p>
+      This enables support for <code>import</code> and <code>export</code> statements directly in browser JavaScript.
+    </p>
+  </section>
+
+  <section id="benefits">
+    <h2>Benefits of Modules</h2>
+    <ul>
+      <li>Code reuse and encapsulation</li>
+      <li>Improved maintainability</li>
+      <li>Avoids global namespace pollution</li>
+      <li>Better dependency management</li>
+    </ul>
+  </section>
+
+  <footer>
+    &copy; 2025 JavaScript Modules Guide — All rights reserved.
+  </footer>
+
+</body>
+</html>

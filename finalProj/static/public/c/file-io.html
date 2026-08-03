@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>File Io</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 900px;
+      margin: 30px auto;
+      line-height: 1.6;
+      color: #222;
+      padding: 0 20px;
+      background: #f9f9f9;
+    }
+    h1, h2, h3 {
+      color: #005a9c;
+    }
+    pre {
+      background: #272822;
+      color: #f8f8f2;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 1rem;
+    }
+    code {
+      font-family: Consolas, monospace;
+      background: #eee;
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: #c7254e;
+    }
+    .note {
+      background: #fff3cd;
+      border-left: 6px solid #ffeeba;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #856404;
+    }
+    .warning {
+      background: #f8d7da;
+      border-left: 6px solid #f5c6cb;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #721c24;
+    }
+    ul {
+      margin-left: 20px;
+    }
+    a {
+      color: #005a9c;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      margin-top: 40px;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>File I/O</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 900px;
+      margin: 30px auto;
+      line-height: 1.6;
+      color: #222;
+      padding: 0 20px;
+      background: #f9f9f9;
+    }
+    h1, h2, h3 {
+      color: #005a9c;
+    }
+    pre {
+      background: #272822;
+      color: #f8f8f2;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 1rem;
+    }
+    code {
+      font-family: Consolas, monospace;
+      background: #eee;
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: #c7254e;
+    }
+    .note {
+      background: #fff3cd;
+      border-left: 6px solid #ffeeba;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #856404;
+    }
+    .warning {
+      background: #f8d7da;
+      border-left: 6px solid #f5c6cb;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #721c24;
+    }
+    ul {
+      margin-left: 20px;
+    }
+    a {
+      color: #005a9c;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      margin-top: 40px;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<h1>File I/O</h1>
+
+<p>File input/output (I/O) in C allows you to read data from files and write data to files on your disk. The C standard library provides a set of functions to handle files through <code>FILE</code> pointers.</p>
+
+<h2>Basic File Operations</h2>
+<ul>
+  <li><code>fopen()</code> - Open a file</li>
+  <li><code>fclose()</code> - Close a file</li>
+  <li><code>fprintf()</code>, <code>fscanf()</code> - Formatted output/input to/from a file</li>
+  <li><code>fgets()</code>, <code>fputs()</code> - Read/write strings to/from a file</li>
+  <li><code>fread()</code>, <code>fwrite()</code> - Read/write binary data</li>
+</ul>
+
+<h2>Opening a File</h2>
+<p>Use <code>fopen()</code> with the filename and mode:</p>
+<ul>
+  <li><code>"r"</code> - Open for reading</li>
+  <li><code>"w"</code> - Open for writing (creates new or truncates)</li>
+  <li><code>"a"</code> - Open for appending</li>
+  <li>Adding <code>"b"</code> makes the mode binary (e.g., <code>"rb"</code>)</li>
+</ul>
+
+<h2>Example: Writing to a File</h2>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    FILE *fp = fopen("example.txt", "w");
+    if (fp == NULL) {
+        perror("Error opening file");
+        return 1;
+    }
+    fprintf(fp, "Hello, file I/O in C!\n");
+    fclose(fp);
+    return 0;
+}
+</code></pre>
+
+<h2>Example: Reading from a File</h2>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    char buffer[100];
+    FILE *fp = fopen("example.txt", "r");
+    if (fp == NULL) {
+        perror("Error opening file");
+        return 1;
+    }
+    while (fgets(buffer, sizeof(buffer), fp) != NULL) {
+        printf("%s", buffer);
+    }
+    fclose(fp);
+    return 0;
+}
+</code></pre>
+
+<h2>Explanation:</h2>
+<ul>
+  <li><code>fopen()</code> opens the file in the specified mode.</li>
+  <li><code>fprintf()</code> writes formatted text to the file.</li>
+  <li><code>fgets()</code> reads a line from the file into a buffer.</li>
+  <li><code>fclose()</code> closes the file and flushes buffers.</li>
+  <li><code>perror()</code> prints an error message if the file cannot be opened.</li>
+</ul>
+
+<div class="note">
+  <strong>Note:</strong> Always check the return value of <code>fopen()</code> to ensure the file was opened successfully before performing I/O operations.
+</div>
+
+<footer>
+  &copy; 2025 Your C Programming Course
+</footer>
+
+</body>
+</html>
+
+</body>
+</html>

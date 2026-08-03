@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Express Basics</title>
+  <link rel="stylesheet" href="styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+
+  <h1>Express.js Basics</h1>
+
+  <section id="what-is-express">
+    <h2>What is Express.js?</h2>
+    <p>
+      Express.js is a fast, unopinionated, minimalist web framework for Node.js. 
+      It simplifies the process of building web applications and APIs by providing a robust set of features for routing, middleware, and more.
+    </p>
+  </section>
+<div style="
+  margin: 40px auto;
+  max-width: 800px;
+  width: 90%;
+  aspect-ratio: 16 / 9;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #000;
+">
+  <iframe
+    src="https://www.youtube.com/embed/N2-FyBBxOZA"
+    title="YouTube video player"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen
+    style="width: 100%; height: 100%; border: none; display: block;"
+  ></iframe>
+</div>
+
+  <section id="installing-express">
+    <h2>Installing Express</h2>
+    <p>You can install Express via npm by running the following command:</p>
+    <pre><code>npm install express</code></pre>
+  </section>
+
+  <section id="creating-a-basic-server">
+    <h2>Creating a Basic Express Server</h2>
+    <p>Here is a simple example of creating a web server that listens on port 3000:</p>
+    <pre><code>const express = require('express');
+const app = express();
+
+app.get('/', (req, res) => {
+  res.send('Hello, Express!');
+});
+
+app.listen(3000, () => {
+  console.log('Server is running on http://localhost:3000');
+});
+</code></pre>
+  </section>
+
+  <section id="routing-in-express">
+    <h2>Routing in Express</h2>
+    <p>
+      Routing defines the endpoints (URIs) that the server responds to, along with the HTTP methods (GET, POST, etc.).
+    </p>
+    <pre><code>// Basic GET route
+app.get('/about', (req, res) => {
+  res.send('About page');
+});
+
+// POST route example
+app.post('/submit', (req, res) => {
+  res.send('Form submitted!');
+});
+</code></pre>
+  </section>
+
+  <section id="handling-parameters">
+    <h2>Handling Route Parameters and Query Strings</h2>
+    <p>Express makes it easy to access parameters and query strings in the URL:</p>
+    <pre><code>// Route parameters
+app.get('/users/:userId', (req, res) => {
+  const userId = req.params.userId;
+  res.send(`User ID is ${userId}`);
+});
+
+// Query strings
+app.get('/search', (req, res) => {
+  const term = req.query.term;
+  res.send(`Search term: ${term}`);
+});
+</code></pre>
+  </section>
+
+  <section id="serving-static-files">
+    <h2>Serving Static Files</h2>
+    <p>You can serve static files (HTML, CSS, JS, images) using the built-in middleware:</p>
+    <pre><code>app.use(express.static('public'));
+</code></pre>
+    <p>This will serve all files inside the <code>public</code> folder.</p>
+  </section>
+
+  <section id="using-middleware">
+    <h2>Using Middleware in Express</h2>
+    <p>Middleware functions have access to request and response objects and can modify them or end the request-response cycle.</p>
+    <pre><code>// Simple logger middleware
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
+  next();
+});
+</code></pre>
+  </section>
+
+  <section id="error-handling-basics">
+    <h2>Error Handling</h2>
+    <p>Express provides a way to handle errors using middleware with four arguments:</p>
+    <pre><code>app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something went wrong!');
+});
+</code></pre>
+  </section>
+
+  <section id="next-steps">
+    <h2>Next Steps</h2>
+    <p>
+      Now that you understand the basics, you can explore topics like:
+    </p>
+    <ul>
+      <li>Using routers with <code>express.Router()</code></li>
+      <li>Integrating databases (MongoDB, PostgreSQL, etc.)</li>
+      <li>Implementing authentication and authorization</li>
+      <li>Building RESTful APIs</li>
+    </ul>
+  </section>
+
+  <footer>
+    &copy; 2025 Express.js Basics Guide — All rights reserved.
+  </footer>
+
+</body>
+</html>

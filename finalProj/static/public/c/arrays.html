@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Arrays</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 900px;
+      margin: 30px auto;
+      line-height: 1.6;
+      color: #222;
+      padding: 0 20px;
+      background: #f9f9f9;
+    }
+    h1, h2, h3 {
+      color: #005a9c;
+    }
+    pre {
+      background: #272822;
+      color: #f8f8f2;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 1rem;
+    }
+    code {
+      font-family: Consolas, monospace;
+      background: #eee;
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: #c7254e;
+    }
+    .note {
+      background: #fff3cd;
+      border-left: 6px solid #ffeeba;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #856404;
+    }
+    .warning {
+      background: #f8d7da;
+      border-left: 6px solid #f5c6cb;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #721c24;
+    }
+    ul {
+      margin-left: 20px;
+    }
+    a {
+      color: #005a9c;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      margin-top: 40px;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<h1>Arrays in C</h1>
+
+<p>In C programming, an <strong>array</strong> is a data structure that can store a fixed-size sequence of elements of the same type. Arrays are used to organize data so that related values can be easily accessed and manipulated.</p>
+
+<h2>1. Why Use Arrays?</h2>
+<ul>
+  <li>To store multiple values in a single variable.</li>
+  <li>Efficient access via indexing.</li>
+  <li>Better organization of related data (e.g., marks of students, temperatures, etc.).</li>
+</ul>
+
+<h2>2. Declaration and Initialization</h2>
+
+<h3>Declaration</h3>
+<pre><code>int numbers[5]; // declares an array of 5 integers</code></pre>
+
+<h3>Initialization</h3>
+<pre><code>int a[5] = {10, 20, 30, 40, 50};</code></pre>
+
+<p>If fewer values are provided, the rest are set to 0:</p>
+<pre><code>int a[5] = {10, 20}; // becomes {10, 20, 0, 0, 0}</code></pre>
+
+<h2>3. Accessing Array Elements</h2>
+<p>Each element is accessed using its index (starting from 0):</p>
+<pre><code>printf("%d", a[2]); // prints 30</code></pre>
+
+<h2>4. Array Types</h2>
+
+<h3>i. One-dimensional Arrays</h3>
+<p>Used for storing lists or single rows of data.</p>
+<pre><code>float prices[10];</code></pre>
+
+<h3>ii. Two-dimensional Arrays</h3>
+<p>Used for matrices or tables.</p>
+<pre><code>int matrix[3][4];</code></pre>
+
+<h3>iii. Multidimensional Arrays</h3>
+<p>Less common; useful for complex data like 3D maps.</p>
+<pre><code>char cube[3][4][5];</code></pre>
+
+<h2>5. Input/Output of Arrays</h2>
+
+<h3>Input Example</h3>
+<pre><code>
+for (int i = 0; i &lt; 5; i++) {
+  scanf("%d", &a[i]);
+}
+</code></pre>
+
+<h3>Output Example</h3>
+<pre><code>
+for (int i = 0; i &lt; 5; i++) {
+  printf("%d ", a[i]);
+}
+</code></pre>
+
+<h2>6. Common Array Operations</h2>
+<ul>
+  <li>Traversing</li>
+  <li>Searching (Linear/Binary)</li>
+  <li>Sorting (Bubble, Selection, etc.)</li>
+  <li>Reversing</li>
+</ul>
+
+<h2>7. Example: Find Maximum in Array</h2>
+<pre><code>
+int max = a[0];
+for (int i = 1; i &lt; 5; i++) {
+  if (a[i] &gt; max)
+    max = a[i];
+}
+printf("Maximum: %d", max);
+</code></pre>
+
+<h2>8. Array Memory Layout</h2>
+<div class="note">
+  <strong>Note:</strong> Arrays are stored in contiguous memory locations. That’s why pointer arithmetic works well with arrays.
+</div>
+
+<h3>Example:</h3>
+<pre><code>
+int a[3] = {5, 10, 15};
+printf("%p", &a[0]); // Address of first element
+printf("%p", &a[1]); // Next address (usually +4 bytes)
+</code></pre>
+
+<h2>9. Array and Functions</h2>
+
+<h3>Passing Array to Function</h3>
+<pre><code>
+void display(int arr[], int size) {
+  for (int i = 0; i &lt; size; i++)
+    printf("%d ", arr[i]);
+}
+</code></pre>
+
+<h3>Calling Function</h3>
+<pre><code>
+int nums[5] = {1,2,3,4,5};
+display(nums, 5);
+</code></pre>
+
+<h2>10. Strings as Character Arrays</h2>
+<pre><code>
+char name[10] = "Alice";
+printf("%s", name); // prints Alice
+</code></pre>
+
+<div class="warning">
+  <strong>Warning:</strong> Make sure your character arrays are large enough to include the null terminator <code>\0</code> at the end of strings.
+</div>
+
+<h2>11. Limitations of Arrays</h2>
+<ul>
+  <li>Fixed size (can’t grow/shrink dynamically)</li>
+  <li>No bounds checking (C doesn’t warn if you go out of bounds)</li>
+</ul>
+
+<h2>12. Best Practices</h2>
+<ul>
+  <li>Always initialize your arrays.</li>
+  <li>Avoid magic numbers – use <code>#define SIZE 100</code>.</li>
+  <li>Be cautious with bounds and overflows.</li>
+</ul>
+
+<h2>13. Advanced Topics (Optional)</h2>
+<ul>
+  <li>Pointers and arrays</li>
+  <li>Dynamic arrays using malloc()</li>
+  <li>2D arrays using pointers</li>
+</ul>
+
+<footer>
+  &copy; 2025 Your C Programming Course
+</footer>
+
+
+</body>
+</html>

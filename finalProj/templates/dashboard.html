@@ -1,0 +1,438 @@
+{% extends "base.html" %}
+{% block title %}Dashboard – DSA Planner{% endblock %}
+
+{% block extra_style %}
+<style>
+:root {
+    --bg-main: #0f172a;
+    --card-bg: rgba(255, 255, 255, 0.05);
+    --glass: rgba(255,255,255,0.08);
+    --border: rgba(255,255,255,0.12);
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+
+    --grad-1: linear-gradient(135deg, #1E3C72, #2A5298);
+    --grad-2: linear-gradient(135deg, #8E2DE2, #4A00E0);
+    --grad-3: linear-gradient(135deg, #22C55E, #16A34A);
+    --grad-4: linear-gradient(135deg, #FF416C, #FF4B2B);
+}
+
+body {
+    background: radial-gradient(circle at top, #1e293b, #020617);
+    color: var(--text);
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Wrapper */
+.dashboard-wrapper {
+    max-width: 1350px;
+    margin: 40px auto;
+    padding: 30px;
+}
+
+/* Header */
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 35px;
+}
+
+.dashboard-header h1 {
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.dashboard-header span {
+    color: var(--muted);
+}
+
+/* Grid */
+.dashboard-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+}
+
+/* Card */
+.dashboard-card {
+    position: relative;
+    padding: 28px 22px;
+    border-radius: 22px;
+    text-decoration: none;
+    color: var(--text);
+    background: var(--card-bg);
+    backdrop-filter: blur(18px);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    transition: all 0.35s ease;
+}
+
+.dashboard-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--glass);
+    opacity: 0;
+    transition: 0.3s;
+}
+
+.dashboard-card:hover::before {
+    opacity: 1;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 25px 70px rgba(0,0,0,0.6);
+}
+
+/* Glow Effect */
+.dashboard-card::after {
+    content: "";
+    position: absolute;
+    width: 150%;
+    height: 150%;
+    top: -50%;
+    left: -50%;
+    background: radial-gradient(circle, rgba(255,255,255,0.15), transparent);
+    opacity: 0;
+    transition: 0.5s;
+}
+
+.dashboard-card:hover::after {
+    opacity: 1;
+}
+
+/* Icon */
+.icon {
+    font-size: 38px;
+    margin-bottom: 15px;
+    display: inline-flex;
+    padding: 14px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.12);
+}
+
+/* Text */
+.dashboard-card h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.dashboard-card p {
+    font-size: 0.9rem;
+    color: var(--muted);
+}
+
+/* Gradient Borders */
+.scheduler-card { background: var(--grad-1); }
+.mock-card { background: var(--grad-2); }
+.recommend-card { background: var(--grad-3); }
+.admin-card { background: var(--grad-4); }
+
+/* Top Ribbon */
+.ribbon {
+    position: absolute;
+    top: 15px;
+    right: -40px;
+    transform: rotate(45deg);
+    background: rgba(0,0,0,0.4);
+    padding: 4px 50px;
+    font-size: 10px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-wrapper">
+
+    <!-- Header -->
+    <div class="dashboard-header">
+        <h1>🚀 DSA Dashboard</h1>
+        <span>Plan • Practice • Track</span>
+    </div>
+
+    <!-- Cards -->
+    <div class="dashboard-cards">
+
+        <a href="{% url 'scheduler' %}" class="dashboard-card scheduler-card">
+            <div class="icon">📅</div>
+            <h3>DSA Scheduler</h3>
+            <p>Generate your personalized study plan</p>
+        </a>
+
+        
+
+        <a href="{% url 'edgecases' %}" class="dashboard-card recommend-card">
+            <div class="icon">⚡</div>
+            <h3>Edge Cases Explorer</h3>
+            <p>Explore DSA edge cases</p>
+        </a>
+
+        <a href="{% url 'csfund' %}" class="dashboard-card recommend-card">
+            <div class="icon">🖥️</div>
+            <h3>CS Fundamentals</h3>
+            <p>Core concepts & learning</p>
+        </a>
+
+
+        <a href="http://127.0.0.1:8001/" target="_blank" class="dashboard-card recommend-card">
+            <div class="icon">📄</div>
+            <h3>Student Document analyser with Queries</h3>
+            <p>RAG Inclusion</p>
+        </a>
+
+        <a href="http://3.25.216.182:3000/" target="_blank" class="dashboard-card recommend-card">
+            <div class="icon">📂</div>
+            <h3>Whiteboard</h3>
+            <p>Collaborate in real-time</p>
+        </a>
+
+        <a href="{% url 'recommend' %}" class="dashboard-card recommend-card">
+            <div class="icon">🤖</div>
+            <h3>Recommendations</h3>
+            <p>AI curated DSA problems</p>
+        </a>
+
+        <a href="{% url 'courses' %}" class="dashboard-card mock-card">
+            <div class="icon">📚</div>
+            <h3>Courses</h3>
+            <p>Explore structured learning</p>
+        </a>
+
+        <a href="https://chatapplication-gossiply.onrender.com/" target="_blank" class="dashboard-card scheduler-card">
+            <div class="icon">💬</div>
+            <h3>Gossiply Chat</h3>
+            <p>Real-time messaging</p>
+        </a>
+
+
+
+        <a href="{% url 'specificschedule' %}" class="dashboard-card scheduler-card">
+            <div class="icon">📌</div>
+            <h3>Topic Scheduler</h3>
+            <p>Plan topic-wise study</p>
+        </a>
+
+        <a href="{% url 'chatbot' %}" class="dashboard-card scheduler-card">
+            <div class="icon">🤖</div>
+            <h3>AI Chatbot</h3>
+            <p>Ask doubts instantly</p>
+        </a>
+
+        <a href="http://localhost:3000" class="dashboard-card recommend-card">
+            <div class="icon">🎯</div>
+            <h3>Tracker</h3>
+            <p>Track progress & streaks</p>
+        </a>
+
+        <a href="{% url 'scheduler_progress' %}" class="dashboard-card scheduler-card">
+            <div class="icon">📈</div>
+            <h3>Progress</h3>
+            <p>Analyze performance</p>
+        </a>
+
+        {% if user.is_superuser %}
+        <a href="/admin/" class="dashboard-card admin-card">
+            <div class="icon">🔧</div>
+            <h3>Admin Panel</h3>
+            <p>System management</p>
+        </a>
+        {% endif %}
+
+    </div>
+</div>
+{% endblock %}
+
+{% comment %} {% extends "base.html" %}
+{% block title %}Dashboard – DSA Planner{% endblock %}
+
+{% block extra_style %}
+<style>
+.dashboard-wrapper {
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 30px;
+    border-radius: 25px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Grid: 3 cards per row */
+.dashboard-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+}
+
+.dashboard-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 20px;
+    border-radius: 20px;
+    text-decoration: none;
+    color: #fff;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+}
+
+.dashboard-card .icon {
+    font-size: 40px;
+    margin-bottom: 15px;
+    background: rgba(255,255,255,0.1);
+    padding: 15px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dashboard-card h3 {
+    font-size: 1.4rem;
+    margin-bottom: 8px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.dashboard-card p {
+    font-size: 0.95rem;
+    opacity: 0.85;
+    text-align: center;
+}
+
+/* Card Gradients */
+.scheduler-card { background: linear-gradient(135deg, #1E3C72, #2A5298); }
+.mock-card { background: linear-gradient(135deg, #8E2DE2, #4A00E0); }
+.recommend-card { background: linear-gradient(135deg, #22C55E, #16A34A); }
+.admin-card { background: linear-gradient(135deg, #FF416C, #FF4B2B); }
+
+/* Responsive: stack on mobile */
+@media (max-width: 992px) {
+    .dashboard-cards { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+    .dashboard-cards { grid-template-columns: 1fr; }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-wrapper">
+  <div class="dashboard-cards">
+
+    <!-- Scheduler -->
+    <a href="{% url 'scheduler' %}" class="dashboard-card scheduler-card">
+        <div class="icon">📅</div>
+        <h3>DSA Scheduler</h3>
+        <p>Generate your personalized study plan</p>
+    </a>
+
+    <a href="{% url 'generate_plan' %}" class="dashboard-card scheduler-card">
+        <div class="icon">📝</div>
+        <h3>Generate Plan</h3>
+        <p>Create a new study plan</p>
+    </a>
+
+    <a href="{% url 'edgecases' %}" class="dashboard-card recommend-card">
+    <div class="icon">⚡</div>
+    <h3>Edge Cases Explorer</h3>
+    <p>Explore DSA edge cases</p>
+</a>
+
+    <!-- CS Fundamentals -->
+    <a href="{% url 'csfund' %}" class="dashboard-card recommend-card">
+        <div class="icon">🖥️</div>
+        <h3>CS Fundamentals</h3>
+        <p>Explore CS resources</p>
+    </a>
+
+    
+
+    <a href="http://3.25.216.182:3000/" target="_blank" class="dashboard-card recommend-card">
+    <div class="icon">📂</div>
+    <h3>Collaborative Whiteboard</h3>
+    <p>Open real-time whiteboard</p>
+</a>
+
+    <a href="{% url 'recommend' %}" class="dashboard-card recommend-card">
+        <div class="icon">🤖</div>
+        <h3>DSA Recommendations</h3>
+        <p>Get curated problems by topic</p>
+    </a>
+
+    <!-- Courses -->
+    <a href="{% url 'courses' %}" class="dashboard-card mock-card">
+        <div class="icon">📚</div>
+        <h3>Courses</h3>
+        <p>Explore available courses</p>
+    </a>
+
+    <!-- ✅ Gossiply Chat (REPLACED CHATBOT) -->
+<a href="https://chatapplication-gossiply.onrender.com/" target="_blank" class="dashboard-card scheduler-card">
+    <div class="icon">💬</div>
+    <h3>Gossiply Chat</h3>
+    <p>Real-time chatting experience</p>
+</a>
+
+<a href="{% url 'specificschedule' %}" class="dashboard-card scheduler-card">
+    <div class="icon">📌</div>
+    <h3>DSA Topic Scheduler</h3>
+    <p>Create plan based on specific topics</p>
+</a>
+
+    <!-- Chatbot -->
+    <a href="{% url 'chatbot' %}" class="dashboard-card scheduler-card">
+        <div class="icon">💬</div>
+        <h3>Chatbot</h3>
+        <p>Ask questions or get guidance</p>
+    </a>
+
+    <!-- Tracker / Progress -->
+    <a href="http://localhost:3000" class="dashboard-card recommend-card">
+        <div class="icon">🎯</div>
+        <h3>Tracker</h3>
+        <p>Track problem-solving streaks</p>
+    </a>
+
+    <a href="{% url 'scheduler_progress' %}" class="dashboard-card scheduler-card">
+        <div class="icon">📈</div>
+        <h3>Progress</h3>
+        <p>Track your study performance</p>
+    </a>
+
+    <!-- Admin -->
+    {% if user.is_superuser %}
+    <a href="/admin/" class="dashboard-card admin-card">
+        <div class="icon">🔧</div>
+        <h3>Admin Panel</h3>
+        <p>Manage users and system settings</p>
+    </a>
+    {% endif %}
+
+  </div>
+</div>
+{% endblock %}
+ {% endcomment %}

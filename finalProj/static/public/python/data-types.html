@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="styles.css">
+  <title>Python Data Types Tutorial with Practice</title>
+  <style>
+    
+textarea#codeArea {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1rem;
+  width: 100%;
+  height: 220px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  resize: vertical;
+  box-sizing: border-box;
+  margin-bottom: 0.7em;
+}
+
+button {
+  background-color: #2980b9;
+  border: none;
+  color: white;
+  padding: 12px 25px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+  display: block;
+  margin-bottom: 1em;
+}
+
+button:hover {
+  background-color: #1c5980;
+}
+
+#output {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  padding: 12px 15px;
+  border-radius: 5px;
+  min-height: 80px;
+  font-family: monospace;
+  white-space: pre-wrap;
+  color: #2c3e50;
+}
+/* Style all textarea elements */
+textarea {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1rem;
+  width: 100%;
+  max-width: 720px;
+  min-height: 100px;
+  padding: 12px 15px;
+  border: 1.5px solid #ccc;
+  border-radius: 6px;
+  resize: vertical;
+  box-sizing: border-box;
+  margin-bottom: 1.2em;
+  background-color: #fff;
+  color: #2c3e50;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  outline-offset: 2px;
+}
+
+textarea:focus {
+  border-color: #2980b9;
+  box-shadow: 0 0 6px #2980b9;
+  background-color: #f0f8ff;
+  outline: none;
+}
+
+  </style>
+</head>
+<body>
+
+  <h1>Python Basics Tutorial</h1>
+
+  <h2>Python Data Types</h2>
+  <p>A <strong>data type</strong> defines what kind of data can be stored in a variable and what operations can be performed on it.</p>
+
+  <p>Python has several built-in data types, including:</p>
+
+  <table border="1" cellpadding="5">
+    <thead>
+      <tr>
+        <th>Category</th>
+        <th>Data Types</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Text Type</td><td><code>str</code></td></tr>
+      <tr><td>Numeric Types</td><td><code>int</code>, <code>float</code>, <code>complex</code></td></tr>
+      <tr><td>Sequence Types</td><td><code>list</code>, <code>tuple</code>, <code>range</code></td></tr>
+      <tr><td>Mapping Type</td><td><code>dict</code></td></tr>
+      <tr><td>Set Types</td><td><code>set</code>, <code>frozenset</code></td></tr>
+      <tr><td>Boolean Type</td><td><code>bool</code></td></tr>
+      <tr><td>Binary Types</td><td><code>bytes</code>, <code>bytearray</code>, <code>memoryview</code></td></tr>
+      <tr><td>None Type</td><td><code>NoneType</code></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Getting the Data Type</h3>
+  <p>Use the <code>type()</code> function to find out the data type of a variable:</p>
+  <pre><code>x = 5
+print(type(x))  # Output: &lt;class 'int'&gt;</code></pre>
+  <label for="practice-type">Try it yourself:</label><br>
+  <textarea id="practice-type" rows="5" cols="60">x = 5
+print(type(x))  # Output: &lt;class 'int'&gt;</textarea>
+<div style="
+  margin: 40px auto;
+  max-width: 800px;
+  width: 90%;
+  aspect-ratio: 16 / 9;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #000;
+">
+  <iframe
+    src="https://www.youtube.com/embed/gCCVsvgR2KU"
+    title="YouTube video player"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen
+    style="width: 100%; height: 100%; border: none; display: block;"
+  ></iframe>
+</div>
+
+  <h3>Setting the Data Type Automatically</h3>
+  <p>Python assigns the data type automatically based on the value:</p>
+  <pre><code>x = "Hello World"       # str
+x = 20                   # int
+x = 20.5                 # float
+x = 1j                   # complex
+x = ["apple", "banana"]  # list
+x = ("apple", "banana")  # tuple
+x = range(6)             # range
+x = {"name": "John"}     # dict
+x = {"apple", "banana"}  # set
+x = frozenset({"apple", "banana"})  # frozenset
+x = True                 # bool
+x = b"Hello"             # bytes
+x = bytearray(5)         # bytearray
+x = memoryview(bytes(5)) # memoryview
+x = None                 # NoneType</code></pre>
+  <label for="practice-auto-type">Try this automatic assignment:</label><br>
+  <textarea id="practice-auto-type" rows="14" cols="60">x = "Hello World"       # str
+x = 20                   # int
+x = 20.5                 # float
+x = 1j                   # complex
+x = ["apple", "banana"]  # list
+x = ("apple", "banana")  # tuple
+x = range(6)             # range
+x = {"name": "John"}     # dict
+x = {"apple", "banana"}  # set
+x = frozenset({"apple", "banana"})  # frozenset
+x = True                 # bool
+x = b"Hello"             # bytes
+x = bytearray(5)         # bytearray
+x = memoryview(bytes(5)) # memoryview
+x = None                 # NoneType</textarea>
+
+  <h3>Explicitly Specifying Data Types</h3>
+  <p>You can also explicitly convert or specify data types using constructors:</p>
+  <pre><code>x = str("Hello World")
+x = int(20)
+x = float(20.5)
+x = complex(1j)
+x = list(("apple", "banana"))
+x = tuple(("apple", "banana"))
+x = range(6)
+x = dict(name="John", age=36)
+x = set(("apple", "banana"))
+x = frozenset(("apple", "banana"))
+x = bool(5)
+x = bytes(5)
+x = bytearray(5)
+x = memoryview(bytes(5))</code></pre>
+  <label for="practice-explicit-type">Try explicit constructors:</label><br>
+  <textarea id="practice-explicit-type" rows="14" cols="60">x = str("Hello World")
+x = int(20)
+x = float(20.5)
+x = complex(1j)
+x = list(("apple", "banana"))
+x = tuple(("apple", "banana"))
+x = range(6)
+x = dict(name="John", age=36)
+x = set(("apple", "banana"))
+x = frozenset(("apple", "banana"))
+x = bool(5)
+x = bytes(5)
+x = bytearray(5)
+x = memoryview(bytes(5))</textarea>
+
+  <hr>
+
+  <h2>Python Numbers</h2>
+  <p>Python supports three numeric types:</p>
+  <ul>
+    <li><code>int</code> — Integer numbers (whole numbers without decimals)</li>
+    <li><code>float</code> — Floating-point numbers (numbers with decimals)</li>
+    <li><code>complex</code> — Complex numbers with real and imaginary parts</li>
+  </ul>
+
+  <p>Example:</p>
+  <pre><code>x = 1       # int
+y = 2.8     # float
+z = 1j      # complex
+
+print(type(x))  # &lt;class 'int'&gt;
+print(type(y))  # &lt;class 'float'&gt;
+print(type(z))  # &lt;class 'complex'&gt;</code></pre>
+  <label for="practice-numbers">Practice number types:</label><br>
+  <textarea id="practice-numbers" rows="6" cols="60">x = 1       # int
+y = 2.8     # float
+z = 1j      # complex
+
+print(type(x))  # &lt;class 'int'&gt;
+print(type(y))  # &lt;class 'float'&gt;
+print(type(z))  # &lt;class 'complex'&gt;</textarea>
+
+  <hr>
+
+  <h2>Python Strings</h2>
+  <p>Strings are sequences of characters, enclosed in single, double, or triple quotes.</p>
+  <p>Example:</p>
+  <pre><code>txt = "Hello, World!"
+print(txt)
+print(type(txt))</code></pre>
+  <label for="practice-strings">Try strings here:</label><br>
+  <textarea id="practice-strings" rows="4" cols="60">txt = "Hello, World!"
+print(txt)
+print(type(txt))</textarea>
+
+  <hr>
+
+  <h2>Python Lists</h2>
+  <p>Lists are ordered, mutable collections of items, enclosed in square brackets.</p>
+  <p>Example:</p>
+  <pre><code>thislist = ["apple", "banana", "cherry"]
+print(thislist)
+print(type(thislist))</code></pre>
+  <label for="practice-lists">Practice lists here:</label><br>
+  <textarea id="practice-lists" rows="4" cols="60">thislist = ["apple", "banana", "cherry"]
+print(thislist)
+print(type(thislist))</textarea>
+
+</body>
+</html>

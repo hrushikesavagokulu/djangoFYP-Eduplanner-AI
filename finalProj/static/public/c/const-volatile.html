@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Const Volatile Qualifiers in C</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 900px;
+      margin: 30px auto;
+      line-height: 1.6;
+      color: #222;
+      padding: 0 20px;
+      background: #f9f9f9;
+    }
+    h1, h2, h3 {
+      color: #005a9c;
+    }
+    pre {
+      background: #272822;
+      color: #f8f8f2;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 1rem;
+    }
+    code {
+      font-family: Consolas, monospace;
+      background: #eee;
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: #c7254e;
+    }
+    .note {
+      background: #fff3cd;
+      border-left: 6px solid #ffeeba;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #856404;
+    }
+    .warning {
+      background: #f8d7da;
+      border-left: 6px solid #f5c6cb;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #721c24;
+    }
+    ul {
+      margin-left: 20px;
+    }
+    a {
+      color: #005a9c;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      margin-top: 40px;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<h1>Const and Volatile Qualifiers in C</h1>
+
+<p>The <code>const</code> and <code>volatile</code> keywords are type qualifiers in C that modify the behavior of variables in different ways.</p>
+
+<h2>The <code>const</code> Qualifier</h2>
+
+<p>The <code>const</code> qualifier indicates that a variable’s value cannot be changed after initialization.</p>
+
+<ul>
+  <li>Trying to modify a <code>const</code> variable results in a compile-time error.</li>
+  <li>It provides safety by preventing accidental modification.</li>
+  <li>It allows the compiler to optimize the code better.</li>
+</ul>
+
+<h3>Example:</h3>
+<pre><code>const int maxUsers = 100;
+maxUsers = 200;  // Error: assignment of read-only variable</code></pre>
+
+<h2>The <code>volatile</code> Qualifier</h2>
+
+<p>The <code>volatile</code> qualifier tells the compiler that the value of a variable can change at any time without any action by the code itself. This is common in:</p>
+
+<ul>
+  <li>Hardware registers in embedded programming</li>
+  <li>Variables modified by interrupts or signal handlers</li>
+  <li>Variables shared between multiple threads</li>
+</ul>
+
+<p>Without <code>volatile</code>, the compiler might optimize access to the variable by caching it in a register and not rereading it, which could cause incorrect behavior.</p>
+
+<h3>Example:</h3>
+<pre><code>volatile int flag = 0;
+
+// Some other thread or hardware changes flag asynchronously
+while(flag == 0) {
+  // wait until flag changes
+}</code></pre>
+
+<h2>Combining <code>const</code> and <code>volatile</code></h2>
+
+<p>Sometimes a variable can be both <code>const</code> and <code>volatile</code>. This means the program itself should not modify it, but the value can change unexpectedly from outside the program's control (e.g., hardware registers).</p>
+
+<pre><code>const volatile int statusRegister = 0x4000;</code></pre>
+
+<h2>Summary</h2>
+
+<table border="1" cellpadding="8" cellspacing="0" style="border-collapse: collapse; width: 100%;">
+  <thead>
+    <tr style="background-color: #005a9c; color: white;">
+      <th>Qualifier</th>
+      <th>Purpose</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>const</code></td>
+      <td>Prevent modification of variable after initialization</td>
+      <td><code>const int x = 10;</code></td>
+    </tr>
+    <tr>
+      <td><code>volatile</code></td>
+      <td>Prevent compiler optimization of variable access; value may change asynchronously</td>
+      <td><code>volatile int flag;</code></td>
+    </tr>
+    <tr>
+      <td><code>const volatile</code></td>
+      <td>Variable not modified by program but can change unexpectedly</td>
+      <td><code>const volatile int reg;</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<footer>
+  &copy; 2025 Your C Programming Course
+</footer>
+
+</body>
+</html>

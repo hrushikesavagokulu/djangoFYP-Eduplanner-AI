@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Testing your Express.js Backend Server</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <h1>Testing your Express.js Backend Server</h1>
+
+  <p>
+    Recently, I have been learning about Node.js and building a backend API server with Express. Express.js allows you to use the MVC pattern 
+    (similar to Ruby on Rails) for building RESTful CRUD APIs — a great learning transition.
+  </p>
+
+  <p>
+    To verify that the CRUD functionality works properly, it’s essential to test your routes. This guide explains how to test your Express backend API 
+    using the <strong>Jest</strong> testing framework along with the <strong>SuperTest</strong> library.
+  </p>
+
+  <hr />
+
+  <h2>Sample Express Server</h2>
+  <p>Here is a simple Express server with two GET endpoints. This will be the server we test:</p>
+
+  <pre><code class="language-javascript">
+// server.js
+import express from 'express';
+const app = express();
+
+app.get('/users', function(req, res) {
+  res.json({ users: 'allUsers' });
+
+  // Real app example (commented):
+  // model.User.findAll().then(users => {
+  //   res.status(200).json({ users });
+  // }).catch(error => {
+  //   console.error(error);
+  //   res.status(500).send(error);
+  // });
+});
+
+app.get('/users/3', function(req, res) {
+  res.json({ user: 'user3' });
+
+  // Real app example (commented):
+  // const { id } = req.params;
+  // model.User.findOne({ where: { id: Number(id) } }).then(user => {
+  //   res.status(200).json({ user });
+  // }).catch(error => {
+  //   console.error(error);
+  //   res.status(500).send(error);
+  // });
+});
+
+export const server = app;
+  </code></pre>
+
+  <hr />
+
+  <h2>Setting Up Jest & SuperTest</h2>
+  <p>To test the Express server, follow these steps:</p>
+
+  <h3>1. Install Dependencies</h3>
+  <pre><code>npm install --save-dev jest supertest cross-env</code></pre>
+
+  <h3>2. Configure Testing Scripts</h3>
+  <p>Add the following scripts to your <code>package.json</code> to manage migrations and run tests:</p>
+
+  <pre><code class="json">
+"scripts": {
+  "test": "cross-env NODE_ENV=test jest --testTimeout=10000",
+  "pretest": "cross-env NODE_ENV=test npm run migrate:reset",
+  "migrate:reset": "npx sequelize-cli db:migrate:undo:all && npm run migrate",
+  "migrate": "npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all"
+}
+  </code></pre>
+
+  <h3>3. Jest Configuration</h3>
+  <p>Make sure Jest ignores <code>node_modules</code> and uses the Node environment. Add this to <code>package.json</code>:</p>
+
+  <pre><code class="json">
+"jest": {
+  "testEnvironment": "node",
+  "coveragePathIgnorePatterns": [
+    "/node_modules/"
+  ]
+}
+  </code></pre>
+
+  <hr />
+
+  <h2>Writing Tests</h2>
+  <p>Create a new file <code>test.js</code> and add the following test code to verify your GET routes:</p>
+
+  <pre><code class="language-javascript">
+// test.js
+
+const server = require('../server.js');  // Adjust path to your server file
+const supertest = require('supertest');
+const request = supertest(server);
+
+describe('User Endpoints', () => {
+
+  it('GET /users should show all users', async () => {
+    const res = await request.get('/users');
+    expect(res.status).toEqual(200);
+    expect(res.type).toEqual(expect.stringContaining('json'));
+    expect(res.body).toHaveProperty('users');
+  });
+
+  it('GET /users/3 should show a user', async () => {
+    const res = await request.get('/users/3');
+    expect(res.statusCode).toEqual(200);
+    expect(res.body).toHaveProperty('user');
+  });
+
+});
+  </code></pre>
+
+  <p>Explanation:</p>
+  <ul>
+    <li>We import the server and SuperTest.</li>
+    <li>Use <code>request.get()</code> to call endpoints.</li>
+    <li>Check for status code <code>200</code>, JSON content type, and expected properties in the response body.</li>
+  </ul>
+
+  <hr />
+
+  <h2>Running the Tests</h2>
+  <p>Simply run this command in your terminal:</p>
+  <pre><code>npm test</code></pre>
+  <p>If everything is set up correctly, you should see the tests pass successfully.</p>
+
+  <hr />
+
+  <h2>Conclusion</h2>
+  <p>
+    You now have the basics to test your Express.js backend API routes using Jest and SuperTest. Testing ensures your API behaves as expected and helps catch bugs early.
+  </p>
+  <p>
+    For more learning, consider these resources:<br />
+    - Node.js REST APIs example with Express, Sequelize & MySQL by bezkoder<br />
+    - Building an Express API with Sequelize CLI and Unit Testing by Bruno Galvao<br />
+    - How to test your Express.js backend with Jest and Supertest by Coderslang<br />
+    - Hopscotch.io - a tool to send server requests and see responses visually
+  </p>
+
+  <footer>
+    &copy; 2025 Your Node.js Learning Series
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Introduction to Pandas for Data Manipulation</title>
+  <style>
+    /* Add any small style overrides here if needed */
+  </style>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<h1>Introduction to Pandas for Data Manipulation</h1>
+
+<p><strong>Pandas</strong> is a popular Python library designed for efficient data manipulation and analysis. It provides powerful data structures like <code>Series</code> and <code>DataFrame</code> to work with labeled and relational data in a flexible way.</p>
+
+<h2>Why Use Pandas?</h2>
+<ul>
+  <li>Handle missing data gracefully.</li>
+  <li>Powerful, easy-to-use data structures.</li>
+  <li>Efficient slicing, indexing, and subsetting of data.</li>
+  <li>Data alignment and integrated handling of time series data.</li>
+  <li>Read/write support for a wide variety of file formats like CSV, Excel, JSON, SQL, and more.</li>
+</ul>
+
+<h2>Key Data Structures</h2>
+
+<h3>1. Series</h3>
+<p>A one-dimensional labeled array capable of holding any data type.</p>
+<pre><code>import pandas as pd
+
+# Create a Series from a list
+s = pd.Series([10, 20, 30, 40])
+print(s)
+</code></pre>
+
+<h3>Output:</h3>
+<pre><code>0    10
+1    20
+2    30
+3    40
+dtype: int64
+</code></pre>
+
+<h3>2. DataFrame</h3>
+<p>A two-dimensional labeled data structure with columns of potentially different types.</p>
+<pre><code>import pandas as pd
+
+# Create a DataFrame from a dictionary
+data = {
+  'Name': ['Alice', 'Bob', 'Charlie'],
+  'Age': [25, 30, 35],
+  'City': ['New York', 'Los Angeles', 'Chicago']
+}
+
+df = pd.DataFrame(data)
+print(df)
+</code></pre>
+
+<h3>Output:</h3>
+<pre><code>      Name  Age         City
+0    Alice   25     New York
+1      Bob   30  Los Angeles
+2  Charlie   35      Chicago
+</code></pre>
+
+<h2>Basic Operations</h2>
+
+<ul>
+  <li><code>df.head()</code> - Displays the first 5 rows.</li>
+  <li><code>df.info()</code> - Shows summary info about the DataFrame.</li>
+  <li><code>df.describe()</code> - Generates descriptive statistics.</li>
+  <li><code>df['column_name']</code> - Access a single column as a Series.</li>
+  <li><code>df[['col1', 'col2']]</code> - Access multiple columns as a DataFrame.</li>
+</ul>
+
+<h2>Reading and Writing Data</h2>
+<p>Pandas supports loading data from and saving data to many file formats:</p>
+
+<pre><code># Read data from CSV
+df = pd.read_csv('data.csv')
+
+# Write data to Excel
+df.to_excel('output.xlsx', index=False)
+</code></pre>
+
+<h2>Summary</h2>
+<p>Pandas simplifies data manipulation tasks and is widely used in data analysis, data science, and machine learning workflows. Understanding the basics of Pandas is essential for effective data handling in Python.</p>
+
+<div class="note">
+  <strong>Note:</strong> Visit the <a href="https://pandas.pydata.org/docs/">official Pandas documentation</a> for more advanced features and examples.
+</div>
+
+<footer>
+  &copy; 2025 Your Python Pandas Course
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Python for Loop - devHive Tutorial</title>
+  <style>
+    /* (Your full CSS pasted here exactly as shared) */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f4f7fa;
+      color: #2c3e50;
+      margin: 20px auto;
+      max-width: 900px;
+      line-height: 1.7;
+      padding: 0 15px;
+    }
+
+    h1 {
+      font-weight: 700;
+      color: #1abc9c;
+      text-align: center;
+      margin-bottom: 30px;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      color: #34495e;
+      margin-top: 40px;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #1abc9c;
+      padding-bottom: 6px;
+      font-weight: 600;
+    }
+
+    p {
+      font-size: 17px;
+      margin-bottom: 18px;
+      color: #34495e;
+    }
+
+    code {
+      background: #ecf0f1;
+      padding: 3px 7px;
+      border-radius: 5px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 16px;
+      color: #e74c3c;
+    }
+
+    pre {
+      background: #ecf0f1;
+      padding: 15px 20px;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin-bottom: 25px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 16px;
+      line-height: 1.5;
+      box-shadow: inset 0 0 5px rgba(0,0,0,0.05);
+    }
+
+    .highlight {
+      background-color: #dff9fb;
+      border-left: 5px solid #1abc9c;
+      padding: 18px 25px;
+      margin: 40px 0;
+      border-radius: 8px;
+      color: #16a085;
+      font-weight: 600;
+      font-size: 18px;
+    }
+
+    .exercise {
+      background: #dfe6e9;
+      border-left: 5px solid #0984e3;
+      padding: 20px 25px;
+      margin-top: 50px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .exercise h3 {
+      margin-top: 0;
+      color: #0984e3;
+      font-weight: 700;
+      font-size: 22px;
+      letter-spacing: 0.8px;
+    }
+
+    .exercise p {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: #2d3436;
+    }
+
+    .exercise label {
+      display: block;
+      margin-bottom: 12px;
+      font-size: 17px;
+      cursor: pointer;
+      user-select: none;
+      color: #2d3436;
+      transition: color 0.3s ease;
+    }
+
+    .exercise label:hover {
+      color: #0984e3;
+    }
+
+    .exercise input[type="radio"] {
+      margin-right: 10px;
+      transform: scale(1.2);
+      cursor: pointer;
+    }
+
+    .try-it {
+      margin-top: 35px;
+      border: 2px solid #1abc9c;
+      border-radius: 10px;
+      background: #e8f6f3;
+      padding: 15px 20px;
+      box-shadow: 0 5px 10px rgb(26 188 156 / 0.2);
+    }
+
+    textarea.code-input {
+      width: 100%;
+      height: 130px;
+      font-family: monospace;
+      font-size: 16px;
+      border: 2px solid #1abc9c;
+      border-radius: 6px;
+      padding: 12px;
+      resize: vertical;
+      background: #f0fcfb;
+      color: #222;
+    }
+
+    button.run-btn {
+      margin-top: 10px;
+      background-color: #1abc9c;
+      border: none;
+      color: white;
+      font-weight: 700;
+      padding: 10px 18px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+
+    button.run-btn:hover {
+      background-color: #16a085;
+    }
+
+    .output {
+      margin-top: 15px;
+      background: #fff;
+      padding: 12px 18px;
+      border-radius: 8px;
+      border: 2px solid #16a085;
+      min-height: 40px;
+      font-family: monospace;
+      font-size: 15px;
+      white-space: pre-wrap;
+      color: #34495e;
+    }
+
+    .error {
+      color: #e74c3c;
+      font-weight: 700;
+    }
+
+    .hint {
+      font-size: 14px;
+      color: #7f8c8d;
+      margin-top: 5px;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head><body>
+  <h1>Python <code>for</code> Loop</h1>
+
+  <p>Welcome to <strong>devHive</strong>! In this tutorial, you’ll explore how <code>for</code> loops help you repeat tasks in Python efficiently. Loops are essential for automating repetitive tasks, saving time and reducing errors.</p>
+
+  <h2>1. What is a <code>for</code> Loop?</h2>
+  <p>A <code>for</code> loop allows you to iterate over sequences such as lists, tuples, strings, or ranges. This means you can execute a block of code multiple times, once for each item in the sequence.</p>
+  <p>For example, you can loop over each element in a list, or count through a range of numbers.</p>
+
+  <h2>2. Basic Syntax</h2>
+  <pre><code>for variable in sequence:
+    # code to repeat
+</code></pre>
+  <p>Here, <code>variable</code> takes the value of each item in the <code>sequence</code>, one by one, and runs the indented code block for each.</p>
+
+  <div class="try-it">
+    <textarea class="code-input" id="code1">
+for i in range(3):
+    print("Hi!")
+    </textarea>
+    <button class="run-btn" onclick="runCode('code1', 'output1')">Run Code</button>
+    <pre class="output" id="output1"></pre>
+  </div>
+<div style="
+  margin: 40px auto;
+  max-width: 800px;
+  width: 90%;
+  aspect-ratio: 16 / 9;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #000;
+">
+  <iframe
+    src="https://www.youtube.com/embed/HZARImviDxg"
+    title="YouTube video player"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen
+    style="width: 100%; height: 100%; border: none; display: block;"
+  ></iframe>
+</div>
+
+  <h2>3. Looping Through a List</h2>
+  <p>Lists are collections of items. You can use a <code>for</code> loop to access each item in the list one at a time.</p>
+  <pre><code>names = ["Alice", "Bob", "Charlie"]
+for name in names:
+    print(name)
+</code></pre>
+  <p>In this example, the loop prints every name stored in the <code>names</code> list.</p>
+
+  <div class="try-it">
+    <textarea class="code-input" id="code2">
+names = ["Alice", "Bob", "Charlie"]
+for name in names:
+    print(name)
+    </textarea>
+    <button class="run-btn" onclick="runCode('code2', 'output2')">Run Code</button>
+    <pre class="output" id="output2"></pre>
+  </div>
+
+  <h2>4. Using the <code>range()</code> Function</h2>
+  <p>The <code>range()</code> function generates a sequence of numbers, which is useful when you want to repeat something a specific number of times.</p>
+  <pre><code>for i in range(5):
+    print(i)
+</code></pre>
+  <p>This loop prints numbers from 0 to 4. Notice that <code>range(5)</code> generates numbers starting at 0 up to, but not including, 5.</p>
+
+  <h2>5. Looping Through Strings</h2>
+  <p>You can loop over every character in a string.</p>
+  <pre><code>for letter in "Python":
+    print(letter)
+</code></pre>
+  <p>This prints each letter of the word <code>Python</code> on a new line.</p>
+
+  <h2>6. Nested Loops</h2>
+  <p>Sometimes, you need loops inside loops. These are called <em>nested loops</em>. They are useful for working with grids, tables, or more complex data structures.</p>
+  <pre><code>for i in range(1, 4):
+    for j in range(1, 4):
+        print(i, "*", j, "=", i * j)
+</code></pre>
+  <p>This code prints a small multiplication table from 1 to 3.</p>
+
+  <h2>7. Using <code>break</code> and <code>continue</code></h2>
+  <p>You can control the flow of a loop with these two statements:</p>
+  <ul>
+    <li><code>break</code> immediately stops the loop.</li>
+    <li><code>continue</code> skips the current iteration and moves to the next one.</li>
+  </ul>
+  <pre><code>for i in range(10):
+    if i == 5:
+        break  # stops loop when i is 5
+    print(i)
+</code></pre>
+  <pre><code>for i in range(5):
+    if i == 2:
+        continue  # skip printing when i is 2
+    print(i)
+</code></pre>
+
+  <div class="highlight">
+    <strong>Tip:</strong> Use <code>enumerate()</code> when you want both the index and the value while looping!
+    <br>
+    Example: <code>for index, value in enumerate(sequence):</code>
+  </div>
+
+  <h2>8. Practice Code Area</h2>
+  <div class="try-it">
+    <textarea class="code-input" id="code3">
+for i in range(1, 6):
+    print("Number:", i)
+    </textarea>
+    <button class="run-btn" onclick="runCode('code3', 'output3')">Run Code</button>
+    <pre class="output" id="output3"></pre>
+  </div>
+
+  <h2>9. Practical Examples</h2>
+
+  <h3>Print Even Numbers from 1 to 10</h3>
+  <p>This example uses the modulo operator <code>%</code> to check if a number is even.</p>
+  <pre><code>for i in range(1, 11):
+    if i % 2 == 0:
+        print(i)
+</code></pre>
+
+  <h3>Loop Over a Dictionary</h3>
+  <p>Dictionaries store key-value pairs. Looping over a dictionary lets you access keys and their corresponding values.</p>
+  <pre><code>info = {"name": "Alice", "age": 25}
+for key in info:
+    print(key, "=>", info[key])
+</code></pre>
+
+  <h3>Reverse a String</h3>
+  <p>This example shows how to build a reversed version of a string by prepending characters inside a loop.</p>
+  <pre><code>text = "hello"
+reversed_text = ""
+for char in text:
+    reversed_text = char + reversed_text
+print(reversed_text)
+</code></pre>
+
+  <div class="exercise">
+    <h3>Exercise</h3>
+    <p>What’s the correct way to print squares of numbers from 1 to 10?</p>
+    <label><input type="radio" name="q1" /> Use <code>range()</code> for number generation.</label>
+    <label><input type="radio" name="q1" /> Use <code>print(i * i)</code> inside the loop.</label>
+    <label><input type="radio" name="q1" /> Nested loops are required.</label>
+  </div>
+
+  <script>
+    function runCode(inputId, outputId) {
+      const code = document.getElementById(inputId).value;
+      const outputArea = document.getElementById(outputId);
+      outputArea.textContent = "Running...";
+      if (code.includes("range(1, 6)")) {
+        outputArea.textContent = "Number: 1\nNumber: 2\nNumber: 3\nNumber: 4\nNumber: 5";
+      } else if (code.includes("range(3)")) {
+        outputArea.textContent = "Hi!\nHi!\nHi!";
+      } else if (code.includes("names =")) {
+        outputArea.textContent = "Alice\nBob\nCharlie";
+      } else {
+        outputArea.textContent = "Output simulation not available for this input.";
+      }
+    }
+  </script>
+</body>
+</html>

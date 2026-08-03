@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Java - Exceptions</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8f9fa;
+      color: #2d3436;
+      padding: 30px;
+      max-width: 960px;
+      margin: auto;
+      line-height: 1.8;
+    }
+    h1 {
+      color: #0984e3;
+      text-align: center;
+    }
+    h2 {
+      color: #2d3436;
+      margin-top: 30px;
+    }
+    pre {
+      background: #f0f0f0;
+      padding: 12px;
+      border-left: 5px solid #74b9ff;
+      overflow-x: auto;
+    }
+    code {
+      font-family: Consolas, monospace;
+    }
+    .highlight {
+      background: #ffeaa7;
+      padding: 15px;
+      border-left: 5px solid #fdcb6e;
+      margin: 20px 0;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <h1>Java - Exceptions</h1>
+
+  <p>
+    In Java, an <strong>exception</strong> is an event that disrupts the normal flow of the program's instructions. It is an object which is thrown at runtime when an abnormal situation arises, such as accessing a null object, dividing by zero, or trying to open a file that doesn't exist.
+  </p>
+
+  <h2>Why Use Exceptions?</h2>
+  <ul>
+    <li>To handle runtime errors gracefully without crashing the program.</li>
+    <li>To separate error handling code from regular logic.</li>
+    <li>To provide meaningful messages when an error occurs.</li>
+  </ul>
+
+  <h2>Common Exception Types</h2>
+  <ul>
+    <li><code>ArithmeticException</code> – division by zero</li>
+    <li><code>NullPointerException</code> – accessing members on a null object</li>
+    <li><code>ArrayIndexOutOfBoundsException</code> – accessing invalid array index</li>
+    <li><code>NumberFormatException</code> – parsing invalid strings to numbers</li>
+    <li><code>FileNotFoundException</code> – file not found on disk</li>
+  </ul>
+
+  <h2>Exception Hierarchy</h2>
+  <p>
+    All exception classes are subclasses of the <code>Throwable</code> class. The main subclasses are:
+  </p>
+  <ul>
+    <li><code>Error</code> – serious issues like memory overflow (not meant to be caught)</li>
+    <li><code>Exception</code> – problems that can be caught and handled</li>
+  </ul>
+
+  <h2>Syntax: try-catch block</h2>
+  <pre><code>try {
+  // risky code
+} catch (ExceptionType name) {
+  // handling code
+}</code></pre>
+
+  <h2>Example 1: Handling Division by Zero</h2>
+  <pre><code>int a = 10;
+int b = 0;
+try {
+  int result = a / b;
+} catch (ArithmeticException e) {
+  System.out.println("Cannot divide by zero!");
+}</code></pre>
+
+  <div class="highlight">Output:<br>Cannot divide by zero!</div>
+
+  <h2>Multiple Catch Blocks</h2>
+  <pre><code>try {
+  String str = null;
+  System.out.println(str.length());
+} catch (NullPointerException e) {
+  System.out.println("Null pointer error!");
+} catch (Exception e) {
+  System.out.println("General exception caught.");
+}</code></pre>
+
+  <h2>Finally Block</h2>
+  <p>The <code>finally</code> block always executes after try and catch, even if an exception is not thrown.</p>
+  <pre><code>try {
+  int[] arr = new int[3];
+  arr[5] = 10;
+} catch (ArrayIndexOutOfBoundsException e) {
+  System.out.println("Array index error.");
+} finally {
+  System.out.println("This block always runs.");
+}</code></pre>
+
+  <div class="highlight">Output:<br>Array index error.<br>This block always runs.</div>
+
+  <h2>Throwing Exceptions Manually</h2>
+  <pre><code>throw new IllegalArgumentException("Invalid input");</code></pre>
+
+  <h2>Throws Keyword</h2>
+  <p>Used in method declaration to specify that a method might throw an exception.</p>
+  <pre><code>public void readFile(String filename) throws IOException {
+  // file reading logic
+}</code></pre>
+
+  <h2>Creating Custom Exceptions</h2>
+  <pre><code>class MyException extends Exception {
+  public MyException(String message) {
+    super(message);
+  }
+}</code></pre>
+
+  <p>Usage:</p>
+  <pre><code>if (age &lt; 0) {
+  throw new MyException("Age cannot be negative");
+}</code></pre>
+
+  <h2>Best Practices</h2>
+  <ul>
+    <li>Always catch the most specific exceptions first.</li>
+    <li>Never suppress exceptions silently (e.g., empty catch blocks).</li>
+    <li>Use custom exceptions for meaningful domain-specific error handling.</li>
+    <li>Log exceptions when needed, especially on the server side.</li>
+    <li>Don’t overuse checked exceptions—use them only when recovery is possible.</li>
+  </ul>
+
+  <h2>Conclusion</h2>
+  <p>
+    Java’s exception handling mechanism is powerful and allows developers to build robust applications that can detect, handle, and recover from runtime errors. Proper use of try-catch-finally and custom exceptions can significantly improve application reliability and maintainability.
+  </p>
+
+</body>
+</html>

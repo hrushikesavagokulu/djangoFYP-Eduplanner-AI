@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Function Pointers</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 900px;
+      margin: 30px auto;
+      line-height: 1.6;
+      color: #222;
+      padding: 0 20px;
+      background: #f9f9f9;
+    }
+    h1, h2, h3 {
+      color: #005a9c;
+    }
+    pre {
+      background: #272822;
+      color: #f8f8f2;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 1rem;
+    }
+    code {
+      font-family: Consolas, monospace;
+      background: #eee;
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: #c7254e;
+    }
+    .note {
+      background: #fff3cd;
+      border-left: 6px solid #ffeeba;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #856404;
+    }
+    .warning {
+      background: #f8d7da;
+      border-left: 6px solid #f5c6cb;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #721c24;
+    }
+    ul {
+      margin-left: 20px;
+    }
+    a {
+      color: #005a9c;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      margin-top: 40px;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<h1>Function Pointers</h1>
+
+<p>Function pointers in C are pointers that point to the address of a function, allowing you to store and call functions dynamically. They are useful for callback mechanisms, implementing function tables, and writing flexible APIs.</p>
+
+<h2>Declaring a Function Pointer</h2>
+<p>The syntax for declaring a function pointer:</p>
+<pre><code>return_type (*pointer_name)(parameter_types);
+</code></pre>
+
+<h2>Example</h2>
+<pre><code>int add(int a, int b) {
+    return a + b;
+}
+
+// Declare a function pointer that points to a function taking two ints and returning int
+int (*func_ptr)(int, int);
+
+// Assign address of add to the function pointer
+func_ptr = &add;
+
+// Call the function via the pointer
+int result = func_ptr(5, 3);  // result = 8
+</code></pre>
+
+<h2>Using Function Pointers as Callbacks</h2>
+<p>You can pass function pointers as arguments to other functions to implement callbacks:</p>
+<pre><code>void greet(void (*printer)(const char *)) {
+    printer("Hello from greet!");
+}
+
+void printToConsole(const char *msg) {
+    printf("%s\n", msg);
+}
+
+int main() {
+    greet(printToConsole);  // pass function pointer as argument
+    return 0;
+}
+</code></pre>
+
+<h2>Why Use Function Pointers?</h2>
+<ul>
+  <li>To invoke different functions dynamically at runtime.</li>
+  <li>Implement callback functions in libraries and APIs.</li>
+  <li>Create tables of functions (like jump tables or dispatch tables).</li>
+</ul>
+
+<div class="note">
+  <strong>Note:</strong> When assigning a function to a function pointer, the <code>&</code> operator is optional. Similarly, when calling through the pointer, parentheses are necessary: <code>func_ptr(args)</code>.
+</div>
+
+<footer>
+  &copy; 2025 Your C Programming Course
+</footer>
+
+
+</body>
+</html>

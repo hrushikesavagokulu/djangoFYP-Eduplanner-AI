@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>DevHive - While Loop in Python</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <h1>While Loop - DevHive (Python)</h1>
+
+  <p>The <code>while</code> loop is a fundamental control structure in Python. It runs a block of code <strong>repeatedly</strong> as long as the given condition is <code>True</code>. It's useful when you don't know in advance how many times the loop should run.</p>
+
+  <div class="highlight">
+    Think of it as: “Keep executing this block <em>while</em> the condition holds true.”
+  </div>
+
+  <h2>Syntax</h2>
+  <pre><code>while condition:
+    # block of code
+</code></pre>
+
+  <p><strong>Explanation:</strong></p>
+  <ul>
+    <li><code>condition</code> is evaluated <strong>before</strong> each loop iteration.</li>
+    <li>If it's <code>True</code>, the indented block runs.</li>
+    <li>If it's <code>False</code>, the loop exits.</li>
+  </ul>
+
+  <h2>Visual Flow</h2>
+  <p>1. Check condition → 2. If true, run code → 3. Repeat → 4. Exit when false.</p>
+
+  <h2>Example 1: Print numbers from 1 to 5</h2>
+  <pre><code>i = 1
+while i <= 5:
+    print(i)
+    i += 1
+</code></pre>
+
+  <div class="try-it">
+    <h3>Try it Yourself</h3>
+    <textarea class="code-input" id="codeArea1">i = 1
+while i <= 5:
+    print(i)
+    i += 1</textarea>
+    <button class="run-btn" onclick="runCode('codeArea1', 'output1')">Run Code</button>
+    <div class="output" id="output1"></div>
+  </div>
+
+  <h2>Example 2: Countdown from 10 to 1</h2>
+  <pre><code>num = 10
+while num > 0:
+    print(num)
+    num -= 1
+</code></pre>
+
+  <div class="try-it">
+    <h3>Practice Code</h3>
+    <textarea class="code-input" id="codeArea2">num = 10
+while num > 0:
+    print(num)
+    num -= 1</textarea>
+    <button class="run-btn" onclick="runCode('codeArea2', 'output2')">Run Code</button>
+    <div class="output" id="output2"></div>
+  </div>
+
+  <h2>Common Mistake: Infinite Loop</h2>
+  <p>If the condition never turns <code>False</code>, the loop will run forever.</p>
+  <pre><code>while True:
+    print("This will never stop!")</code></pre>
+
+  <div class="highlight">
+    Always make sure your loop has a clear <strong>exit condition</strong>.
+  </div>
+
+  <div class="exercise">
+    <h3>Exercise 1</h3>
+    <p>Use a <code>while</code> loop to print even numbers from 2 to 10.</p>
+  </div>
+
+  <div class="try-it">
+    <h3>Try it Yourself</h3>
+    <textarea class="code-input" id="codeArea3">i = 2
+while i <= 10:
+    print(i)
+    i += 2</textarea>
+    <button class="run-btn" onclick="runCode('codeArea3', 'output3')">Run Code</button>
+    <div class="output" id="output3"></div>
+  </div>
+
+  <div class="exercise">
+    <h3>Exercise 2</h3>
+    <p>Write a <code>while</code> loop that keeps asking for a number until the user enters 0.</p>
+  </div>
+
+  <div class="try-it">
+    <h3>Try it Yourself</h3>
+    <textarea class="code-input" id="codeArea4"># Try in a real Python terminal
+# Uncomment when using actual Python
+# num = int(input("Enter a number: "))
+# while num != 0:
+#     print("You entered:", num)
+#     num = int(input("Enter a number: "))</textarea>
+    <button class="run-btn" onclick="runCode('codeArea4', 'output4')">Run Code</button>
+    <div class="output" id="output4"></div>
+  </div>
+
+  <script>
+    function runCode(codeId, outputId) {
+      const code = document.getElementById(codeId).value;
+      const outputElement = document.getElementById(outputId);
+      outputElement.innerHTML = '';
+
+      try {
+        const originalLog = console.log;
+        const logs = [];
+        console.log = (...args) => logs.push(args.join(' '));
+        pyodide.runPythonAsync(code).then(result => {
+          outputElement.innerText = logs.join('\n');
+          console.log = originalLog;
+        }).catch(err => {
+          outputElement.innerHTML = "<span class='error'>Error: " + err.message + "</span>";
+        });
+      } catch (e) {
+        outputElement.innerHTML = "<span class='error'>Error: " + e.message + "</span>";
+      }
+    }
+  </script>
+
+  <!-- Include Pyodide for Python code execution in-browser -->
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.21.3/full/pyodide.js"></script>
+  <script>
+    async function main() {
+      window.pyodide = await loadPyodide();
+    }
+    main();
+  </script>
+<script>
+  async function runCode(codeId, outputId) {
+    const code = document.getElementById(codeId).value;
+    const outputElement = document.getElementById(outputId);
+    outputElement.innerHTML = '';
+
+    const wrappedCode = `
+import sys
+from io import StringIO
+output_buffer = StringIO()
+sys.stdout = output_buffer
+
+try:
+${code.split('\n').map(line => '  ' + line).join('\n')}
+except Exception as e:
+  print("Error:", e)
+
+sys.stdout = sys.__stdout__
+output_buffer.getvalue()
+`;
+
+    try {
+      const result = await pyodide.runPythonAsync(wrappedCode);
+      outputElement.innerText = result;
+    } catch (e) {
+      outputElement.innerHTML = "<span class='error'>Error: " + e.message + "</span>";
+    }
+  }
+</script>
+
+</body>
+</html>

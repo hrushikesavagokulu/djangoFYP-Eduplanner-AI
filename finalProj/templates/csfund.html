@@ -1,0 +1,1052 @@
+
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+
+/* GLOBAL */
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:Inter, sans-serif;
+background:#0f172a;
+color:white;
+}
+
+/* LAYOUT */
+
+.container{
+display:flex;
+height:90vh;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+width:260px;
+background:#020617;
+padding:20px;
+border-right:1px solid #1e293b;
+overflow-y:auto;
+}
+
+.sidebar h3{
+font-size:18px;
+margin-bottom:20px;
+}
+
+.plan-item{
+background:#1e293b;
+padding:12px;
+border-radius:10px;
+margin-bottom:10px;
+cursor:pointer;
+display:flex;
+justify-content:space-between;
+align-items:center;
+transition:0.2s;
+}
+
+.plan-item:hover{
+background:#334155;
+}
+
+.plan-title{
+font-size:14px;
+}
+
+.delete-btn{
+background:none;
+border:none;
+color:#ef4444;
+font-size:16px;
+cursor:pointer;
+}
+
+/* MAIN */
+
+.main{
+flex:1;
+padding:25px;
+overflow-y:auto;
+}
+
+/* HEADER */
+
+.header{
+display:flex;
+gap:10px;
+margin-bottom:20px;
+}
+
+.header input{
+padding:10px;
+border-radius:8px;
+border:none;
+outline:none;
+background:#1e293b;
+color:white;
+}
+
+.header button{
+background:#6366f1;
+border:none;
+padding:10px 18px;
+border-radius:8px;
+cursor:pointer;
+font-weight:600;
+}
+
+.header button:hover{
+background:#4f46e5;
+}
+
+/* DAY CARD */
+
+.day-card{
+background:#1e293b;
+padding:20px;
+border-radius:12px;
+margin-bottom:18px;
+box-shadow:0 6px 20px rgba(0,0,0,.3);
+}
+
+.day-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:10px;
+}
+
+.day-header h3{
+color:#38bdf8;
+}
+
+/* CONTENT */
+
+.day-body{
+font-size:14px;
+line-height:1.6;
+}
+
+.section-title{
+margin-top:12px;
+margin-bottom:6px;
+color:#60a5fa;
+font-weight:600;
+}
+
+.list{
+padding-left:18px;
+margin-bottom:8px;
+}
+
+.resource-link{
+color:#22d3ee;
+text-decoration:none;
+}
+
+.resource-link:hover{
+text-decoration:underline;
+}
+
+/* BUTTON */
+
+.complete-btn{
+border:none;
+padding:6px 12px;
+border-radius:6px;
+cursor:pointer;
+}
+
+.completed{
+background:#16a34a;
+color:white;
+}
+
+.not-completed{
+background:#f59e0b;
+color:black;
+}
+
+/* LOADING */
+
+#loadingOverlay{
+position:fixed;
+top:0;
+left:0;
+right:0;
+bottom:0;
+background:rgba(0,0,0,.7);
+display:none;
+justify-content:center;
+align-items:center;
+z-index:1000;
+}
+
+.loading-message{
+background:#020617;
+padding:30px;
+border-radius:10px;
+text-align:center;
+}
+
+</style>
+
+
+<div class="container">
+
+<div class="sidebar">
+
+<h3>YOUR PLANS</h3>
+
+<div id="planTabs"></div>
+
+</div>
+
+
+<div class="main">
+
+<div class="header">
+
+<input type="text" id="subject" placeholder="Subject">
+
+<input type="number" id="days" placeholder="Days">
+
+<button onclick="generatePlan()">Generate</button>
+
+</div>
+
+
+<div id="loadingOverlay">
+<div class="loading-message">
+Generating plan... Please wait
+</div>
+</div>
+
+
+<div id="planContent"></div>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* CSRF */
+
+function getCookie(name){
+
+let cookieValue=null;
+
+if(document.cookie && document.cookie!==""){
+
+const cookies=document.cookie.split(";")
+
+for(let i=0;i<cookies.length;i++){
+
+const cookie=cookies[i].trim()
+
+if(cookie.substring(0,name.length+1)===(name+"=")){
+
+cookieValue=decodeURIComponent(cookie.substring(name.length+1))
+
+break
+
+}
+
+}
+
+}
+
+return cookieValue
+
+}
+
+
+
+/* FORMAT AI CONTENT */
+
+function formatDayContent(text){
+
+let html=text
+
+html=html.replace(/## Day \d+/g,"")
+
+html=html.replace(/### Topics/g,"<h4 class='section-title'>Topics</h4>")
+html=html.replace(/### Practice/g,"<h4 class='section-title'>Practice</h4>")
+html=html.replace(/### Resources/g,"<h4 class='section-title'>Resources</h4>")
+
+html=html.replace(/- (.*)/g,"<li>$1</li>")
+html=html.replace(/(<li>.*<\/li>)/g,"<ul class='list'>$1</ul>")
+
+html=html.replace(
+/(https?:\/\/[^\s]+)/g,
+'<a href="$1" target="_blank" class="resource-link">$1</a>'
+)
+
+return html
+
+}
+
+
+
+/* LOAD PLANS */
+
+async function loadPlans(){
+
+const res=await fetch("/csfund/plans/")
+const data=await res.json()
+
+let html=""
+
+data.plans.forEach(p=>{
+
+html+=`
+
+<div class="plan-item" onclick="loadPlan(${p.id})">
+
+<div class="plan-title">${p.subject}</div>
+
+<button class="delete-btn"
+onclick="event.stopPropagation(); deletePlan(${p.id})">
+
+✕
+</button>
+
+</div>
+
+`
+
+})
+
+document.getElementById("planTabs").innerHTML=html
+
+}
+
+
+
+/* DELETE PLAN */
+
+async function deletePlan(planId){
+
+if(!confirm("Delete this plan?")) return
+
+await fetch(`/csfund/delete/${planId}/`,{
+method:"POST",
+headers:{
+"X-CSRFToken":getCookie("csrftoken")
+}
+})
+
+document.getElementById("planContent").innerHTML=""
+
+loadPlans()
+
+}
+
+
+
+/* GENERATE PLAN */
+
+async function generatePlan(){
+
+const overlay=document.getElementById("loadingOverlay")
+
+overlay.style.display="flex"
+
+document.getElementById("planContent").innerHTML=""
+
+const subject=document.getElementById("subject").value
+
+const days=document.getElementById("days").value
+
+try{
+
+const response=await fetch("/csfund/generate/",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/x-www-form-urlencoded",
+"X-CSRFToken":getCookie("csrftoken")
+},
+
+body:`subject=${encodeURIComponent(subject)}&days=${encodeURIComponent(days)}`
+
+})
+
+const reader=response.body.getReader()
+
+const decoder=new TextDecoder()
+
+let buffer=""
+
+while(true){
+
+const {done,value}=await reader.read()
+
+if(done) break
+
+buffer+=decoder.decode(value,{stream:true})
+
+let lines=buffer.split("\n")
+
+buffer=lines.pop()
+
+for(let line of lines){
+
+if(!line.trim()) continue
+
+const data=JSON.parse(line)
+
+if(data.done){
+
+loadPlans()
+
+continue
+
+}
+
+document.getElementById("planContent").innerHTML+=`
+
+<div class="day-card">
+
+<div class="day-header">
+
+<h3>Day ${data.day_number}</h3>
+
+</div>
+
+<div class="day-body">
+
+${formatDayContent(data.content)}
+
+</div>
+
+</div>
+
+`
+
+}
+
+}
+
+}catch(err){
+
+alert("Error generating plan")
+
+}
+
+overlay.style.display="none"
+
+}
+
+
+
+/* LOAD PLAN */
+
+async function loadPlan(planId){
+
+const content=document.getElementById("planContent")
+
+content.innerHTML=""
+
+const res=await fetch(`/csfund/plan/${planId}/`)
+
+const data=await res.json()
+
+data.plan.forEach(day=>{
+
+content.innerHTML+=`
+
+<div class="day-card">
+
+<div class="day-header">
+
+<h3>Day ${day.day_number}</h3>
+
+<button class="complete-btn ${day.completed?"completed":"not-completed"}"
+
+onclick="toggleDay(${day.id},${planId})">
+
+${day.completed?"Completed":"Mark Complete"}
+
+</button>
+
+</div>
+
+<div class="day-body">
+
+${formatDayContent(day.content)}
+
+</div>
+
+</div>
+
+`
+
+})
+
+}
+
+
+
+/* TOGGLE COMPLETE */
+
+async function toggleDay(dayId,planId){
+
+await fetch(`/csfund/day/${dayId}/toggle/`,{
+
+method:"POST",
+
+headers:{
+"X-CSRFToken":getCookie("csrftoken")
+}
+
+})
+
+loadPlan(planId)
+
+}
+
+
+
+loadPlans()
+
+</script>
+
+{% endblock %}
+
+{% comment %} {% extends "base.html" %} {% block content %}
+
+<style>
+
+/* ================= GLOBAL ================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Inter", sans-serif;
+    background: radial-gradient(circle at 20% 20%, #1e293b, #0f172a 60%);
+    color: #e2e8f0;
+    overflow: hidden;
+}
+
+/* ================= LAYOUT ================= */
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+/* ================= SIDEBAR ================= */
+
+.sidebar {
+    width: 280px;
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(20px);
+    border-right: 1px solid rgba(255,255,255,0.05);
+    padding: 30px 20px;
+    overflow-y: auto;
+    box-shadow: 10px 0 40px rgba(0,0,0,0.4);
+}
+
+.sidebar h3 {
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #94a3b8;
+    margin-bottom: 25px;
+}
+
+.plan-item {
+    padding: 14px 16px;
+    border-radius: 14px;
+    background: linear-gradient(145deg, #1e293b, #111827);
+    margin-bottom: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.plan-item:hover {
+    transform: translateX(6px);
+    background: linear-gradient(145deg, #3b82f6, #9333ea);
+    color: white;
+    box-shadow: 0 0 25px rgba(59,130,246,0.4);
+}
+
+/* ================= MAIN ================= */
+
+.main {
+    flex: 1;
+    padding: 50px;
+    overflow-y: auto;
+}
+
+/* ================= HEADER ================= */
+
+.header {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 40px;
+}
+
+.header input {
+    padding: 14px 18px;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.05);
+    background: rgba(30,41,59,0.8);
+    color: white;
+    outline: none;
+    transition: 0.3s;
+    font-size: 14px;
+}
+
+.header input:focus {
+    border: 1px solid #3b82f6;
+    box-shadow: 0 0 20px rgba(59,130,246,0.3);
+}
+
+.header button {
+    padding: 14px 28px;
+    border-radius: 14px;
+    border: none;
+    background: linear-gradient(135deg, #3b82f6, #9333ea);
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.header button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(147,51,234,0.5);
+}
+
+/* ================= DAY CARD PREMIUM ================= */
+
+.day-card {
+    position: relative;
+    background: rgba(30, 41, 59, 0.75);
+    backdrop-filter: blur(20px);
+    padding: 32px;
+    border-radius: 20px;
+    margin-bottom: 30px;
+    border: 1px solid rgba(255,255,255,0.06);
+    box-shadow: 
+        0 15px 40px rgba(0,0,0,0.5),
+        inset 0 1px 0 rgba(255,255,255,0.05);
+    transition: all 0.35s ease;
+    animation: fadeUp 0.6s ease forwards;
+    opacity: 0;
+}
+
+.day-card:hover {
+    transform: translateY(-8px) scale(1.01);
+    box-shadow: 
+        0 25px 60px rgba(0,0,0,0.7),
+        0 0 0 1px rgba(59,130,246,0.3);
+}
+
+/* Animated top gradient bar */
+.day-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 5px;
+    width: 100%;
+    background: linear-gradient(90deg, #3b82f6, #9333ea, #ec4899);
+    border-radius: 20px 20px 0 0;
+}
+
+/* Day Title */
+.day-card h3 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 18px;
+    background: linear-gradient(90deg, #60a5fa, #c084fc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Plan Text */
+.plan-text {
+    font-size: 15px;
+    line-height: 1.8;
+    color: #cbd5e1;
+    margin-bottom: 25px;
+    white-space: pre-wrap;
+}
+
+/* ================= BUTTON ================= */
+
+.complete-btn {
+    padding: 10px 22px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.not-completed {
+    background: linear-gradient(135deg, #334155, #1e293b);
+    color: #e2e8f0;
+}
+
+.not-completed:hover {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    transform: translateY(-2px);
+}
+
+.completed {
+    background: linear-gradient(135deg, #16a34a, #15803d);
+    color: white;
+    box-shadow: 0 0 18px rgba(22,163,74,0.6);
+}
+
+.completed:hover {
+    transform: scale(1.05);
+}
+
+/* Completed Card Glow */
+.card-complete {
+    border: 1px solid rgba(22,163,74,0.5);
+    box-shadow: 0 0 40px rgba(22,163,74,0.3);
+}
+
+/* ================= SCROLLBAR ================= */
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(#3b82f6, #9333ea);
+    border-radius: 10px;
+}
+
+/* ================= ANIMATIONS ================= */
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 900px) {
+
+    .container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .main {
+        padding: 25px;
+    }
+
+    .header {
+        flex-direction: column;
+    }
+
+    .header input,
+    .header button {
+        width: 100%;
+    }
+}
+
+.plan-item {
+    position: relative;
+    padding: 16px 18px;
+    border-radius: 14px;
+    background: linear-gradient(145deg, #1e293b, #111827);
+    margin-bottom: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255,255,255,0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.plan-item:hover {
+    transform: translateX(8px);
+    background: linear-gradient(135deg, #3b82f6, #9333ea);
+    box-shadow: 0 0 25px rgba(59,130,246,0.4);
+}
+
+.plan-title {
+    font-size: 14px;
+    font-weight: 500;
+    pointer-events: none;
+}
+
+.delete-btn {
+    background: rgba(220,38,38,0.9);
+    border: none;
+    color: white;
+    border-radius: 8px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.delete-btn:hover {
+    background: #ef4444;
+    transform: scale(1.1);
+}
+
+
+#loadingOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15,23,42,0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    font-family: "Inter", sans-serif;
+}
+
+.loading-message {
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 600;
+    text-align: center;
+    padding: 20px 40px;
+    border-radius: 14px;
+    background: rgba(30,41,59,0.8);
+    box-shadow: 0 0 20px rgba(59,130,246,0.3);
+}
+</style>
+
+<div class="container">
+  <div class="sidebar">
+    <h3>YOUR PLANS</h3>
+    <div id="planTabs"></div>
+  </div>
+
+  <div class="main">
+    <div class="header">
+      <input type="text" id="subject" placeholder="Subject" />
+      <input type="number" id="days" placeholder="Days" />
+      <button onclick="generatePlan()">Generate</button>
+
+      <div id="loadingOverlay" style="display:none;">
+    <div class="loading-message">
+        Generating plan... Please don't refresh.
+    </div>
+</div>
+    </div>
+
+    <div id="planContent"></div>
+  </div>
+</div>
+
+<script>
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== "") {
+      const cookies = document.cookie.split(";");
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.substring(0, name.length + 1) === name + "=") {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+
+  async function loadPlans() {
+    const res = await fetch("/csfund/plans/");
+    const data = await res.json();
+
+    let html = "";
+
+    data.plans.forEach((p) => {
+      html += `
+    <div class="plan-item" onclick="loadPlan(${p.id})">
+        <div class="plan-title">
+            ${p.subject}
+        </div>
+
+        <button class="delete-btn"
+                onclick="event.stopPropagation(); deletePlan(${p.id})">
+            ✕
+        </button>
+    </div>
+`;
+    });
+
+    document.getElementById("planTabs").innerHTML = html;
+  }
+
+  async function deletePlan(planId) {
+    const confirmDelete = confirm("Delete this plan permanently?");
+    if (!confirmDelete) return;
+
+    const res = await fetch(`/csfund/delete/${planId}/`, {
+      method: "POST",
+      headers: {
+        "X-CSRFToken": getCookie("csrftoken"),
+      },
+    });
+
+    if (res.ok) {
+      document.getElementById("planContent").innerHTML = "";
+      loadPlans();
+    } else {
+      alert("Failed to delete plan");
+    }
+  }
+async function generatePlan() {
+    const overlay = document.getElementById("loadingOverlay");
+    overlay.style.display = "flex";  // Show loading
+    document.getElementById("planContent").innerHTML = "";
+
+    const subject = document.getElementById("subject").value;
+    const days = document.getElementById("days").value;
+
+    try {
+        const response = await fetch("/csfund/generate/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+                "X-CSRFToken": getCookie("csrftoken"),
+            },
+            body: `subject=${encodeURIComponent(subject)}&days=${encodeURIComponent(days)}`,
+        });
+
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+        let buffer = "";
+
+        while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+
+            buffer += decoder.decode(value, { stream: true });
+            let lines = buffer.split("\n");
+            buffer = lines.pop(); // keep incomplete line
+
+            for (let line of lines) {
+                if (!line.trim()) continue;
+                const data = JSON.parse(line);
+
+                if (data.done) {
+                    loadPlans();
+                    continue;
+                }
+
+                document.getElementById("planContent").innerHTML += `
+                    <div class="day-card">
+                        <h3>Day ${data.day_number}</h3>
+                        <div>${data.content}</div>
+                    </div>
+                `;
+            }
+        }
+
+        // Parse remaining buffer
+        if (buffer.trim()) {
+            const data = JSON.parse(buffer);
+            if (!data.done) {
+                document.getElementById("planContent").innerHTML += `
+                    <div class="day-card">
+                        <h3>Day ${data.day_number}</h3>
+                        <div>${data.content}</div>
+                    </div>
+                `;
+            }
+        }
+    } catch (err) {
+        alert("Error generating plan");
+    } finally {
+        overlay.style.display = "none";  // Hide loading
+    }
+}
+
+
+  async function toggleDay(dayId, planId) {
+    await fetch(`/csfund/day/${dayId}/toggle/`, {
+      method: "POST",
+      headers: { "X-CSRFToken": getCookie("csrftoken") },
+    });
+    loadPlan(planId);
+  }
+
+  async function loadPlan(planId) {
+    const content = document.getElementById("planContent");
+    content.innerHTML = "";
+
+    try {
+      const res = await fetch(`/csfund/plan/${planId}/`);
+
+      if (!res.ok) {
+        content.innerHTML = "<p style='color:red'>Failed to load plan</p>";
+        return;
+      }
+
+      const data = await res.json();
+
+      if (!data.plan || data.plan.length === 0) {
+        content.innerHTML = "<p>No days found in this plan.</p>";
+        return;
+      }
+
+      data.plan.forEach((day) => {
+        content.innerHTML += `
+    <div class="day-card ${day.completed ? "card-complete" : ""}">
+        <h3>Day ${day.day_number}</h3>
+
+        <div class="plan-text">
+            ${day.content}
+        </div>
+
+        <button class="complete-btn ${day.completed ? "completed" : "not-completed"}"
+                onclick="toggleDay(${day.id}, ${planId})">
+            ${day.completed ? "Completed ✅" : "Mark Complete"}
+        </button>
+    </div>
+`;
+      });
+    } catch (err) {
+      content.innerHTML = "<p style='color:red'>Error loading plan.</p>";
+    }
+  }
+
+  loadPlans();
+</script>
+
+{% endblock %} {% endcomment %}

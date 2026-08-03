@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Environment Variables in Node.js</title>
+  <link rel="stylesheet" href="styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+
+  <h1>Environment Variables in Node.js</h1>
+
+  <section id="what-are-env-vars">
+    <h2>What are Environment Variables?</h2>
+    <p>
+      Environment variables are key-value pairs used to configure applications outside of the source code.
+      They are useful to store sensitive information like API keys, database URLs, or configuration settings that vary between environments (development, production, etc.).
+    </p>
+  </section>
+
+  <section id="using-env-vars-node">
+    <h2>Using Environment Variables in Node.js</h2>
+    <p>
+      Node.js exposes environment variables through <code>process.env</code>. For example:
+    </p>
+    <pre><code>console.log(process.env.PORT); // Accesses the PORT environment variable
+</code></pre>
+    <p>You can set environment variables in your shell before running your Node.js app:</p>
+    <pre><code>// Linux / macOS
+PORT=3000 node app.js
+
+// Windows (PowerShell)
+$env:PORT=3000
+node app.js
+</code></pre>
+  </section>
+
+  <section id="dotenv-package">
+    <h2>Using <code>dotenv</code> Package</h2>
+    <p>
+      The <code>dotenv</code> package allows you to define environment variables in a <code>.env</code> file at your project root.
+    </p>
+    <pre><code># .env file
+PORT=4000
+DB_URL=mongodb://localhost/mydb
+SECRET_KEY=mysecretkey
+</code></pre>
+    <p>Load variables in your app:</p>
+    <pre><code>require('dotenv').config();
+
+console.log(process.env.PORT); // 4000
+</code></pre>
+  </section>
+
+  <section id="best-practices-env-vars">
+    <h2>Best Practices</h2>
+    <ul>
+      <li>Never commit your <code>.env</code> file to version control. Use <code>.gitignore</code> to exclude it.</li>
+      <li>Use descriptive variable names in uppercase with underscores, e.g., <code>DB_PASSWORD</code>.</li>
+      <li>Validate required environment variables on app startup.</li>
+      <li>Use different environment files or variables for development, testing, and production.</li>
+    </ul>
+  </section>
+
+  <section id="validating-env-vars">
+    <h2>Validating Environment Variables</h2>
+    <p>Use packages like <code>joi</code> or <code>envalid</code> to validate environment variables:</p>
+    <pre><code>const envalid = require('envalid');
+const { str, port } = envalid;
+
+const env = envalid.cleanEnv(process.env, {
+  PORT: port({ default: 3000 }),
+  DB_URL: str(),
+  SECRET_KEY: str(),
+});
+</code></pre>
+  </section>
+
+  <section id="common-env-vars-examples">
+    <h2>Common Environment Variables</h2>
+    <ul>
+      <li><code>PORT</code> – The port number your app listens on.</li>
+      <li><code>NODE_ENV</code> – The environment mode (<code>development</code>, <code>production</code>).</li>
+      <li><code>DATABASE_URL</code> – Database connection string.</li>
+      <li><code>API_KEY</code> – Keys for third-party services.</li>
+      <li><code>SECRET_KEY</code> – Secrets for signing tokens, cookies, etc.</li>
+    </ul>
+  </section>
+
+  <footer>
+    &copy; 2025 Environment Variables Guide — All rights reserved.
+  </footer>
+
+</body>
+</html>

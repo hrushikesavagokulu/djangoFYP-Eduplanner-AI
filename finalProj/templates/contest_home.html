@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}Mock Contest{% endblock %}
+
+{% block extra_style %}
+<style>
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    color: white;
+    text-align: center;
+}
+
+button {
+    background: #4a00e0;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background: #8e2de2;
+}
+
+select {
+    padding: 10px;
+    border-radius: 6px;
+    margin: 10px;
+    font-size: 16px;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <h2>Mock Coding Contest</h2>
+    <p>Select topic and difficulty</p>
+
+    <form action="/contest/start/" method="get">
+        <label>Topic</label><br>
+        <select name="topic">
+            <option>Arrays</option>
+            <option>Strings</option>
+            <option>Graphs</option>
+            <option>Dynamic Programming</option>
+        </select>
+
+        <br>
+
+        <label>Difficulty</label><br>
+        <select name="difficulty">
+            <option>Beginner</option>
+            <option>Intermediate</option>
+            <option>Extreme</option>
+        </select>
+
+        <br><br>
+        <button type="submit">Start Contest</button>
+    </form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>DevHive - Built-in Modules in Python</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f4f7fa;
+      color: #2c3e50;
+      max-width: 900px;
+      margin: 20px auto;
+      padding: 0 15px;
+      line-height: 1.7;
+    }
+    h1 {
+      color: #1abc9c;
+      text-align: center;
+      margin-bottom: 30px;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+    h2 {
+      color: #34495e;
+      border-bottom: 2px solid #1abc9c;
+      padding-bottom: 6px;
+      margin-top: 40px;
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+    p {
+      font-size: 17px;
+      color: #34495e;
+      margin-bottom: 20px;
+    }
+    code {
+      background: #ecf0f1;
+      padding: 3px 7px;
+      border-radius: 5px;
+      font-family: 'Courier New', Courier, monospace;
+      color: #e74c3c;
+      font-size: 16px;
+    }
+    pre {
+      background: #ecf0f1;
+      border-radius: 8px;
+      padding: 15px 20px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 16px;
+      margin-bottom: 25px;
+      overflow-x: auto;
+      box-shadow: inset 0 0 5px rgba(0,0,0,0.05);
+      line-height: 1.5;
+    }
+    .try-it {
+      background: #e8f6f3;
+      border: 2px solid #1abc9c;
+      border-radius: 10px;
+      padding: 15px 20px;
+      box-shadow: 0 5px 10px rgba(26, 188, 156, 0.2);
+      margin-top: 35px;
+    }
+    textarea.code-input {
+      width: 100%;
+      height: 160px;
+      font-family: monospace;
+      font-size: 16px;
+      border: 2px solid #1abc9c;
+      border-radius: 6px;
+      padding: 12px;
+      background: #f0fcfb;
+      resize: vertical;
+      color: #222;
+    }
+    button.run-btn {
+      margin-top: 10px;
+      background-color: #1abc9c;
+      border: none;
+      color: white;
+      font-weight: 700;
+      padding: 10px 18px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+    button.run-btn:hover {
+      background-color: #16a085;
+    }
+    .output {
+      margin-top: 15px;
+      background: #fff;
+      border: 2px solid #16a085;
+      border-radius: 8px;
+      min-height: 40px;
+      padding: 12px 18px;
+      font-family: monospace;
+      font-size: 15px;
+      color: #34495e;
+      white-space: pre-wrap;
+    }
+    .error {
+      color: #e74c3c;
+      font-weight: 700;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- ✅ Include Skulpt to run Python -->
+  <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/skulpt.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/skulpt-stdlib.js"></script>
+</head>
+<body>
+
+  <h1>Built-in Modules in Python - DevHive</h1>
+
+  <p>Python includes many <strong>built-in modules</strong> that provide useful functions and utilities. You can use them by importing the module.</p>
+
+  <h2>Popular Built-in Modules</h2>
+  <ul>
+    <li><code>math</code> – provides mathematical functions like <code>sqrt()</code>, <code>sin()</code>, etc.</li>
+    <li><code>random</code> – generates random numbers and choices</li>
+    <li><code>datetime</code> – works with dates and times</li>
+    <li><code>os</code> – interacts with the operating system</li>
+    <li><code>sys</code> – system-specific parameters and functions</li>
+  </ul>
+
+  <h2>Example Usage</h2>
+  <pre><code>import math
+import random
+import datetime
+
+print("Square root of 16 is:", math.sqrt(16))
+print("Random number between 1 and 10:", random.randint(1, 10))
+print("Current date and time:", datetime.datetime.now())</code></pre>
+
+  <div class="try-it">
+    <h3>Try it Yourself</h3>
+    <textarea class="code-input" id="codeAreaBuiltIn">import math
+import random
+import datetime
+
+print("Square root of 16 is:", math.sqrt(16))
+print("Random number between 1 and 10:", random.randint(1, 10))
+print("Current date and time:", datetime.datetime.now())</textarea>
+    <button class="run-btn" onclick="runCode()">Run Code</button>
+    <div class="output" id="output"></div>
+  </div>
+
+  <script>
+    function builtinRead(x) {
+      if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][x] === undefined) {
+        throw "File not found: '" + x + "'";
+      }
+      return Sk.builtinFiles["files"][x];
+    }
+
+    function runCode() {
+      const code = document.getElementById("codeAreaBuiltIn").value;
+      const output = document.getElementById("output");
+      output.innerHTML = "";
+
+      Sk.pre = "output";
+      Sk.configure({
+        output: function (text) {
+          output.innerHTML += text;
+        },
+        read: builtinRead
+      });
+
+      Sk.misceval.asyncToPromise(() => {
+        return Sk.importMainWithBody("<stdin>", false, code, true);
+      }).catch(err => {
+        output.innerHTML = `<span class="error">${err.toString()}</span>`;
+      });
+    }
+  </script>
+
+</body>
+</html>

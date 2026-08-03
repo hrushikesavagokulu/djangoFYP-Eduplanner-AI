@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Assertions</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 900px;
+      margin: 30px auto;
+      line-height: 1.6;
+      color: #222;
+      padding: 0 20px;
+      background: #f9f9f9;
+    }
+    h1, h2, h3 {
+      color: #005a9c;
+    }
+    pre {
+      background: #272822;
+      color: #f8f8f2;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 1rem;
+    }
+    code {
+      font-family: Consolas, monospace;
+      background: #eee;
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: #c7254e;
+    }
+    .note {
+      background: #fff3cd;
+      border-left: 6px solid #ffeeba;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #856404;
+    }
+    .warning {
+      background: #f8d7da;
+      border-left: 6px solid #f5c6cb;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #721c24;
+    }
+    ul {
+      margin-left: 20px;
+    }
+    a {
+      color: #005a9c;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      margin-top: 40px;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<h1>Assertions</h1>
+
+<p>
+  In C, <strong>assertions</strong> are used as a debugging aid to test assumptions made by the program. If an assertion fails, the program will terminate with an error message.
+</p>
+
+<h2>Why Use Assertions?</h2>
+<ul>
+  <li>To detect logic errors early during development.</li>
+  <li>To validate function arguments and invariants.</li>
+  <li>To improve code reliability during testing.</li>
+</ul>
+
+<h2>How to Use</h2>
+<p>
+  You must include the <code>&lt;assert.h&gt;</code> header to use the <code>assert()</code> macro.
+</p>
+
+<pre><code>#include &lt;assert.h&gt;
+
+int divide(int a, int b) {
+  assert(b != 0); // Check divisor is not zero
+  return a / b;
+}</code></pre>
+
+<h2>Output on Failure</h2>
+<p>
+  If the assertion fails, you'll see a message like:
+</p>
+<pre><code>Assertion failed: b != 0, file main.c, line 4</code></pre>
+
+<h2>Enabling/Disabling Assertions</h2>
+<p>
+  Assertions are enabled by default. To disable them (e.g., in production), define <code>NDEBUG</code> before including <code>&lt;assert.h&gt;</code>:
+</p>
+
+<pre><code>#define NDEBUG
+#include &lt;assert.h&gt;</code></pre>
+
+<div class="note">
+  Disabling assertions removes all <code>assert()</code> calls from the compiled code. Be careful not to rely on side effects inside assertions.
+</div>
+
+<h2>Example</h2>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;assert.h&gt;
+
+int main() {
+  int x = 5;
+  int y = 0;
+
+  assert(y != 0); // This will fail
+  printf("Result: %d\\n", x / y);
+
+  return 0;
+}</code></pre>
+
+<div class="warning">
+  Do not use assertions to handle runtime errors (like file I/O or user input). Use them only for programming logic that should never fail.
+</div>
+
+<h2>Best Practices</h2>
+<ul>
+  <li>Use assertions to catch bugs early during development.</li>
+  <li>Remove or disable them in release builds using <code>NDEBUG</code>.</li>
+  <li>Never use <code>assert()</code> in place of actual error handling.</li>
+</ul>
+
+<footer>
+  &copy; 2025 Your C Programming Course
+</footer>
+
+</body>
+</html>

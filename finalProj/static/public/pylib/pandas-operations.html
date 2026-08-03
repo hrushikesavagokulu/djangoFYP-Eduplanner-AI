@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Performing Data Manipulation with Pandas</title>
+  <style>
+    /* Add any small style overrides here if needed */
+  </style>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<h1>Performing Data Manipulation with Pandas</h1>
+
+<p>Pandas is a powerful Python library for data manipulation and analysis. It provides flexible tools to clean, transform, filter, and aggregate data efficiently.</p>
+
+<h2>1. Importing Pandas</h2>
+<pre><code>import pandas as pd
+</code></pre>
+
+<h2>2. Loading Data</h2>
+<p>Pandas can read data from various formats like CSV, Excel, JSON, SQL, etc.</p>
+<pre><code># Read CSV file
+df = pd.read_csv('data.csv')
+
+# Read Excel file
+df_excel = pd.read_excel('data.xlsx')
+</code></pre>
+
+<h2>3. Viewing Data</h2>
+<pre><code>df.head()       # View first 5 rows
+df.tail(10)     # View last 10 rows
+df.info()       # Summary of dataframe
+df.describe()   # Statistical summary of numeric columns
+</code></pre>
+
+<h2>4. Selecting Data</h2>
+<ul>
+  <li><code>df['column_name']</code> - Select a single column (returns a Series)</li>
+  <li><code>df[['col1', 'col2']]</code> - Select multiple columns (returns a DataFrame)</li>
+  <li><code>df.loc[row_label]</code> - Select rows by label</li>
+  <li><code>df.iloc[row_index]</code> - Select rows by integer position</li>
+</ul>
+
+<h2>5. Filtering Data</h2>
+<p>You can filter rows based on conditions.</p>
+<pre><code># Select rows where Age > 30
+filtered_df = df[df['Age'] > 30]
+
+# Select rows where City is 'New York'
+ny_df = df[df['City'] == 'New York']
+</code></pre>
+
+<h2>6. Adding and Modifying Columns</h2>
+<pre><code># Add a new column
+df['Salary'] = [50000, 60000, 70000, 80000]
+
+# Modify an existing column
+df['Age'] = df['Age'] + 1  # Increase age by 1 year
+</code></pre>
+
+<h2>7. Handling Missing Data</h2>
+<ul>
+  <li><code>df.isnull()</code> - Detect missing values</li>
+  <li><code>df.dropna()</code> - Remove rows with missing values</li>
+  <li><code>df.fillna(value)</code> - Replace missing values</li>
+</ul>
+<pre><code># Replace missing values with 0
+df.fillna(0, inplace=True)
+</code></pre>
+
+<h2>8. Sorting Data</h2>
+<pre><code># Sort by Age ascending
+df_sorted = df.sort_values(by='Age')
+
+# Sort by Salary descending
+df_sorted = df.sort_values(by='Salary', ascending=False)
+</code></pre>
+
+<h2>9. Grouping and Aggregation</h2>
+<p>Group data and calculate summary statistics.</p>
+<pre><code># Group by City and calculate mean age
+grouped = df.groupby('City')['Age'].mean()
+
+# Multiple aggregation functions
+agg = df.groupby('City').agg({
+  'Age': ['mean', 'max'],
+  'Salary': 'sum'
+})
+</code></pre>
+
+<h2>10. Merging and Joining DataFrames</h2>
+<p>Combine multiple DataFrames.</p>
+<pre><code># Merge two DataFrames on a common column
+merged_df = pd.merge(df1, df2, on='EmployeeID')
+
+# Join based on index
+joined_df = df1.join(df2, how='inner')
+</code></pre>
+
+<h2>Summary</h2>
+<ul>
+  <li>Pandas offers rich functionality for loading, viewing, selecting, filtering, modifying, and aggregating data.</li>
+  <li>Mastering these operations helps in effective data preprocessing and analysis.</li>
+</ul>
+
+<div class="note">
+  <strong>Note:</strong> Explore the <a href="https://pandas.pydata.org/docs/">official Pandas documentation</a> for comprehensive details and examples.
+</div>
+
+<footer>
+  &copy; 2025 Your Python Pandas Course
+</footer>
+
+</body>
+</html>

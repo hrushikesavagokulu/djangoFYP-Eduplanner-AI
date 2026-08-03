@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Java Syntax - DEVHive Hands-On</title>
+<style>
+/* Paste your entire CSS here */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #1e272e;
+    color: #dcdde1;
+    margin: 20px auto;
+    max-width: 900px;
+    line-height: 1.7;
+    padding: 0 15px;
+}
+
+h1 {
+    font-weight: 700;
+    color: #00cec9;
+    text-align: center;
+    margin-bottom: 30px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+}
+
+h2 {
+    color: #ffffff;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #00cec9;
+    padding-bottom: 6px;
+    font-weight: 600;
+}
+
+p {
+    font-size: 17px;
+    margin-bottom: 18px;
+    color: #dfe6e9;
+}
+
+code {
+    background: #2f3640;
+    padding: 3px 7px;
+    border-radius: 5px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 16px;
+    color: #ff7675;
+}
+
+pre {
+    background: #2f3640;
+    padding: 15px 20px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin-bottom: 25px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 16px;
+    line-height: 1.5;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+    color: #f1f2f6;
+}
+
+/* Ensure code inside pre inherits color */
+pre code {
+    color: #f1f2f6;
+}
+
+.highlight {
+    background-color: #273c75;
+    border-left: 5px solid #00cec9;
+    padding: 18px 25px;
+    margin: 40px 0;
+    border-radius: 8px;
+    color: #00cec9;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.exercise {
+    background: #353b48;
+    border-left: 5px solid #0984e3;
+    padding: 20px 25px;
+    margin-top: 50px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.exercise h3 {
+    margin-top: 0;
+    color: #74b9ff;
+    font-weight: 700;
+    font-size: 22px;
+    letter-spacing: 0.8px;
+}
+
+.exercise p,
+.exercise label {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #dcdde1;
+}
+
+.exercise label:hover {
+    color: #74b9ff;
+}
+
+.exercise input[type="radio"] {
+    margin-right: 10px;
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+.try-it {
+    margin-top: 35px;
+    border: 2px solid #00cec9;
+    border-radius: 10px;
+    background: #2d3436;
+    padding: 15px 20px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Remove bottom margin for last child inside try-it */
+.try-it>*:last-child {
+    margin-bottom: 0;
+}
+
+textarea.code-input {
+    width: 100%;
+    height: 130px;
+    font-family: monospace;
+    font-size: 16px;
+    border: 2px solid #00cec9;
+    border-radius: 6px;
+    padding: 12px;
+    resize: vertical;
+    background: #1e272e;
+    color: #dfe6e9;
+    cursor: text;
+}
+
+/* Scrollbar styling for textarea */
+textarea.code-input::-webkit-scrollbar {
+    width: 8px;
+}
+
+textarea.code-input::-webkit-scrollbar-thumb {
+    background-color: #00cec9;
+    border-radius: 4px;
+}
+
+textarea.code-input::-webkit-scrollbar-track {
+    background: #1e272e;
+}
+
+button.run-btn {
+    margin-top: 10px;
+    background-color: #00cec9;
+    border: none;
+    color: white;
+    font-weight: 700;
+    padding: 10px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+button.run-btn:hover {
+    background-color: #0984e3;
+}
+
+/* Focus outline for accessibility */
+button.run-btn:focus,
+textarea.code-input:focus {
+    outline: 3px solid #0984e3;
+    outline-offset: 2px;
+}
+
+.output {
+    margin-top: 15px;
+    background: #1e272e;
+    padding: 12px 18px;
+    border-radius: 8px;
+    border: 2px solid #0984e3;
+    min-height: 40px;
+    font-family: monospace;
+    font-size: 15px;
+    white-space: pre-wrap;
+    color: #dcdde1;
+    word-wrap: break-word;
+    transition: background-color 0.3s ease;
+}
+
+.error {
+    color: #ff7675;
+    font-weight: 700;
+}
+
+.hint {
+    font-size: 14px;
+    color: #7f8c8d;
+    margin-top: 5px;
+}
+
+/* Link styling (optional) */
+a {
+    color: #00cec9;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #0984e3;
+    text-decoration: underline;
+}
+</style>
+</head>
+<body>
+
+<h1>Java Syntax — Hands-On Tutorial</h1>
+
+<section>
+  <h2>Running Java Code</h2>
+  <p>Java programs are saved with the <code>.java</code> extension and run via the Java Virtual Machine (JVM).</p>
+  <p>Example command line:</p>
+  <pre><code>javac HelloWorld.java
+java HelloWorld</code></pre>
+</section>
+
+<section>
+  <h2>Basic Java Program</h2>
+  <p>This is the simplest Java program:</p>
+  <pre><code>public class HelloWorld {
+    public static void main(String[] args) {
+        System.out.println("Hello, World!");
+    }
+}</code></pre>
+</section>
+
+<section>
+  <h2>Comments</h2>
+  <p>Java supports:</p>
+  <ul>
+    <li>Single-line comments with <code>//</code></li>
+    <li>Multi-line comments with <code>/* ... */</code></li>
+  </ul>
+  <pre><code>// This is a single-line comment
+/* This is
+   a multi-line comment */
+</code></pre>
+</section>
+
+<section>
+  <h2>Java Keywords</h2>
+  <p>Reserved words include:</p>
+  <code>class, public, static, void, int, double, if, else, while, for, return, new, try, catch, finally, this, super, extends, implements</code>
+</section>
+
+<section>
+  <h2>Data Types</h2>
+  <p>Some common data types:</p>
+  <pre><code>int number = 10;
+double price = 5.99;
+char letter = 'A';
+boolean isActive = true;
+String text = "Hello";</code></pre>
+</section>
+
+<section>
+  <h2>Control Structures</h2>
+  <p>Example of an if statement:</p>
+  <pre><code>if (number > 5) {
+    System.out.println("Number is greater than 5");
+} else {
+    System.out.println("Number is 5 or less");
+}</code></pre>
+</section>
+
+<section class="exercise">
+  <h3>Exercise 1</h3>
+  <p>What will be the output of this program?</p>
+  <pre><code>public class Test {
+    public static void main(String[] args) {
+        System.out.println("Java is fun!");
+    }
+}</code></pre>
+  <label><input type="radio" name="q1" value="a" /> Java is fun!</label>
+  <label><input type="radio" name="q1" value="b" /> "Java is fun!"</label>
+  <label><input type="radio" name="q1" value="c" /> Compile error</label>
+</section>
+
+<section class="exercise">
+  <h3>Exercise 2</h3>
+  <p>Which of these is a correct single-line comment in Java?</p>
+  <label><input type="radio" name="q2" value="a" /> # This is a comment</label>
+  <label><input type="radio" name="q2" value="b" /> // This is a comment</label>
+  <label><input type="radio" name="q2" value="c" /> <!-- This is a comment --></label>
+</section>
+
+</body>
+</html>

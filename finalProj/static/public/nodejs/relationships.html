@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Relationships in Express</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <header>
+    <h1>Understanding Relationships in Express Applications</h1>
+  </header>
+
+  <main>
+    <section>
+      <p>
+        In Express applications, especially those involving a database like MongoDB or PostgreSQL, managing relationships between data models is essential.
+        This is typically done using Object Relational Mapping (ORM) libraries like <strong>Sequelize</strong> or <strong>Mongoose</strong>.
+      </p>
+    </section>
+
+    <section>
+      <h2>Types of Relationships</h2>
+      <ul>
+        <li><strong>One-to-One</strong>: A user has one profile.</li>
+        <li><strong>One-to-Many</strong>: A user can have many posts.</li>
+        <li><strong>Many-to-Many</strong>: Users can belong to many groups and groups can have many users.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Using Sequelize for Relationships</h2>
+      <p>In Sequelize (used with SQL databases like MySQL, PostgreSQL), relationships are defined as follows:</p>
+
+      <pre><code>
+// models/user.js
+User.hasMany(Post);
+Post.belongsTo(User);
+      </code></pre>
+
+      <p>This creates a one-to-many relationship: one user → many posts.</p>
+    </section>
+
+    <section>
+      <h2>Using Mongoose for Relationships</h2>
+      <p>In Mongoose (used with MongoDB), you create references between schemas:</p>
+
+      <pre><code>
+// models/Post.js
+const mongoose = require('mongoose');
+const postSchema = new mongoose.Schema({
+  title: String,
+  content: String,
+  author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
+});
+      </code></pre>
+
+      <p>
+        Then you can use <code>populate()</code> to retrieve related data:
+      </p>
+
+      <pre><code>
+Post.find().populate('author').exec((err, posts) => {
+  // posts now include full user objects in 'author'
+});
+      </code></pre>
+    </section>
+
+    <section>
+      <h2>Best Practices</h2>
+      <ul>
+        <li>Normalize data where appropriate (especially in SQL).</li>
+        <li>Use <code>populate()</code> wisely in MongoDB to avoid performance hits.</li>
+        <li>Ensure foreign key constraints or schema references are consistent.</li>
+        <li>Design your API endpoints to reflect relationship logic clearly.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Example API Structure</h2>
+      <p>RESTful endpoints that handle relationships:</p>
+      <ul>
+        <li><code>GET /users/:id/posts</code> – Get all posts by a user.</li>
+        <li><code>POST /posts</code> – Create a post with <code>userId</code> in the body.</li>
+        <li><code>GET /posts/:id</code> – Get a post and populate its user (author).</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Conclusion</h2>
+      <p>
+        Understanding and managing relationships between models is crucial for building scalable and maintainable Express applications.
+        ORMs like Sequelize and Mongoose offer powerful tools for representing and querying these relationships efficiently.
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Express Tutorials</p>
+  </footer>
+
+</body>
+</html>

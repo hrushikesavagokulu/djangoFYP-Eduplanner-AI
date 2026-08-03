@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+{% block title %}DSA Problem Recommender{% endblock %}
+{% block extra_style %}
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+}
+
+/* 🌙 Dark Theme Base */
+body {
+    background: #0f172a; /* deep navy */
+    color: #e5e7eb;
+    overflow-x: hidden;
+}
+
+/* Container */
+.container {
+    max-width: 850px;
+    margin: 80px auto;
+    padding: 30px;
+}
+
+/* Title */
+h1 {
+    text-align: center;
+    font-size: 2.4rem;
+    font-weight: 600;
+    color: #f9fafb;
+    margin-bottom: 50px;
+    letter-spacing: -0.5px;
+}
+
+/* 🔲 Card Layout (Glass Dark) */
+.card {
+    background: #111827;
+    border-radius: 14px;
+    padding: 30px;
+    border: 1px solid #1f2937;
+}
+
+/* Form */
+.recommend-form {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+/* Input */
+.recommend-form input[type="text"] {
+    flex: 1;
+    min-width: 260px;
+    padding: 14px 16px;
+    border-radius: 8px;
+    border: 1px solid #374151;
+    background: #020617;
+    color: #e5e7eb;
+    font-size: 0.95rem;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.recommend-form input::placeholder {
+    color: #6b7280;
+}
+
+.recommend-form input:focus {
+    border-color: #6366f1;
+    background: #020617;
+}
+
+/* Button */
+.recommend-form button {
+    padding: 14px 22px;
+    background: #6366f1;
+    color: white;
+    font-weight: 500;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.recommend-form button:hover {
+    background: #4f46e5;
+}
+
+/* 📄 Response Section */
+.response {
+    margin-top: 30px;
+    background: #111827;
+    padding: 28px;
+    border-radius: 14px;
+    border: 1px solid #1f2937;
+
+    /* 🔥 improved readability */
+    font-size: 1.1rem;   /* increased from 0.95rem */
+    line-height: 1.9;    /* more breathing space */
+    letter-spacing: 0.2px;
+
+    color: #e5e7eb;
+    white-space: pre-wrap;
+}
+.response h2 {
+    text-align: center;
+    font-size: 1.7rem;
+    margin-bottom: 20px;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+/* Response Title */
+.response h2 {
+    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: #f9fafb;
+    font-weight: 500;
+}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>DSA Problem Recommender</h1>
+
+    <div class="card">
+        <form method="post" class="recommend-form">
+            {% csrf_token %}
+            <input type="text" name="topic" placeholder="Enter DSA topic (e.g. two pointer)" required>
+            <button type="submit">Recommend</button>
+        </form>
+    </div>
+
+    {% if response %}
+    <div class="response">
+        <h2>Recommended Problems</h2>
+        <p>{{ response }}</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

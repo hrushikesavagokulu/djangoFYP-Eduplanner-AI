@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Setup</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 900px;
+      margin: 30px auto;
+      line-height: 1.6;
+      color: #222;
+      padding: 0 20px;
+      background: #f9f9f9;
+    }
+    h1, h2, h3 {
+      color: #005a9c;
+    }
+    pre {
+      background: #272822;
+      color: #f8f8f2;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 1rem;
+    }
+    code {
+      font-family: Consolas, monospace;
+      background: #eee;
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: #c7254e;
+    }
+    .note {
+      background: #fff3cd;
+      border-left: 6px solid #ffeeba;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #856404;
+    }
+    .warning {
+      background: #f8d7da;
+      border-left: 6px solid #f5c6cb;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #721c24;
+    }
+    ul {
+      margin-left: 20px;
+    }
+    a {
+      color: #005a9c;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      margin-top: 40px;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  
+<h1>Setup & Installation of C Development Environment</h1>
+
+<p>Before you start programming in C, you need to set up a development environment. This includes installing a compiler, and optionally, an editor or an Integrated Development Environment (IDE) to write and manage your code efficiently.</p>
+
+<h2>Installing GCC Compiler</h2>
+
+<h3>Windows</h3>
+<p>The most common way to get the GCC compiler on Windows is by installing <a href="https://mingw-w64.org/doku.php" target="_blank">MinGW-w64</a>. Alternatively, you can use IDEs like Code::Blocks or Dev-C++ which come bundled with GCC.</p>
+<ul>
+  <li>Download the MinGW-w64 installer from the <a href="https://mingw-w64.org/doku.php/download" target="_blank">official download page</a>.</li>
+  <li>Run the installer and follow the prompts. Choose the architecture (e.g., x86_64 for 64-bit systems) and the threads model (posix is recommended).</li>
+  <li>Add the path to MinGW's <code>bin</code> directory to your system's <code>PATH</code> environment variable. For example: <code>C:\Program Files\mingw-w64\x86_64-8.1.0-posix-seh-rt_v6-rev0\mingw64\bin</code></li>
+  <li>Open Command Prompt and verify installation by typing:</li>
+</ul>
+<pre><code>gcc --version</code></pre>
+<p>If you see the GCC version information, the installation was successful.</p>
+
+<h3>Linux</h3>
+<p>Most Linux distributions come with GCC pre-installed. If not, you can install it using your package manager.</p>
+<ul>
+  <li><strong>Debian/Ubuntu:</strong></li>
+</ul>
+<pre><code>sudo apt update
+sudo apt install build-essential
+gcc --version</code></pre>
+<ul>
+  <li><strong>Fedora/CentOS:</strong></li>
+</ul>
+<pre><code>sudo dnf groupinstall "Development Tools"
+gcc --version</code></pre>
+
+<h3>macOS</h3>
+<p>On macOS, you can install GCC via the Xcode Command Line Tools:</p>
+<ul>
+  <li>Open Terminal and run:</li>
+</ul>
+<pre><code>xcode-select --install</code></pre>
+<ul>
+  <li>Follow the GUI prompts to complete installation.</li>
+  <li>Verify installation with:</li>
+</ul>
+<pre><code>gcc --version</code></pre>
+<p>Alternatively, you can use <a href="https://brew.sh/" target="_blank">Homebrew</a> to install GCC:</p>
+<pre><code>/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+brew install gcc
+gcc-11 --version  <!-- or the installed version number --></code></pre>
+
+<h2>Choosing an Editor or IDE</h2>
+<p>While you can write C code in any text editor, here are some popular choices:</p>
+<ul>
+  <li><strong>Text Editors (lightweight):</strong> Visual Studio Code, Sublime Text, Atom, Notepad++</li>
+  <li><strong>IDEs (feature-rich):</strong> Code::Blocks, CLion, Eclipse CDT, Dev-C++</li>
+</ul>
+<p>Most IDEs include code completion, debugging tools, and build integration which can be very helpful.</p>
+
+<h2>Writing and Running Your First Program</h2>
+<p>Create a file named <code>hello.c</code> with this simple code:</p>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    printf("Hello, World!\n");
+    return 0;
+}</code></pre>
+<p>To compile and run it using GCC from the terminal or command prompt:</p>
+<pre><code>gcc hello.c -o hello
+./hello    <!-- On Windows use: hello.exe --></code></pre>
+
+<h2>Troubleshooting Tips</h2>
+<ul>
+  <li><strong>PATH Issues:</strong> If <code>gcc</code> is not recognized, ensure the compiler's <code>bin</code> folder is added to your system PATH environment variable.</li>
+  <li><strong>Restart Terminal/IDE:</strong> After installation and PATH changes, restart your terminal or IDE to apply changes.</li>
+  <li><strong>Check for Multiple GCC Versions:</strong> Sometimes multiple versions of GCC can conflict. Use <code>which gcc</code> (Linux/macOS) or <code>where gcc</code> (Windows) to locate the active compiler.</li>
+  <li><strong>Consult Documentation & Forums:</strong> Error messages often have solutions available online.</li>
+</ul>
+
+<h2>Additional Resources</h2>
+<ul>
+  <li><a href="https://gcc.gnu.org/onlinedocs/" target="_blank">GCC Official Documentation</a></li>
+  <li><a href="https://code.visualstudio.com/docs/languages/cpp" target="_blank">Using C/C++ in VS Code</a></li>
+  <li><a href="https://www.learn-c.org/" target="_blank">Learn C Online</a></li>
+</ul>
+
+<footer>
+  &copy; 2025 Your C Programming Course
+</footer>
+
+</body>
+</html>

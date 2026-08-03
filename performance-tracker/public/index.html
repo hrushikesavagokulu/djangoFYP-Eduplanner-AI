@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Performance Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="spinner"></div>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>Performance Tracker</h1>
+            <div class="nav-links">
+                <span id="welcomeMessage"></span>
+                <a href="http://localhost:8000/dashboard/" class="btn btn-primary">Dashboard</a>
+                <button id="logoutBtn" class="btn btn-secondary">Logout</button>
+            </div>
+        </header>
+
+
+        <div id="setupSection" class="card" style="display: none;">
+            <h2>Initialize Tracker</h2>
+            <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Set the number of days you want to track to get started.</p>
+            <div class="form-group">
+                <label for="daysInput" style="font-weight: 500; font-size: 0.875rem;">Number of Days</label>
+                <input type="number" id="daysInput" min="1" value="7" style="width: 100%; padding: 0.625rem 1rem; border: 1px solid var(--border); border-radius: 8px; margin-top: 0.5rem;">
+            </div>
+            <button id="initBtn" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Start Tracking</button>
+        </div>
+
+        <div id="trackerSection" style="display: none;">
+            <!-- Dashboard Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-label">Total Tasks</span>
+                    <span id="totalTasks" class="stat-value">0</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Overall Completion</span>
+                    <span id="overallCompletion" class="stat-value">0%</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Current Streak</span>
+                    <span id="currentStreak" class="stat-value">0 Days</span>
+                </div>
+            </div>
+
+            <div class="tracker-controls">
+                <div class="add-task-form">
+                    <input type="text" id="taskNameInput" placeholder="Enter task name (e.g. DSA Practice)">
+                    <button id="addTaskBtn" class="btn btn-primary">Add Task</button>
+                </div>
+                <div style="display: flex; gap: 0.75rem;">
+                    <button id="addDayBtn" class="btn btn-secondary">Add Day</button>
+                    <button id="removeDayBtn" class="btn btn-secondary">Remove Day</button>
+                    <button id="resetBtn" class="btn btn-danger">Reset</button>
+                </div>
+            </div>
+
+            <div class="tracker-table-container">
+                <table id="trackerTable">
+                    <thead>
+                        <tr id="tableHeader">
+                            <!-- Headers will be added dynamically -->
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <!-- Tasks will be added dynamically -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="charts-grid">
+                <div class="card">
+                    <h3 style="font-size: 0.875rem; font-weight: 600; margin-bottom: 1rem;">Task Completion (%)</h3>
+                    <canvas id="barChart"></canvas>
+                </div>
+                <div class="card">
+                    <h3 style="font-size: 0.875rem; font-weight: 600; margin-bottom: 1rem;">Daily Performance</h3>
+                    <canvas id="lineChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

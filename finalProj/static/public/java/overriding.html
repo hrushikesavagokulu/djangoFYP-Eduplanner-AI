@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Java - Overriding</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #1e272e;
+      color: #dcdde1;
+      margin: 20px auto;
+      max-width: 900px;
+      line-height: 1.7;
+      padding: 0 15px;
+    }
+    h1 {
+      font-weight: 700;
+      color: #00cec9;
+      text-align: center;
+      margin-bottom: 30px;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
+    h2 {
+      color: #ffffff;
+      margin-top: 40px;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #00cec9;
+      padding-bottom: 6px;
+      font-weight: 600;
+    }
+    p, ul {
+      font-size: 17px;
+      color: #dfe6e9;
+    }
+    ul {
+      margin-left: 20px;
+    }
+    strong {
+      color: #00cec9;
+    }
+    code {
+      background: #2f3640;
+      padding: 3px 7px;
+      border-radius: 5px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 16px;
+      color: #ff7675;
+    }
+    pre {
+      background: #2f3640;
+      padding: 15px 20px;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin-bottom: 25px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 16px;
+      line-height: 1.5;
+      box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+      color: #f1f2f6;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Java Method Overriding</h1>
+
+  <p><strong>Method Overriding</strong> is a feature in Java where a subclass provides a specific implementation of a method that is already defined in its superclass. It allows a subclass to modify or extend the behavior of the inherited method.</p>
+
+  <h2>Why Use Overriding?</h2>
+  <ul>
+    <li>To provide a specific implementation of a method that is more appropriate for the subclass.</li>
+    <li>To achieve runtime polymorphism, enabling dynamic method dispatch.</li>
+    <li>To change or extend the behavior of the parent class method without modifying the parent class.</li>
+  </ul>
+
+  <h2>Rules for Overriding</h2>
+  <ul>
+    <li>The method must have the same name, return type, and parameter list as the method in the superclass.</li>
+    <li>The overriding method cannot have more restrictive access than the overridden method.</li>
+    <li>Only inherited methods can be overridden; static methods cannot be overridden but can be hidden.</li>
+    <li>The method cannot be overridden if it is marked <code>final</code> or <code>private</code>.</li>
+  </ul>
+
+  <h2>Syntax</h2>
+  <pre><code>class Parent {
+    void display() {
+        System.out.println("Parent display");
+    }
+}
+
+class Child extends Parent {
+@Override
+void display() {
+System.out.println("Child display");
+}
+}</code></pre>
+
+  <h2>Key Points</h2>
+  <ul>
+    <li>The <code>@Override</code> annotation is optional but helps catch errors at compile time.</li>
+    <li>Overriding allows Java to decide at runtime which method to execute based on the object's actual type.</li>
+    <li>Overriding supports the principle of <em>“programming to an interface, not implementation”</em>.</li>
+  </ul>
+
+  <h2>Example</h2>
+  <p>When a method is overridden, the subclass method is called even if the object is referred to by a superclass reference:</p>
+  <pre><code>Parent obj = new Child();
+obj.display(); // Output: Child display</code></pre>
+
+  <h2>Summary</h2>
+  <p>Method overriding is a fundamental mechanism in Java's polymorphism that allows a subclass to provide a customized behavior of an inherited method. It promotes flexibility and extensibility in object-oriented design.</p>
+
+</body>
+</html>

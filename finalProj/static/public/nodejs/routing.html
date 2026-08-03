@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Routing in Express.js</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <h1>Routing in Express.js</h1>
+
+  <p>
+    Routing in Express.js refers to how your application’s endpoints (URIs) respond to client requests. It’s a core feature of Express used to define how your app handles different HTTP methods and paths.
+  </p>
+
+  <h2>1. Basic Routing</h2>
+  <p>A route method is derived from an HTTP method and is attached to an Express instance.</p>
+  
+  <pre><code>
+// app.js
+const express = require('express');
+const app = express();
+
+app.get('/', (req, res) => {
+  res.send('Hello, World!');
+});
+
+app.listen(3000, () => {
+  console.log('Server listening on port 3000');
+});
+  </code></pre>
+
+  <h2>2. Route Methods</h2>
+  <p>Express supports all standard HTTP methods. Common methods include:</p>
+  <ul>
+    <li><code>app.get()</code> – for reading data</li>
+    <li><code>app.post()</code> – for submitting data</li>
+    <li><code>app.put()</code> – for updating existing data</li>
+    <li><code>app.delete()</code> – for removing data</li>
+  </ul>
+
+  <h3>Example:</h3>
+  <pre><code>
+app.post('/submit', (req, res) => {
+  res.send('Form submitted');
+});
+  </code></pre>
+
+  <h2>3. Route Paths</h2>
+  <p>Paths can include strings, string patterns, or regular expressions.</p>
+
+  <pre><code>
+// Matches "/about"
+app.get('/about', (req, res) => {
+  res.send('About page');
+});
+
+// Matches "/ab123cd"
+app.get('/ab*cd', (req, res) => {
+  res.send('Pattern matched');
+});
+  </code></pre>
+
+  <h2>4. Route Parameters</h2>
+  <p>Parameters in routes can be used to capture values dynamically from the URL.</p>
+
+  <pre><code>
+app.get('/user/:id', (req, res) => {
+  res.send(`User ID is ${req.params.id}`);
+});
+  </code></pre>
+
+  <h2>5. Router-Level Middleware</h2>
+  <p>Use <code>express.Router()</code> to create modular route handlers.</p>
+
+  <pre><code>
+// routes/user.js
+const express = require('express');
+const router = express.Router();
+
+router.get('/', (req, res) => {
+  res.send('User list');
+});
+
+router.get('/:id', (req, res) => {
+  res.send(`User ID: ${req.params.id}`);
+});
+
+module.exports = router;
+
+// In main app
+const userRoutes = require('./routes/user');
+app.use('/users', userRoutes);
+  </code></pre>
+
+  <h2>6. Chained Route Handlers</h2>
+  <p>You can handle the same path with multiple callbacks (middleware).</p>
+
+  <pre><code>
+app.route('/book')
+  .get((req, res) => res.send('Get a book'))
+  .post((req, res) => res.send('Add a book'))
+  .put((req, res) => res.send('Update a book'));
+  </code></pre>
+
+  <h2>7. Error Handling for Routes</h2>
+  <pre><code>
+app.use((req, res) => {
+  res.status(404).send('Page not found');
+});
+  </code></pre>
+
+  <h2>Conclusion</h2>
+  <p>
+    Routing is fundamental to any Express application. Using route parameters, middleware, and modular routers allows your app to scale cleanly and efficiently.
+  </p>
+
+  <footer>
+    &copy; 2025 Express.js Tutorial – Routing
+  </footer>
+
+</body>
+</html>

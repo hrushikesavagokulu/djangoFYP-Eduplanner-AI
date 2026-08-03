@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>DevHive - Class and Object</title>
+  <style>/* Same CSS as your previous pages */</style>
+  <link rel="stylesheet" href="styles.css">
+
+</head>
+<body>
+
+  <h1>Class and Object - DevHive</h1>
+
+  <p>Classes are blueprints for objects. Objects are instances of classes.</p>
+
+  <h2>Defining a Class</h2>
+  <pre><code>class Student {
+  constructor(name, age) {
+    this.name = name;
+    this.age = age;
+  }
+
+  greet() {
+    console.log(`Hi, I'm ${this.name} and I'm ${this.age} years old.`);
+  }
+}
+
+const s1 = new Student("Dev", 21);
+s1.greet();</code></pre>
+
+  <h2>Key Terms</h2>
+  <ul>
+    <li><strong>Constructor</strong> – Initializes the object</li>
+    <li><strong>Method</strong> – Function inside a class</li>
+    <li><strong>Object</strong> – Instance of the class</li>
+  </ul>
+<div style="margin: 40px auto; max-width: 800px; width: 90%; aspect-ratio: 16 / 9; box-shadow: 0 8px 20px rgba(0,0,0,0.2); border-radius: 12px; overflow: hidden; background: #000;">
+  <iframe
+    src="https://www.youtube.com/embed/8O5kX73OkIY"
+    title="Python Recursion Tutorial"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen
+    style="width: 100%; height: 100%; border: none; display: block;"
+  ></iframe>
+</div>
+
+  <div class="try-it">
+    <h3>Try it Yourself</h3>
+    <textarea class="code-input" id="codeArea">class Car {
+  constructor(model, year) {
+    this.model = model;
+    this.year = year;
+  }
+
+  details() {
+    console.log(`${this.model} was made in ${this.year}`);
+  }
+}
+
+const car1 = new Car("Tesla", 2023);
+car1.details();</textarea>
+    <button class="run-btn" onclick="runCode()">Run Code</button>
+    <div class="output" id="output"></div>
+  </div>
+
+  <script>
+    function runCode() {
+      const code = document.getElementById("codeArea").value;
+      const output = document.getElementById("output");
+      output.innerHTML = '';
+      try {
+        const logs = [];
+        console.log = (...args) => logs.push(args.join(' '));
+        new Function(code)();
+        output.innerText = logs.join('\n');
+      } catch (e) {
+        output.innerHTML = "<span class='error'>Error: " + e.message + "</span>";
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>{% block title %}DSA Planner{% endblock %}</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+/* ================= ROOT THEME ================= */
+
+:root{
+--bg:#020617;
+--glass:rgba(255,255,255,0.05);
+--border:rgba(255,255,255,0.08);
+--text:#e2e8f0;
+--muted:#94a3b8;
+--primary:#3b82f6;
+--hover:rgba(255,255,255,0.08);
+}
+
+/* ================= GLOBAL ================= */
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+html,body{
+height:100%;
+font-family:"Inter",sans-serif;
+background: radial-gradient(circle at top,#0f172a,#020617 60%);
+color:var(--text);
+}
+
+html{
+scroll-behavior:smooth;
+}
+
+/* ================= NAVBAR ================= */
+
+.navbar{
+position:fixed;
+top:0;
+left:0;
+right:0;
+
+height:58px;
+
+display:flex;
+align-items:center;
+justify-content:space-between;
+
+padding:0 30px;
+
+background:rgba(2,6,23,0.7);
+backdrop-filter:blur(18px);
+
+border-bottom:1px solid var(--border);
+
+z-index:999;
+}
+
+/* BRAND */
+
+.brand{
+font-size:16px;
+font-weight:600;
+letter-spacing:.5px;
+text-decoration:none;
+color:#f8fafc;
+
+display:flex;
+align-items:center;
+gap:8px;
+
+transition:.3s;
+}
+
+.brand:hover{
+opacity:.85;
+}
+
+/* NAV LINKS */
+
+.nav-links{
+display:flex;
+align-items:center;
+gap:14px;
+}
+
+.nav-links a{
+font-size:13px;
+font-weight:500;
+text-decoration:none;
+color:var(--muted);
+
+padding:6px 10px;
+border-radius:8px;
+
+position:relative;
+transition:.25s ease;
+}
+
+/* hover */
+
+.nav-links a:hover{
+color:#fff;
+background:var(--hover);
+}
+
+/* underline animation */
+
+.nav-links a::after{
+content:"";
+position:absolute;
+left:50%;
+bottom:-2px;
+width:0;
+height:2px;
+background:var(--primary);
+transition:.3s;
+transform:translateX(-50%);
+}
+
+.nav-links a:hover::after{
+width:60%;
+}
+
+/* active */
+
+.nav-links a.active{
+color:#fff;
+background:var(--hover);
+}
+
+/* CTA BUTTON */
+
+.nav-links .cta{
+background:linear-gradient(135deg,#3b82f6,#6366f1);
+color:#fff;
+padding:6px 14px;
+border-radius:10px;
+}
+
+.nav-links .cta:hover{
+opacity:.9;
+}
+
+/* ================= MOBILE MENU ================= */
+
+.menu-toggle{
+display:none;
+font-size:22px;
+cursor:pointer;
+}
+
+/* ================= CONTENT ================= */
+
+.page{
+padding-top:75px;
+min-height:100vh;
+}
+
+/* ================= ALERTS ================= */
+
+.messages{
+max-width:900px;
+margin:20px auto;
+padding:0 15px;
+}
+
+.alert{
+padding:12px 16px;
+border-radius:10px;
+font-size:13px;
+margin-bottom:12px;
+backdrop-filter:blur(10px);
+border:1px solid var(--border);
+animation:fadeIn .4s ease;
+}
+
+@keyframes fadeIn{
+from{opacity:0;transform:translateY(-10px);}
+to{opacity:1;transform:translateY(0);}
+}
+
+.alert-success{
+background:rgba(34,197,94,.15);
+color:#4ade80;
+}
+
+.alert-error{
+background:rgba(239,68,68,.15);
+color:#f87171;
+}
+
+/* ================= SCROLLBAR ================= */
+
+::-webkit-scrollbar{
+width:6px;
+}
+
+::-webkit-scrollbar-track{
+background:#020617;
+}
+
+::-webkit-scrollbar-thumb{
+background:#1e293b;
+border-radius:10px;
+}
+
+/* ================= MOBILE ================= */
+
+@media (max-width:900px){
+
+.menu-toggle{
+display:block;
+}
+
+.nav-links{
+position:absolute;
+top:60px;
+right:0;
+width:220px;
+
+flex-direction:column;
+align-items:flex-start;
+
+padding:15px;
+
+background:rgba(2,6,23,0.95);
+backdrop-filter:blur(20px);
+
+border-left:1px solid var(--border);
+
+transform:translateX(100%);
+transition:.3s ease;
+}
+
+.nav-links.open{
+transform:translateX(0);
+}
+
+.nav-links a{
+width:100%;
+padding:10px;
+}
+
+}
+
+{% block extra_style %}{% endblock %}
+
+</style>
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<div class="navbar">
+
+<a class="brand" href="{% url 'home' %}">
+📘 DSA Planner
+</a>
+
+<div class="menu-toggle" onclick="toggleMenu()">☰</div>
+
+<div class="nav-links" id="navMenu">
+
+<a href="{% url 'chatbot' %}">Chatbot</a>
+<a href="{% url 'courses' %}">Courses</a>
+<a href="{% url 'csfund' %}">CS</a>
+<a href="{% url 'scheduler_progress' %}">Progress</a>
+<a href="{% url 'specificschedule' %}">Schedule</a>
+
+<a href="https://chatapplication-gossiply.onrender.com/" target="_blank">
+Gossiply
+</a>
+
+{% if user.is_authenticated %}
+
+<a href="{% url 'dashboard' %}" class="cta">Dashboard</a>
+
+<a href="{% url 'scheduler' %}">Planner</a>
+
+<a href="http://localhost:3000">Tracker</a>
+
+{% if user.is_superuser %}
+
+<a href="https://portfolio2026-steel.vercel.app/" target="_blank">
+Me
+</a>
+
+<a href="{% url 'admin:index' %}">
+Admin
+</a>
+
+{% endif %}
+
+<a href="{% url 'logout' %}">
+Logout
+</a>
+
+{% else %}
+
+<a href="{% url 'login' %}" class="cta">Login</a>
+<a href="{% url 'register' %}">Register</a>
+
+{% endif %}
+
+</div>
+
+</div>
+
+<!-- ================= ALERTS ================= -->
+
+{% if messages %}
+
+<div class="messages">
+
+{% for message in messages %}
+
+<div class="alert alert-{{message.tags}}">
+{{message}}
+</div>
+
+{% endfor %}
+
+</div>
+
+{% endif %}
+
+<!-- ================= CONTENT ================= -->
+
+<div class="page">
+{% block content %}{% endblock %}
+</div>
+
+<!-- ================= JS ================= -->
+
+<script>
+function toggleMenu(){
+document.getElementById("navMenu").classList.toggle("open");
+}
+</script>
+
+</body>
+</html>
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>{% block title %}DSA Planner{% endblock %}</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+/* ================= GLOBAL ================= */
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+html,body{
+height:100%;
+font-family:"Inter",sans-serif;
+background:#0f172a;
+color:#e5e7eb;
+}
+
+/* Smooth scroll */
+
+html{
+scroll-behavior:smooth;
+}
+
+/* ================= NAVBAR ================= */
+
+.navbar{
+
+position:fixed;
+top:0;
+left:0;
+right:0;
+
+height:52px;
+
+display:flex;
+align-items:center;
+justify-content:space-between;
+
+padding:0 28px;
+
+background:rgba(15,23,42,0.65);
+backdrop-filter:blur(14px);
+
+border-bottom:1px solid rgba(255,255,255,0.05);
+
+z-index:999;
+}
+
+/* brand */
+
+.brand{
+font-size:15px;
+font-weight:600;
+letter-spacing:.4px;
+text-decoration:none;
+color:#f8fafc;
+
+display:flex;
+align-items:center;
+gap:6px;
+}
+
+/* nav links */
+
+.nav-links{
+display:flex;
+align-items:center;
+gap:18px;
+}
+
+.nav-links a{
+
+font-size:13px;
+font-weight:500;
+text-decoration:none;
+color:#94a3b8;
+
+padding:5px 8px;
+border-radius:6px;
+
+transition:all .25s ease;
+
+}
+
+/* hover */
+
+.nav-links a:hover{
+
+color:#ffffff;
+background:rgba(255,255,255,0.06);
+
+}
+
+/* active style */
+
+.nav-links a.active{
+color:#fff;
+background:rgba(255,255,255,0.08);
+}
+
+/* ================= CONTENT ================= */
+
+.page{
+
+padding-top:60px;
+min-height:100vh;
+
+}
+
+/* ================= ALERTS ================= */
+
+.messages{
+
+max-width:900px;
+margin:20px auto;
+
+}
+
+.alert{
+
+padding:10px 14px;
+border-radius:8px;
+font-size:13px;
+margin-bottom:10px;
+
+}
+
+.alert-success{
+background:rgba(34,197,94,.15);
+border:1px solid rgba(34,197,94,.3);
+color:#4ade80;
+}
+
+.alert-error{
+background:rgba(239,68,68,.15);
+border:1px solid rgba(239,68,68,.3);
+color:#f87171;
+}
+
+/* ================= SCROLLBAR ================= */
+
+::-webkit-scrollbar{
+width:7px;
+}
+
+::-webkit-scrollbar-track{
+background:#020617;
+}
+
+::-webkit-scrollbar-thumb{
+background:#334155;
+border-radius:6px;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width:900px){
+
+.nav-links{
+gap:12px;
+}
+
+.nav-links a{
+font-size:12px;
+}
+
+}
+
+{% block extra_style %}{% endblock %}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- ================= NAVBAR ================= -->
+
+<div class="navbar">
+
+<a class="brand" href="{% url 'home' %}">
+📘 DSA Planner
+</a>
+
+
+<div class="nav-links">
+
+<a href="{% url 'chatbot' %}">Chatbot</a>
+
+<a href="{% url 'courses' %}">Courses</a>
+
+<a href="{% url 'csfund' %}">CS</a>
+
+<a href="{% url 'scheduler_progress' %}">Progress</a>
+
+<a href="{% url 'specificschedule' %}">Schedule</a>
+
+<a href="https://chatapplication-gossiply.onrender.com/" target="_blank">
+Gossiply
+</a>
+
+{% if user.is_authenticated %}
+
+<a href="{% url 'dashboard' %}">Dashboard</a>
+
+<a href="{% url 'scheduler' %}">Planner</a>
+
+<a href="http://localhost:3000">Tracker</a>
+
+{% if user.is_superuser %}
+
+<a href="https://portfolio2026-steel.vercel.app/" target="_blank">
+Me
+</a>
+
+<a href="{% url 'admin:index' %}">
+Admin
+</a>
+
+{% endif %}
+
+<a href="{% url 'logout' %}">
+Logout
+</a>
+
+{% else %}
+
+<a href="{% url 'login' %}">Login</a>
+
+<a href="{% url 'register' %}">Register</a>
+
+{% endif %}
+
+</div>
+
+</div>
+
+
+<!-- ================= ALERT MESSAGES ================= -->
+
+{% if messages %}
+
+<div class="messages">
+
+{% for message in messages %}
+
+<div class="alert alert-{{message.tags}}">
+{{message}}
+</div>
+
+{% endfor %}
+
+</div>
+
+{% endif %}
+
+
+<!-- ================= PAGE CONTENT ================= -->
+
+<div class="page">
+
+{% block content %}{% endblock %}
+
+</div>
+
+
+</body>
+</html> {% endcomment %}

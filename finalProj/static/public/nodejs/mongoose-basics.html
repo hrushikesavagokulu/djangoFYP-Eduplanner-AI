@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Mongoose Basics Guide</title>
+  <link rel="stylesheet" href="styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+
+  <h1>Mongoose Basics Guide</h1>
+
+  <section id="introduction">
+    <h2>What is Mongoose?</h2>
+    <p>
+      Mongoose is an Object Data Modeling (ODM) library for MongoDB and Node.js. It provides a straightforward, schema-based solution to model your application data.
+    </p>
+    <p>
+      With Mongoose, you can define schemas for your data, enforce validation rules, and interact with MongoDB using a simple, promise-based API.
+    </p>
+  </section>
+
+  <section id="installation">
+    <h2>Installation</h2>
+    <p>To get started with Mongoose, install it via npm:</p>
+    <pre><code>npm install mongoose</code></pre>
+  </section>
+
+  <section id="connecting">
+    <h2>Connecting to MongoDB</h2>
+    <p>First, connect Mongoose to your MongoDB database:</p>
+    <pre><code>const mongoose = require('mongoose');
+
+mongoose.connect('mongodb://localhost:27017/mydatabase', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+}).then(() => {
+  console.log('MongoDB connected');
+}).catch(err => {
+  console.error('Connection error', err);
+});</code></pre>
+    <p>Here, replace <code>mydatabase</code> with your database name.</p>
+  </section>
+
+  <section id="defining-schema">
+    <h2>Defining a Schema</h2>
+    <p>A schema defines the structure of the documents within a collection:</p>
+    <pre><code>const userSchema = new mongoose.Schema({
+  name: String,
+  age: Number,
+  email: String
+});</code></pre>
+    <p>This schema describes users with a name, age, and email fields.</p>
+  </section>
+<div style="
+  margin: 40px auto;
+  max-width: 800px;
+  width: 90%;
+  aspect-ratio: 16 / 9;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #000;
+">
+  <iframe
+    src="https://www.youtube.com/embed/xrglM8U0Zv8"
+    title="YouTube video player"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen
+    style="width: 100%; height: 100%; border: none; display: block;"
+  ></iframe>
+</div>
+
+  <section id="creating-model">
+    <h2>Creating a Model</h2>
+    <p>Models are constructors compiled from schemas. Use them to create and read documents:</p>
+    <pre><code>const User = mongoose.model('User', userSchema);
+
+const newUser = new User({
+  name: 'Alice',
+  age: 30,
+  email: 'alice@example.com'
+});</code></pre>
+  </section>
+
+  <section id="saving-data">
+    <h2>Saving Data</h2>
+    <p>Save documents to the database with <code>save()</code>:</p>
+    <pre><code>newUser.save()
+  .then(doc => {
+    console.log('User saved:', doc);
+  })
+  .catch(err => {
+    console.error('Save error:', err);
+  });</code></pre>
+  </section>
+
+  <section id="querying-data">
+    <h2>Querying Data</h2>
+    <p>Find documents using <code>find</code> or <code>findOne</code>:</p>
+    <pre><code>User.find({ age: { $gte: 18 } })
+  .then(users => {
+    console.log('Adult users:', users);
+  })
+  .catch(err => {
+    console.error('Find error:', err);
+  });</code></pre>
+  </section>
+
+  <section id="updating-data">
+    <h2>Updating Documents</h2>
+    <p>Update documents with <code>updateOne</code>, <code>updateMany</code>, or <code>findByIdAndUpdate</code>:</p>
+    <pre><code>User.findByIdAndUpdate(userId, { age: 31 }, { new: true })
+  .then(updatedUser => {
+    console.log('Updated user:', updatedUser);
+  })
+  .catch(err => {
+    console.error('Update error:', err);
+  });</code></pre>
+  </section>
+
+  <section id="deleting-data">
+    <h2>Deleting Documents</h2>
+    <p>Delete documents with <code>deleteOne</code>, <code>deleteMany</code>, or <code>findByIdAndDelete</code>:</p>
+    <pre><code>User.findByIdAndDelete(userId)
+  .then(() => {
+    console.log('User deleted');
+  })
+  .catch(err => {
+    console.error('Delete error:', err);
+  });</code></pre>
+  </section>
+
+  <section id="summary">
+    <h2>Summary</h2>
+    <p>
+      Mongoose makes working with MongoDB simple by allowing you to define schemas, models, and validation in your Node.js apps. It supports promises and async/await syntax for clean code.
+    </p>
+    <p>
+      Next steps include learning advanced features like middleware, population, validation, and transactions.
+    </p>
+  </section>
+
+  <footer>
+    &copy; 2025 Mongoose Basics Guide — All rights reserved.
+  </footer>
+
+</body>
+</html>

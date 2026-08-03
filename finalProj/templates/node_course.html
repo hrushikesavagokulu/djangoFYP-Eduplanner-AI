@@ -1,0 +1,185 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ course }} - Node.js</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * { box-sizing: border-box; margin:0; padding:0; font-family:'Inter', sans-serif; }
+
+        body {
+            display: flex;
+            height: 100vh;
+            background: #f4f6f9;
+        }
+
+        /* NAVBAR */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: #1e293b;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            z-index: 1000;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-right: 20px;
+            font-size: 14px;
+        }
+
+        nav a:hover {
+            color: #1abc9c;
+        }
+
+        nav button {
+            margin-right: 15px;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            color: white;
+            font-size: 13px;
+        }
+
+        /* SIDEBAR */
+        #sidebar {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            width: 280px;
+            bottom: 0;
+            background: #111827;
+            color: white;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        #sidebar h2 {
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        #sidebar h3 {
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            color: #1abc9c;
+        }
+
+        #sidebar ul { list-style: none; }
+        #sidebar li { margin-bottom: 6px; }
+
+        #sidebar a {
+            text-decoration: none;
+            color: #d1d5db;
+            font-size: 13px;
+            display: block;
+            padding: 6px 8px;
+            border-radius: 4px;
+        }
+
+        #sidebar a:hover,
+        #sidebar a.active {
+            background: #1f2937;
+            color: #1abc9c;
+        }
+
+        /* CONTENT */
+        #content {
+            margin-top: 60px;
+            margin-left: 280px;
+            width: calc(100% - 280px);
+            height: calc(100vh - 60px);
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: white;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav>
+    <a href="{% url 'dashboard' %}">
+        <i class="fas fa-home"></i> Dashboard
+    </a>
+
+    {% comment %} <button onclick="location.href='{% url 'compiler' %}'" style="background:#1abc9c;">
+        Compiler
+    </button>
+
+    <button onclick="location.href='{% url 'chatbot' %}'" style="background:#9b59b6;">
+        Chatbot
+    </button> {% endcomment %}
+
+    <a href="{% url 'python_course' %}">Python</a>
+    <a href="{% url 'java_course' %}">Java</a>
+    <a href="{% url 'node_course' %}">Node.js</a>
+    <a href="{% url 'pylib_course' %}">Py Libraries</a>
+    <a href="{% url 'c_course' %}">C</a>
+    <a href="{% url 'logout' %}">Logout</a>
+</nav>
+
+<!-- SIDEBAR -->
+<div id="sidebar">
+
+    <h2>{{ course }}</h2>
+
+    <div id="courseSections">
+
+        <h3>Node.js & Express Core</h3>
+        <ul>
+            <li><a href="{% static 'public/nodejs/introduction.html' %}" target="contentFrame">Introduction to Node.js</a></li>
+            <li><a href="{% static 'public/nodejs/setup.html' %}" target="contentFrame">Setting up Environment</a></li>
+            <li><a href="{% static 'public/nodejs/modules.html' %}" target="contentFrame">Node.js Modules</a></li>
+            <li><a href="{% static 'public/nodejs/event-loop.html' %}" target="contentFrame">Event Loop & Async</a></li>
+            <li><a href="{% static 'public/nodejs/express-basics.html' %}" target="contentFrame">Express Basics</a></li>
+            <li><a href="{% static 'public/nodejs/routing.html' %}" target="contentFrame">Routing</a></li>
+            <li><a href="{% static 'public/nodejs/middleware.html' %}" target="contentFrame">Middleware</a></li>
+            <li><a href="{% static 'public/nodejs/error-handling.html' %}" target="contentFrame">Error Handling</a></li>
+            <li><a href="{% static 'public/nodejs/request-response.html' %}" target="contentFrame">Request & Response</a></li>
+            <li><a href="{% static 'public/nodejs/static-files.html' %}" target="contentFrame">Serving Static Files</a></li>
+        </ul>
+
+    </div>
+</div>
+
+<!-- CONTENT -->
+<div id="content">
+    <iframe
+        name="contentFrame"
+        src="{% static 'public/nodejs/introduction.html' %}">
+    </iframe>
+</div>
+
+<script>
+    const links = document.querySelectorAll('#sidebar a[target="contentFrame"]');
+    links.forEach(link => {
+        link.addEventListener('click', function () {
+            links.forEach(l => l.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+</script>
+
+</body>
+</html>

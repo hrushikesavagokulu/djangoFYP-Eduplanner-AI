@@ -1,0 +1,329 @@
+{% extends "base.html" %} {% block title %}Scheduler – DSA Planner{% endblock %}
+{% block extra_style %}/* ================= BASE ================= */ * {
+box-sizing: border-box; } body { margin: 0; font-family: -apple-system,
+BlinkMacSystemFont, "Inter", sans-serif; background: #f6f8fb; color: #0f172a; }
+/* ================= WRAPPER ================= */ .wrapper { display: flex;
+height: 94vh; margin: 24px; border-radius: 24px; overflow: hidden; background:
+white; box-shadow: 0 40px 80px rgba(15, 23, 42, 0.08), 0 8px 24px rgba(15, 23,
+42, 0.04); } /* ================= SIDEBAR ================= */ .sidebar { width:
+300px; background: #0f172a; padding: 40px 24px; color: white; display: flex;
+flex-direction: column; } .sidebar h3 { font-size: 13px; letter-spacing: 2px;
+text-transform: uppercase; color: #94a3b8; margin-bottom: 30px; } /* PLAN ITEM
+*/ .plan-item { position: relative; padding: 16px 18px; border-radius: 14px;
+margin-bottom: 14px; cursor: pointer; transition: all 0.28s
+cubic-bezier(.4,0,.2,1); display: flex; justify-content: space-between;
+align-items: center; background: rgba(255,255,255,0.04); } .plan-item::before {
+content: ""; position: absolute; left: -24px; top: 0; height: 100%; width: 4px;
+background: linear-gradient(180deg,#3b82f6,#7c3aed); opacity: 0; border-radius:
+0 4px 4px 0; transition: 0.3s ease; } .plan-item:hover { background:
+rgba(255,255,255,0.08); transform: translateX(6px); } .plan-item:hover::before {
+opacity: 1; } .plan-item span { font-size: 14px; font-weight: 500; } .delete-btn
+{ color: #f87171; font-size: 15px; transition: 0.2s ease; } .delete-btn:hover {
+transform: scale(1.2); color: #ef4444; } /* ================= MAIN
+================= */ .main { flex: 1; padding: 60px 70px; overflow-y: auto;
+background: #f9fafb; } /* TITLE */ .main h2 { font-size: 30px; font-weight: 700;
+margin-bottom: 35px; letter-spacing: -0.5px; } /* GENERATION BAR */ .gen-bar {
+display: flex; gap: 18px; margin-bottom: 40px; } .gen-bar input { padding: 14px
+18px; border-radius: 14px; border: 1px solid #e5e7eb; font-size: 15px; outline:
+none; transition: all 0.25s ease; background: white; } .gen-bar input:focus {
+border-color: #3b82f6; box-shadow: 0 0 0 4px rgba(59,130,246,0.12); } .gen-bar
+button { padding: 14px 26px; border-radius: 14px; border: none; font-weight:
+600; background: linear-gradient(135deg,#3b82f6,#7c3aed); color: white; cursor:
+pointer; transition: all 0.25s ease; } .gen-bar button:hover { transform:
+translateY(-2px); box-shadow: 0 12px 30px rgba(59,130,246,0.35); } /*
+================= DAY CARD ================= */ .day-card { background: white;
+padding: 28px 32px; border-radius: 22px; margin-bottom: 26px; border: 1px solid
+#f1f5f9; transition: all 0.3s cubic-bezier(.4,0,.2,1); box-shadow: 0 12px 24px
+rgba(15,23,42,0.04); } .day-card:hover { transform: translateY(-6px);
+box-shadow: 0 20px 50px rgba(15,23,42,0.08); } .day-card h4 { font-size: 20px;
+font-weight: 600; margin-bottom: 10px; } .day-card h5 { margin-top: 18px;
+margin-bottom: 6px; font-size: 14px; color: #3b82f6; font-weight: 600; }
+.day-card ul { padding-left: 20px; } .day-card li { margin-bottom: 8px;
+font-size: 14px; color: #334155; } .day-card a { text-decoration: none; color:
+#2563eb; font-weight: 500; } .day-card a:hover { text-decoration: underline; }
+/* COMPLETE BUTTON */ .complete-btn { margin-top: 20px; padding: 10px 18px;
+border-radius: 12px; border: none; font-weight: 600; cursor: pointer;
+transition: all 0.25s ease; } .completed { background:
+linear-gradient(135deg,#16a34a,#15803d); color: white; box-shadow: 0 8px 20px
+rgba(22,163,74,0.3); } .completed:hover { transform: scale(1.05); }
+.not-completed { background: #e2e8f0; color: #0f172a; } .not-completed:hover {
+background: #cbd5e1; } /* SCROLLBAR */ ::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-thumb { background: linear-gradient(#3b82f6,#7c3aed);
+border-radius: 10px; } /* RESPONSIVE */ @media (max-width: 1000px) { .wrapper {
+flex-direction: column; height: auto; } .sidebar { width: 100%; } .main {
+padding: 30px; } .gen-bar { flex-direction: column; } .gen-bar input, .gen-bar
+button { width: 100%; } }
+.sidebar{
+    width:260px;
+    background:#111;
+    color:white;
+    padding:20px;
+    height:100vh;
+    overflow-y:auto;
+}
+
+.plan-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:#1e1e1e;
+    padding:10px;
+    border-radius:6px;
+    margin-bottom:10px;
+}
+
+.plan-name{
+    cursor:pointer;
+    flex:1;
+}
+
+.plan-name:hover{
+    color:#4CAF50;
+}
+
+.delete-btn{
+    background:none;
+    border:none;
+    color:red;
+    cursor:pointer;
+} {% endblock %} {% block content %}
+<div class="wrapper">
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <h3>📚 Your Plans</h3>
+    <div id="planTabs"></div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+    <h2>📘 DSA Plan Generator</h2>
+
+    <div class="gen-bar">
+      <input
+        type="text"
+        id="planTitle"
+        placeholder="Plan Name (Ex: DSA 60 Days)"
+      />
+      <input type="number" id="days" placeholder="Number of days" min="1" />
+      <button onclick="generatePlan()">Generate</button>
+    </div>
+
+    <div id="planContent"></div>
+  </div>
+</div>
+
+<script>
+  function getCookie(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+          for (const cookie of document.cookie.split(';')) {
+              const c = cookie.trim();
+              if (c.startsWith(name + '=')) {
+                  cookieValue = decodeURIComponent(c.slice(name.length + 1));
+                  break;
+              }
+          }
+      }
+      return cookieValue;
+  }
+
+  /* ================= LOAD USER TABS ================= */
+
+  async function loadPlans() {
+
+      const res = await fetch("/scheduler/plans/");
+      const data = await res.json();
+
+      let html = "";
+
+      data.plans.forEach(p => {
+         html += `
+<div class="plan-item">
+    <div class="plan-name" onclick="loadPlan(${p.id})">
+        📌 ${p.title} (${p.days} days)
+    </div>
+
+    <button class="delete-btn" onclick="deletePlan(${p.id})">
+        ❌
+    </button>
+</div>
+`;
+      });
+
+      document.getElementById("planTabs").innerHTML = html;
+  }
+
+  /* ================= GENERATE PLAN ================= */
+
+  {% comment %} async function generatePlan() {
+
+      const days = document.getElementById("days").value;
+      const content = document.getElementById("planContent");
+
+      if (!days || days <= 0) {
+          content.innerHTML = "<p class='error-msg'>Enter valid days</p>";
+          return;
+      }
+
+      content.innerHTML = "Generating...";
+
+      const response = await fetch("{% url 'generate_plan' %}", {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json",
+              "X-CSRFToken": getCookie("csrftoken")
+          },
+          body: JSON.stringify({ total_days: Number(days) })
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+          loadPlans();
+          loadPlan(data.plan_id);
+      } else {
+          content.innerHTML = "<p class='error-msg'>Error generating plan</p>";
+      }
+  } {% endcomment %}
+  async function generatePlan() {
+
+      const days = document.getElementById("days").value;
+      const title = document.getElementById("planTitle").value;
+
+      const content = document.getElementById("planContent");
+
+      if (!title.trim()) {
+          content.innerHTML = "<p class='error-msg'>Enter plan name</p>";
+          return;
+      }
+
+      if (!days || days <= 0) {
+          content.innerHTML = "<p class='error-msg'>Enter valid days</p>";
+          return;
+      }
+
+      content.innerHTML = "Generating...";
+
+      const response = await fetch("{% url 'generate_plan' %}", {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json",
+              "X-CSRFToken": getCookie("csrftoken")
+          },
+          body: JSON.stringify({
+              title: title,
+              total_days: Number(days)
+          })
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+
+          document.getElementById("planTitle").value = "";
+          document.getElementById("days").value = "";
+
+          loadPlans();
+          loadPlan(data.plan_id);
+
+      } else {
+          content.innerHTML = "<p class='error-msg'>Error generating plan</p>";
+      }
+  }
+  /* ================= LOAD PLAN DETAILS ================= */
+  async function loadPlan(planId) {
+
+      const res = await fetch(`/scheduler/plan/${planId}/`);
+      const data = await res.json();
+
+      let html = "";
+
+      data.plan.forEach(day => {
+
+          let references = "";
+          let problems = "";
+          let tasks = "";
+
+          if (day.reference_links && day.reference_links.length > 0) {
+              references += "<h5>📚 References</h5><ul>";
+              day.reference_links.forEach(link => {
+                  references += `<li><a href="${link}" target="_blank">${link}</a></li>`;
+              });
+              references += "</ul>";
+          }
+
+          if (day.problems && day.problems.length > 0) {
+              problems += "<h5>💻 Practice Problems</h5><ul>";
+              day.problems.forEach(p => {
+                  problems += `<li>
+                      <a href="${p.link}" target="_blank">${p.title}</a>
+                      (${p.difficulty})
+                  </li>`;
+              });
+              problems += "</ul>";
+          }
+
+          if (day.tasks && day.tasks.length > 0) {
+              tasks += "<h5>📝 Tasks</h5><ul>";
+              day.tasks.forEach(t => {
+                  tasks += `<li>${t}</li>`;
+              });
+              tasks += "</ul>";
+          }
+
+          html += `
+              <div class="day-card">
+                  <h4>Day ${day.day_number} - ${day.topic}</h4>
+                  <p>Type: ${day.type}</p>
+
+                  ${references}
+                  ${problems}
+                  ${tasks}
+
+                  <button
+                      class="complete-btn ${day.completed ? 'completed' : 'not-completed'}"
+                      onclick="toggleDay(${day.id}, ${planId})">
+                      ${day.completed ? "Completed ✅" : "Mark Complete"}
+                  </button>
+              </div>
+          `;
+      });
+
+      document.getElementById("planContent").innerHTML = html;
+  }
+  /* ================= TOGGLE COMPLETE ================= */
+
+  async function toggleDay(dayId, planId) {
+
+      await fetch(`/scheduler/day/${dayId}/toggle/`, {
+          method: "POST",
+          headers: {
+              "X-CSRFToken": getCookie("csrftoken")
+          }
+      });
+
+      loadPlan(planId);
+  }
+
+  /* ================= DELETE PLAN ================= */
+
+  async function deletePlan(planId) {
+
+      await fetch(`/scheduler/delete/${planId}/`, {
+          method: "POST",
+          headers: {
+              "X-CSRFToken": getCookie("csrftoken")
+          }
+      });
+
+      loadPlans();
+      document.getElementById("planContent").innerHTML = "";
+  }
+
+  /* Load tabs on page load */
+  loadPlans();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<canvas id="progressChart"></canvas>
+<canvas id="timeChart"></canvas>
+{% endblock %}

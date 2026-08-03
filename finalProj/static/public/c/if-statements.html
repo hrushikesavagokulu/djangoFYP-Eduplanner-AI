@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>If Statements</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 900px;
+      margin: 30px auto;
+      line-height: 1.6;
+      color: #222;
+      padding: 0 20px;
+      background: #f9f9f9;
+    }
+    h1, h2, h3 {
+      color: #005a9c;
+    }
+    pre {
+      background: #272822;
+      color: #f8f8f2;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 1rem;
+    }
+    code {
+      font-family: Consolas, monospace;
+      background: #eee;
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: #c7254e;
+    }
+    .note {
+      background: #fff3cd;
+      border-left: 6px solid #ffeeba;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #856404;
+    }
+    .warning {
+      background: #f8d7da;
+      border-left: 6px solid #f5c6cb;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #721c24;
+    }
+    ul {
+      margin-left: 20px;
+    }
+    a {
+      color: #005a9c;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      margin-top: 40px;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<h1>If Statements</h1>
+
+<p>The <code>if</code> statement is one of the fundamental control structures in C programming. It allows you to execute a block of code only if a specified condition is true.</p>
+
+<h2>Basic Syntax</h2>
+<pre><code>if (condition) {
+    // code to execute if condition is true
+}
+</code></pre>
+
+<h2>Example</h2>
+<pre><code>int x = 10;
+
+if (x > 5) {
+    printf("x is greater than 5\n");
+}
+</code></pre>
+
+<h2>Using <code>else</code></h2>
+<p>You can add an <code>else</code> block to execute code when the condition is false.</p>
+<pre><code>if (x > 5) {
+    printf("x is greater than 5\n");
+} else {
+    printf("x is not greater than 5\n");
+}
+</code></pre>
+
+<h2>Using <code>else if</code></h2>
+<p>To check multiple conditions, use <code>else if</code>:</p>
+<pre><code>if (x > 10) {
+    printf("x is greater than 10\n");
+} else if (x == 10) {
+    printf("x is equal to 10\n");
+} else {
+    printf("x is less than 10\n");
+}
+</code></pre>
+
+<h2>Important Notes</h2>
+<ul>
+  <li>The condition inside the <code>if</code> parentheses must evaluate to true (non-zero) or false (zero).</li>
+  <li>Curly braces <code>{ }</code> define the code block. For a single statement, braces are optional but recommended for clarity.</li>
+  <li>Conditions can use comparison operators like <code>==</code>, <code>!=</code>, <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code>.</li>
+</ul>
+
+<div class="note">
+  <strong>Note:</strong> Always use <code>==</code> to compare values. Using a single <code>=</code> is assignment and can cause bugs.
+</div>
+
+<footer>
+  &copy; 2025 Your C Programming Course
+</footer>
+
+
+</body>
+</html>

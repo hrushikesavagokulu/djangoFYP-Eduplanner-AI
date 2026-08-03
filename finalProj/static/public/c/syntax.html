@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Syntax</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 900px;
+      margin: 30px auto;
+      line-height: 1.6;
+      color: #222;
+      padding: 0 20px;
+      background: #f9f9f9;
+    }
+    h1, h2, h3 {
+      color: #005a9c;
+    }
+    pre {
+      background: #272822;
+      color: #f8f8f2;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 1rem;
+    }
+    code {
+      font-family: Consolas, monospace;
+      background: #eee;
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: #c7254e;
+    }
+    .note {
+      background: #fff3cd;
+      border-left: 6px solid #ffeeba;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #856404;
+    }
+    .warning {
+      background: #f8d7da;
+      border-left: 6px solid #f5c6cb;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #721c24;
+    }
+    ul {
+      margin-left: 20px;
+    }
+    a {
+      color: #005a9c;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      margin-top: 40px;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head><body>
+
+<h1>Syntax</h1>
+
+<p>In programming, <strong>syntax</strong> refers to the set of rules that defines the structure and format of valid statements in a language. Just like grammar in natural languages, syntax ensures that the code is written in a way the compiler or interpreter can understand.</p>
+
+<h2>Why Syntax Matters</h2>
+<ul>
+  <li><strong>Correctness:</strong> Proper syntax is essential for the program to compile and run.</li>
+  <li><strong>Readability:</strong> Following syntax rules makes code easier to read and maintain.</li>
+  <li><strong>Error Detection:</strong> Syntax errors are caught early by compilers or interpreters, helping prevent bugs.</li>
+</ul>
+
+<h2>Basic Syntax Rules in C</h2>
+<ul>
+  <li>Every statement ends with a semicolon <code>;</code>.</li>
+  <li>Curly braces <code>{ }</code> group statements into blocks.</li>
+  <li>Comments can be single-line (<code>// comment</code>) or multi-line (<code>/* comment */</code>).</li>
+  <li>Variable names (identifiers) must start with a letter or underscore and contain letters, digits, or underscores.</li>
+  <li>C is case-sensitive (<code>Variable</code> and <code>variable</code> are different).</li>
+</ul>
+
+<h2>Example of Basic Syntax</h2>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    int number = 5;             // Declare and initialize variable
+    printf("Number: %d\n", number);  // Print the value
+    return 0;                   // Return success status
+}
+</code></pre>
+
+<h2>Common Syntax Errors</h2>
+<ul>
+  <li>Missing semicolon.</li>
+  <li>Mismatched or missing braces <code>{ }</code>.</li>
+  <li>Incorrect use of keywords.</li>
+  <li>Using undeclared variables.</li>
+</ul>
+
+<h2>Tips for Writing Correct Syntax</h2>
+<ul>
+  <li>Indent code properly to visually group blocks.</li>
+  <li>Use an editor or IDE with syntax highlighting and error detection.</li>
+  <li>Break code into smaller functions for clarity.</li>
+</ul>
+
+<footer>
+  &copy; 2025 Your C Programming Course
+</footer>
+
+</body>
+
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WebSockets Introduction</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 900px;
+      margin: auto;
+      padding: 20px;
+      line-height: 1.6;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+    h1, h2 {
+      color: #2c3e50;
+    }
+    nav {
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #ccc;
+    }
+    nav a {
+      color: #2980b9;
+      text-decoration: none;
+      margin-right: 15px;
+      font-weight: bold;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    pre {
+      background-color: #eee;
+      padding: 15px;
+      overflow-x: auto;
+      border-radius: 4px;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 10px;
+      border-top: 1px solid #ccc;
+      font-size: 0.9em;
+      color: #777;
+      text-align: center;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+
+
+<h1>Introduction to WebSockets</h1>
+
+<p>WebSockets provide a full-duplex communication channel over a single TCP connection, enabling real-time data transfer between client and server.</p>
+
+<h2>Why Use WebSockets?</h2>
+<ul>
+  <li><strong>Real-Time Communication:</strong> Instant two-way interaction without polling.</li>
+  <li><strong>Low Latency:</strong> Persistent connection reduces overhead.</li>
+  <li><strong>Efficient:</strong> Less bandwidth usage compared to HTTP requests.</li>
+  <li><strong>Supported by Modern Browsers:</strong> Easy to implement on client and server sides.</li>
+</ul>
+
+<h2>Basic WebSocket Example</h2>
+<p>Here is a minimal client-side example of using WebSockets:</p>
+<pre><code>
+// Open a WebSocket connection
+const socket = new WebSocket('ws://localhost:8080');
+
+// When connection opens
+socket.addEventListener('open', function (event) {
+  socket.send('Hello Server!');
+});
+
+// Listen for messages
+socket.addEventListener('message', function (event) {
+  console.log('Message from server ', event.data);
+});
+</code></pre>
+
+<h2>How It Fits With Node.js and Express</h2>
+<p>While Express handles HTTP requests, WebSockets run on a different protocol (ws:// or wss://) but can be integrated with your Node.js server using libraries like <code>ws</code> or <code>socket.io</code>.</p>
+
+<h2>Next Steps</h2>
+<p>We will explore:</p>
+<ul>
+  <li>Setting up a Node.js server with Express</li>
+  <li>Integrating WebSocket servers</li>
+  <li>Connecting MongoDB to store real-time data</li>
+  <li>Using EJS to render dynamic views</li>
+</ul>
+
+<footer>
+  &copy; 2025 Your Node.js & WebSockets Course
+</footer>
+
+</body>
+</html>

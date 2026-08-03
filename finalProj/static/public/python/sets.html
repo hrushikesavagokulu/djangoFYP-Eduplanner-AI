@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>DevHive - Maps</title>
+  <style>
+    /* Your full CSS from previous message goes here */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #1e272e;
+      color: #dcdde1;
+      margin: 20px auto;
+      max-width: 900px;
+      line-height: 1.7;
+      padding: 0 15px;
+    }
+    h1 {
+      font-weight: 700;
+      color: #00cec9;
+      text-align: center;
+      margin-bottom: 30px;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
+    h2 {
+      color: #ffffff;
+      margin-top: 40px;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #00cec9;
+      padding-bottom: 6px;
+      font-weight: 600;
+    }
+    p {
+      font-size: 17px;
+      margin-bottom: 18px;
+      color: #dfe6e9;
+    }
+    code {
+      background: #2f3640;
+      padding: 3px 7px;
+      border-radius: 5px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 16px;
+      color: #ff7675;
+    }
+    pre {
+      background: #2f3640;
+      padding: 15px 20px;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin-bottom: 25px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 16px;
+      line-height: 1.5;
+      box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+      color: #f1f2f6;
+    }
+    pre code {
+      color: #f1f2f6;
+    }
+    .highlight {
+      background-color: #273c75;
+      border-left: 5px solid #00cec9;
+      padding: 18px 25px;
+      margin: 40px 0;
+      border-radius: 8px;
+      color: #00cec9;
+      font-weight: 600;
+      font-size: 18px;
+    }
+    .exercise {
+      background: #353b48;
+      border-left: 5px solid #0984e3;
+      padding: 20px 25px;
+      margin-top: 50px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+    .exercise h3 {
+      margin-top: 0;
+      color: #74b9ff;
+      font-weight: 700;
+      font-size: 22px;
+      letter-spacing: 0.8px;
+    }
+    .exercise p,
+    .exercise label {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: #dcdde1;
+    }
+    .exercise label:hover {
+      color: #74b9ff;
+    }
+    .exercise input[type="radio"] {
+      margin-right: 10px;
+      transform: scale(1.2);
+      cursor: pointer;
+    }
+    .try-it {
+      margin-top: 35px;
+      border: 2px solid #00cec9;
+      border-radius: 10px;
+      background: #2d3436;
+      padding: 15px 20px;
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+    }
+    .try-it > *:last-child {
+      margin-bottom: 0;
+    }
+    textarea.code-input {
+      width: 100%;
+      height: 130px;
+      font-family: monospace;
+      font-size: 16px;
+      border: 2px solid #00cec9;
+      border-radius: 6px;
+      padding: 12px;
+      resize: vertical;
+      background: #1e272e;
+      color: #dfe6e9;
+      cursor: text;
+    }
+    textarea.code-input::-webkit-scrollbar {
+      width: 8px;
+    }
+    textarea.code-input::-webkit-scrollbar-thumb {
+      background-color: #00cec9;
+      border-radius: 4px;
+    }
+    textarea.code-input::-webkit-scrollbar-track {
+      background: #1e272e;
+    }
+    button.run-btn {
+      margin-top: 10px;
+      background-color: #00cec9;
+      border: none;
+      color: white;
+      font-weight: 700;
+      padding: 10px 18px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+    button.run-btn:hover {
+      background-color: #0984e3;
+    }
+    button.run-btn:focus,
+    textarea.code-input:focus {
+      outline: 3px solid #0984e3;
+      outline-offset: 2px;
+    }
+    .output {
+      margin-top: 15px;
+      background: #1e272e;
+      padding: 12px 18px;
+      border-radius: 8px;
+      border: 2px solid #0984e3;
+      min-height: 40px;
+      font-family: monospace;
+      font-size: 15px;
+      white-space: pre-wrap;
+      color: #dcdde1;
+      word-wrap: break-word;
+      transition: background-color 0.3s ease;
+    }
+    .error {
+      color: #ff7675;
+      font-weight: 700;
+    }
+    .hint {
+      font-size: 14px;
+      color: #7f8c8d;
+      margin-top: 5px;
+    }
+    a {
+      color: #00cec9;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    a:hover {
+      color: #0984e3;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Sets - DevHive</h1>
+
+<p>Sets are collections of unique values. Duplicate values are automatically removed.</p>
+
+<h2>Creating a Set</h2>
+<pre><code>const numbers = new Set([1, 2, 3, 2, 1]);
+console.log(numbers); // Set(3) {1, 2, 3}</code></pre>
+
+<h2>Set Methods</h2>
+<pre><code>numbers.add(4);    // Add element
+numbers.delete(2);  // Remove element
+numbers.has(1);     // Check presence
+numbers.size;       // Get size</code></pre>
+
+<h2>Iterating over a Set</h2>
+<pre><code>for (const value of numbers) {
+  console.log(value);
+}</code></pre>
+
+<h2>Converting Set to Array</h2>
+<p>You can convert a Set to an Array using the spread operator or <code>Array.from()</code>:</p>
+<pre><code>const arr = [...numbers];
+const arr2 = Array.from(numbers);
+console.log(arr, arr2);</code></pre>
+
+<h2>Common Use Cases</h2>
+<ul>
+  <li>Removing duplicate values from arrays</li>
+  <li>Checking existence of elements efficiently</li>
+  <li>Performing set operations like union, intersection (using custom code)</li>
+</ul>
+
+<h2>Example: Removing duplicates</h2>
+<pre><code>const names = ['Alice', 'Bob', 'Alice', 'Eve'];
+const uniqueNames = new Set(names);
+console.log(uniqueNames); // Set(3) {'Alice', 'Bob', 'Eve'}</code></pre>
+
+<h2>Example: Union of two sets</h2>
+<pre><code>const setA = new Set([1, 2, 3]);
+const setB = new Set([3, 4, 5]);
+const union = new Set([...setA, ...setB]);
+console.log(union); // Set(5) {1, 2, 3, 4, 5}</code></pre>
+
+<h2>Example: Intersection of two sets</h2>
+<pre><code>const intersection = new Set([...setA].filter(x => setB.has(x)));
+console.log(intersection); // Set(1) {3}</code></pre>
+
+<h2>Example: Difference of two sets</h2>
+<pre><code>const difference = new Set([...setA].filter(x => !setB.has(x)));
+console.log(difference); // Set(2) {1, 2}</code></pre>
+
+
+
+  <div class="try-it">
+    <h3>Try it Yourself</h3>
+    <textarea class="code-input" id="codeArea">const myMap = new Map();
+myMap.set("color", "blue");
+myMap.set("size", "large");
+console.log(myMap);</textarea>
+    <button class="run-btn" onclick="runCode()">Run Code</button>
+    <div class="output" id="output"></div>
+  </div>
+
+  <script>
+    function runCode() {
+      const code = document.getElementById("codeArea").value;
+      const output = document.getElementById("output");
+      output.innerHTML = '';
+      try {
+        const logs = [];
+        console.log = (...args) => logs.push(args.join(' '));
+        new Function(code)();
+        output.innerText = logs.join('\n');
+      } catch (e) {
+        output.innerHTML = "<span class='error'>Error: " + e.message + "</span>";
+      }
+    }
+  </script>
+
+</body>
+</html>

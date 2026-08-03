@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SSR Authentication in Express</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <h1>SSR Authentication with Express.js</h1>
+
+  <p>
+    Server-Side Rendering (SSR) authentication refers to protecting server-rendered routes and pages by verifying a user's credentials or session before the HTML content is rendered and sent to the client.
+    This is useful in web applications that use template engines like Pug, EJS, or Handlebars.
+  </p>
+
+  <h2>Why SSR Authentication?</h2>
+  <ul>
+    <li>Ensures protected pages are never sent to unauthenticated users</li>
+    <li>Helps prevent unauthorized access to sensitive views</li>
+    <li>Ideal for traditional web apps or hybrid apps using Express and templates</li>
+  </ul>
+
+  <h2>How it Works</h2>
+  <p>
+    The typical flow involves checking user authentication status before rendering the HTML page:
+  </p>
+  <ol>
+    <li>User sends request to access a protected route (e.g. <code>/dashboard</code>)</li>
+    <li>Middleware checks if user is authenticated</li>
+    <li>If yes → render HTML with user data</li>
+    <li>If no → redirect to login page</li>
+  </ol>
+
+  <h2>Basic Example</h2>
+
+  <h3>1. Install Required Modules</h3>
+  <pre><code>npm install express express-session pug</code></pre>
+
+  <h3>2. Set Up Express with Pug and Sessions</h3>
+  <pre><code>const express = require('express');
+const session = require('express-session');
+const app = express();
+
+app.set('view engine', 'pug');
+app.set('views', './views');
+
+app.use(express.urlencoded({ extended: true }));
+app.use(session({
+  secret: 'mySecretKey',
+  resave: false,
+  saveUninitialized: false
+}));
+</code></pre>
+
+  <h3>3. Authentication Middleware</h3>
+  <pre><code>function isAuthenticated(req, res, next) {
+  if (req.session.user) {
+    return next();
+  }
+  res.redirect('/login');
+}</code></pre>
+
+  <h3>4. Routes and Rendering</h3>
+  <pre><code>app.get('/login', (req, res) => {
+  res.render('login');
+});
+
+app.post('/login', (req, res) => {
+  const { username, password } = req.body;
+  // Example credentials check
+  if (username === 'admin' && password === '1234') {
+    req.session.user = username;
+    return res.redirect('/dashboard');
+  }
+  res.render('login', { error: 'Invalid credentials' });
+});
+
+app.get('/dashboard', isAuthenticated, (req, res) => {
+  res.render('dashboard', { user: req.session.user });
+});
+
+app.get('/logout', (req, res) => {
+  req.session.destroy(() => {
+    res.redirect('/login');
+  });
+});</code></pre>
+
+  <h3>5. Sample Pug Views</h3>
+  <p><strong>login.pug</strong></p>
+  <pre><code>html
+  head
+    title Login
+  body
+    h1 Login
+    form(method="POST" action="/login")
+      input(type="text" name="username" placeholder="Username")
+      input(type="password" name="password" placeholder="Password")
+      button(type="submit") Login
+    if error
+      p.error= error</code></pre>
+
+  <p><strong>dashboard.pug</strong></p>
+  <pre><code>html
+  head
+    title Dashboard
+  body
+    h1 Welcome, #{user}!
+    a(href="/logout") Logout</code></pre>
+
+  <h2>Summary</h2>
+  <p>
+    SSR authentication allows Express.js applications to secure their server-rendered views.
+    Using session middleware and a simple login flow, you can protect sensitive content and ensure only authenticated users have access to it.
+  </p>
+
+  <footer>
+    &copy; 2025 Express SSR Auth Guide
+  </footer>
+
+</body>
+</html>

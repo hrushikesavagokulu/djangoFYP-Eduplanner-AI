@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Java - Methods</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #1e272e;
+      color: #dcdde1;
+      margin: 20px auto;
+      max-width: 900px;
+      line-height: 1.7;
+      padding: 0 15px;
+    }
+    h1 {
+      font-weight: 700;
+      color: #00cec9;
+      text-align: center;
+      margin-bottom: 30px;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
+    h2 {
+      color: #ffffff;
+      margin-top: 40px;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #00cec9;
+      padding-bottom: 6px;
+      font-weight: 600;
+    }
+    p, ul {
+      font-size: 17px;
+      color: #dfe6e9;
+    }
+    ul {
+      margin-left: 20px;
+    }
+    strong {
+      color: #00cec9;
+    }
+    code {
+      background: #2f3640;
+      padding: 3px 7px;
+      border-radius: 5px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 16px;
+      color: #ff7675;
+    }
+    pre {
+      background: #2f3640;
+      padding: 15px 20px;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin-bottom: 25px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 16px;
+      line-height: 1.5;
+      box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+      color: #f1f2f6;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Java Methods</h1>
+
+  <p><strong>Methods</strong> are blocks of code designed to perform a specific task, improve code reusability, and organize programs efficiently. In Java, methods define behavior and can accept inputs, perform operations, and return results.</p>
+
+  <h2>Method Syntax</h2>
+  <p>A typical method declaration consists of:</p>
+  <ul>
+    <li><strong>Access modifier</strong> (optional) like <code>public</code>, <code>private</code>, or <code>protected</code>.</li>
+    <li><strong>Return type</strong> - the data type the method returns, or <code>void</code> if it returns nothing.</li>
+    <li><strong>Method name</strong> - a valid identifier.</li>
+    <li><strong>Parameter list</strong> in parentheses (can be empty).</li>
+    <li><strong>Method body</strong> enclosed in curly braces <code>{}</code>.</li>
+  </ul>
+
+  <h2>Basic Syntax Example</h2>
+  <p>A simple method with no parameters and no return value:</p>
+  <pre><code>public void greet() {
+    System.out.println("Hello, World!");
+}</code></pre>
+
+  <h2>Method with Parameters</h2>
+  <p>Methods can accept parameters to work with dynamic data:</p>
+  <pre><code>public void greetUser(String name) {
+    System.out.println("Hello, " + name + "!");
+}</code></pre>
+<div style="margin: 40px auto; max-width: 800px; width: 90%; aspect-ratio: 16 / 9; box-shadow: 0 8px 20px rgba(0,0,0,0.2); border-radius: 12px; overflow: hidden; background: #000;">
+  <iframe
+    src="https://www.youtube.com/embed/KSS3MUbBWLk"
+    title="#24 Methods in Java"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen
+    style="width: 100%; height: 100%; border: none; display: block;"
+  ></iframe>
+</div>
+
+  <h2>Method with Return Value</h2>
+  <p>Methods can return values to the caller:</p>
+  <pre><code>public int add(int a, int b) {
+    return a + b;
+}</code></pre>
+
+  <h2>Calling Methods</h2>
+  <p>Methods are called by specifying the method name followed by parentheses. If the method belongs to an object, use the object reference:</p>
+  <pre><code>greet(); // calling method without parameters
+greetUser("Alice"); // calling method with parameter
+int sum = add(5, 7); // calling method with return value</code></pre>
+
+  <h2>Method Overloading</h2>
+  <p>Java allows multiple methods with the same name but different parameter lists (type or number), known as method overloading:</p>
+  <pre><code>public int add(int a, int b) {
+    return a + b;
+}
+
+public double add(double a, double b) {
+    return a + b;
+}
+
+public int add(int a, int b, int c) {
+    return a + b + c;
+}</code></pre>
+
+  <h2>Why Use Methods?</h2>
+  <ul>
+    <li>Code reusability: Write once, call multiple times.</li>
+    <li>Modularity: Break large programs into manageable parts.</li>
+    <li>Maintainability: Easier to update or debug isolated code blocks.</li>
+    <li>Readability: Cleaner and more understandable code structure.</li>
+  </ul>
+
+  <h2>Example: Complete Class with Methods</h2>
+  <p>This class demonstrates declaring, calling, and overloading methods:</p>
+  <pre><code>public class Calculator {
+
+    public void greet() {
+        System.out.println("Welcome to Calculator");
+    }
+
+    public int add(int a, int b) {
+        return a + b;
+    }
+
+    public double add(double a, double b) {
+        return a + b;
+    }
+
+    public static void main(String[] args) {
+        Calculator calc = new Calculator();
+        calc.greet();
+
+        System.out.println(calc.add(10, 20));
+        System.out.println(calc.add(10.5, 20.5));
+    }
+}</code></pre>
+
+  <h2>Summary</h2>
+  <p>Methods are fundamental in Java programming for structuring logic, enabling reuse, and supporting complex operations. Understanding method syntax, parameters, return types, and overloading is crucial for effective Java development.</p>
+
+</body>
+</html>

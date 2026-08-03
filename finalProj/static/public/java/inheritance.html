@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Java - Inheritance</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f6fa;
+      color: #2f3640;
+      max-width: 900px;
+      margin: auto;
+      padding: 20px;
+      line-height: 1.7;
+    }
+    h1 {
+      color: #0984e3;
+      text-align: center;
+    }
+    h2 {
+      color: #2d3436;
+      margin-top: 30px;
+    }
+    pre {
+      background: #dfe6e9;
+      padding: 12px;
+      border-left: 5px solid #00cec9;
+      overflow-x: auto;
+    }
+    code {
+      font-family: Consolas, monospace;
+    }
+    .highlight {
+      background: #ffeaa7;
+      padding: 15px;
+      border-left: 5px solid #fdcb6e;
+      margin: 20px 0;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <h1>Java - Inheritance</h1>
+
+  <p>
+    Inheritance is one of the four fundamental Object-Oriented Programming (OOP) concepts in Java. It allows one class to inherit fields and methods from another class. The primary purpose of inheritance is to promote code reusability and establish a natural hierarchy between classes.
+  </p>
+
+  <h2>Key Concepts</h2>
+  <ul>
+    <li><strong>Superclass (Parent Class):</strong> The class whose properties and methods are inherited.</li>
+    <li><strong>Subclass (Child Class):</strong> The class that inherits from another class.</li>
+    <li><strong>Keyword:</strong> <code>extends</code> is used to create a subclass.</li>
+  </ul>
+
+  <h2>Syntax</h2>
+  <pre><code>class Superclass {
+  // fields and methods
+}
+
+class Subclass extends Superclass {
+  // additional fields and methods
+}</code></pre>
+
+  <h2>Example</h2>
+  <pre><code>class Animal {
+  void eat() {
+    System.out.println("This animal eats food.");
+  }
+}
+
+class Dog extends Animal {
+  void bark() {
+    System.out.println("The dog barks.");
+  }
+}
+
+public class Main {
+  public static void main(String[] args) {
+    Dog d = new Dog();
+    d.eat();   // Inherited from Animal
+    d.bark();  // Defined in Dog
+  }
+}</code></pre>
+
+  <div class="highlight">Output:<br>This animal eats food.<br>The dog barks.</div>
+<div style="margin: 40px auto; max-width: 800px; width: 90%; aspect-ratio: 16 / 9; box-shadow: 0 8px 20px rgba(0,0,0,0.2); border-radius: 12px; overflow: hidden; background: #000;">
+  <iframe
+    src="https://www.youtube.com/embed/dFuVh_Bzy9c"
+    title="What is Inheritance in Java"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen
+    style="width: 100%; height: 100%; border: none; display: block;"
+  ></iframe>
+</div>
+
+  <h2>Types of Inheritance in Java</h2>
+  <ul>
+    <li><strong>Single Inheritance:</strong> One class inherits from one superclass.</li>
+    <li><strong>Multilevel Inheritance:</strong> A class inherits from a class which is already a subclass of another class.</li>
+    <li><strong>Hierarchical Inheritance:</strong> Multiple classes inherit from a single superclass.</li>
+  </ul>
+  <div class="highlight"><strong>Note:</strong> Java does not support multiple inheritance with classes (i.e., one class cannot extend more than one class) to avoid ambiguity. Instead, Java uses interfaces.</div>
+
+  <h2>Multilevel Inheritance Example</h2>
+  <pre><code>class Animal {
+  void eat() {
+    System.out.println("eating...");
+  }
+}
+
+class Dog extends Animal {
+  void bark() {
+    System.out.println("barking...");
+  }
+}
+
+class Puppy extends Dog {
+  void weep() {
+    System.out.println("weeping...");
+  }
+}
+
+public class Main {
+  public static void main(String[] args) {
+    Puppy p = new Puppy();
+    p.eat();
+    p.bark();
+    p.weep();
+  }
+}</code></pre>
+
+  <div class="highlight">Output:<br>eating...<br>barking...<br>weeping...</div>
+
+  <h2>Benefits of Inheritance</h2>
+  <ul>
+    <li>Promotes code reuse</li>
+    <li>Improves program structure</li>
+    <li>Supports polymorphism and method overriding</li>
+  </ul>
+
+  <h2>Real-World Analogy</h2>
+  <p>Think of a general class "Vehicle". Cars, Bikes, and Trucks can all inherit common properties like speed, and methods like start() or stop(). This reflects a real-world hierarchy and promotes efficient programming.</p>
+
+  <h2>Method Overriding in Inheritance</h2>
+  <p>A subclass can provide its own implementation of a method that is already defined in the superclass.</p>
+  <pre><code>class Animal {
+  void sound() {
+    System.out.println("Animal makes a sound");
+  }
+}
+
+class Cat extends Animal {
+  @Override
+  void sound() {
+    System.out.println("Cat meows");
+  }
+}</code></pre>
+
+  <h2>Conclusion</h2>
+  <p>
+    Inheritance is essential for object-oriented design in Java. It enables a structured class hierarchy, encourages reusability, and simplifies maintenance and enhancements. Mastering inheritance lays the groundwork for deeper topics like polymorphism and abstraction.
+  </p>
+
+</body>
+</html>

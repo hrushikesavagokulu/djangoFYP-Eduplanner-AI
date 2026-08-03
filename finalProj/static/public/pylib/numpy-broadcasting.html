@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Broadcasting and Vectorization in NumPy</title>
+  <style>
+    /* Page-specific styles can be added here */
+  </style>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<h1>Broadcasting and Vectorization in NumPy</h1>
+
+<p><strong>Broadcasting</strong> is a powerful mechanism that allows NumPy to work with arrays of different shapes during arithmetic operations.</p>
+
+<h2>What is Broadcasting?</h2>
+<p>Broadcasting automatically expands the smaller array across the larger array so they have compatible shapes for element-wise operations without copying data.</p>
+
+<h3>Example of broadcasting</h3>
+<pre><code>import numpy as np
+
+# 1D array
+a = np.array([1, 2, 3])
+
+# Scalar value (0-dimensional array)
+b = 5
+
+# Adding scalar to array broadcasts scalar across the array
+print(a + b)  # Output: [6 7 8]</code></pre>
+
+<h2>Rules of Broadcasting</h2>
+<p>NumPy applies these rules to determine if arrays are compatible for broadcasting:</p>
+<ol>
+  <li>If arrays have different number of dimensions, prepend 1s to the shape of the smaller array.</li>
+  <li>Arrays are compatible in a dimension if they are equal or one of them is 1.</li>
+  <li>If all dimensions are compatible, broadcasting occurs.</li>
+</ol>
+
+<h3>Example: Different shaped arrays</h3>
+<pre><code># a shape: (3, 1)
+a = np.array([[1], [2], [3]])
+
+# b shape: (1, 4)
+b = np.array([10, 20, 30, 40])
+
+# Result shape: (3, 4) - broadcasted
+print(a + b)
+# Output:
+# [[11 21 31 41]
+#  [12 22 32 42]
+#  [13 23 33 43]]</code></pre>
+
+<h2>Why Broadcasting is Useful</h2>
+<ul>
+  <li>Avoids explicit loops in Python, leading to faster, more readable code.</li>
+  <li>Efficient memory use since data isn’t duplicated.</li>
+  <li>Enables vectorized operations, which leverage optimized C routines under the hood.</li>
+</ul>
+
+<h2>Vectorization</h2>
+<p>Vectorization means replacing explicit loops with array operations that apply to entire arrays at once. This improves performance and makes code concise.</p>
+
+<h3>Example: Vectorized operations</h3>
+<pre><code># Without vectorization (using loop)
+result = []
+for x in range(1, 6):
+    result.append(x * 2)
+print(result)  # [2, 4, 6, 8, 10]
+
+# With vectorization
+arr = np.array([1, 2, 3, 4, 5])
+print(arr * 2)  # [2 4 6 8 10]</code></pre>
+
+<h2>Summary</h2>
+<p>Broadcasting and vectorization are core to NumPy’s power, enabling high-performance, concise code for numerical computations.</p>
+
+<footer>
+  &copy; 2025 Your Python NumPy Course
+</footer>
+
+</body>
+</html>

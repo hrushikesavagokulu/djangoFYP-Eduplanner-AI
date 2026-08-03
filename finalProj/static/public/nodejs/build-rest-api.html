@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Building REST API with Express.js</title>
+  <link rel="stylesheet" href="styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+
+  <h1>Building REST API with Express.js</h1>
+
+  <section id="what-is-rest-api">
+    <h2>What is a REST API?</h2>
+    <p>
+      REST (Representational State Transfer) is an architectural style for designing networked applications.
+      A REST API exposes endpoints that allow clients to perform CRUD operations (Create, Read, Update, Delete) on resources via HTTP methods.
+    </p>
+  </section>
+
+  <section id="setting-up-express">
+    <h2>Setting up Express.js</h2>
+    <pre><code>// Initialize a new project and install Express
+npm init -y
+npm install express
+</code></pre>
+    <p>Create <code>app.js</code>:</p>
+    <pre><code>const express = require('express');
+const app = express();
+
+app.use(express.json()); // Parse JSON bodies
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+</code></pre>
+  </section>
+<div style="
+  margin: 40px auto;
+  max-width: 800px;
+  width: 90%;
+  aspect-ratio: 16 / 9;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #000;
+">
+  <iframe
+    src="https://www.youtube.com/embed/uNCrMvkPUAE"
+    title="YouTube video player"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen
+    style="width: 100%; height: 100%; border: none; display: block;"
+  ></iframe>
+</div>
+
+  <section id="defining-routes">
+    <h2>Defining RESTful Routes</h2>
+    <p>Common HTTP methods and their typical RESTful use:</p>
+    <ul>
+      <li><code>GET</code> - Retrieve resources</li>
+      <li><code>POST</code> - Create a new resource</li>
+      <li><code>PUT</code> / <code>PATCH</code> - Update an existing resource</li>
+      <li><code>DELETE</code> - Delete a resource</li>
+    </ul>
+  </section>
+
+  <section id="example-rest-api">
+    <h2>Example: Simple User API</h2>
+    <pre><code>const users = []; // In-memory user store
+
+// Get all users
+app.get('/users', (req, res) => {
+  res.json(users);
+});
+
+// Get user by ID
+app.get('/users/:id', (req, res) => {
+  const user = users.find(u => u.id === parseInt(req.params.id));
+  if (!user) return res.status(404).json({ message: 'User not found' });
+  res.json(user);
+});
+
+// Create new user
+app.post('/users', (req, res) => {
+  const user = { id: users.length + 1, name: req.body.name };
+  users.push(user);
+  res.status(201).json(user);
+});
+
+// Update user by ID
+app.put('/users/:id', (req, res) => {
+  const user = users.find(u => u.id === parseInt(req.params.id));
+  if (!user) return res.status(404).json({ message: 'User not found' });
+  user.name = req.body.name;
+  res.json(user);
+});
+
+// Delete user by ID
+app.delete('/users/:id', (req, res) => {
+  const index = users.findIndex(u => u.id === parseInt(req.params.id));
+  if (index === -1) return res.status(404).json({ message: 'User not found' });
+  users.splice(index, 1);
+  res.status(204).send();
+});
+</code></pre>
+  </section>
+
+  <section id="testing-api">
+    <h2>Testing Your API</h2>
+    <p>You can test your REST API using tools like:</p>
+    <ul>
+      <li><strong>Postman</strong> - User-friendly API testing tool</li>
+      <li><strong>curl</strong> - Command-line HTTP client</li>
+      <li><strong>Insomnia</strong> - Another popular API client</li>
+    </ul>
+  </section>
+
+  <section id="best-practices">
+    <h2>Best Practices</h2>
+    <ul>
+      <li>Use proper HTTP status codes</li>
+      <li>Validate incoming data</li>
+      <li>Implement error handling middleware</li>
+      <li>Document your API (Swagger, API Blueprint, etc.)</li>
+      <li>Use versioning for your API endpoints</li>
+    </ul>
+  </section>
+
+  <footer>
+    &copy; 2025 Express.js REST API Guide — All rights reserved.
+  </footer>
+
+</body>
+</html>

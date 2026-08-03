@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Statistics and Scientific Functions using SciPy</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 900px;
+      margin: 30px auto;
+      line-height: 1.6;
+      color: #222;
+      padding: 0 20px;
+      background: #f9f9f9;
+    }
+    h1, h2, h3 {
+      color: #005a9c;
+    }
+    pre {
+      background: #272822;
+      color: #f8f8f2;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 1rem;
+    }
+    code {
+      font-family: Consolas, monospace;
+      background: #eee;
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: #c7254e;
+    }
+    .note {
+      background: #fff3cd;
+      border-left: 6px solid #ffeeba;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #856404;
+    }
+    ul {
+      margin-left: 20px;
+    }
+    footer {
+      margin-top: 40px;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<h1>Statistics and Scientific Functions using SciPy</h1>
+
+<p><strong>SciPy</strong> is a Python-based ecosystem of open-source software for mathematics, science, and engineering. One of its most powerful modules is <code>scipy.stats</code>, which provides tools for statistical computations.</p>
+
+<h2>1. Importing SciPy</h2>
+<pre><code>from scipy import stats</code></pre>
+
+<h2>2. Descriptive Statistics</h2>
+
+<h3>Mean, Median, Mode, Variance, Standard Deviation:</h3>
+<pre><code>import numpy as np
+data = [4, 5, 1, 2, 7, 5, 3, 5]
+
+print("Mean:", np.mean(data))
+print("Median:", np.median(data))
+print("Mode:", stats.mode(data, keepdims=True))
+print("Variance:", np.var(data))
+print("Standard Deviation:", np.std(data))</code></pre>
+
+<h2>3. Probability Distributions</h2>
+
+<h3>Normal Distribution</h3>
+<pre><code># Generate values
+x = np.linspace(-3, 3, 100)
+y = stats.norm.pdf(x, loc=0, scale=1)
+
+# Random samples
+samples = stats.norm.rvs(loc=0, scale=1, size=10)</code></pre>
+
+<h3>Binomial Distribution</h3>
+<pre><code># PMF of binomial distribution
+p = stats.binom.pmf(k=2, n=10, p=0.5)
+print("P(X=2):", p)</code></pre>
+
+<h2>4. Hypothesis Testing</h2>
+
+<h3>t-test (Independent)</h3>
+<pre><code># Two sample t-test
+group1 = [23, 21, 25, 30, 22]
+group2 = [31, 35, 29, 32, 30]
+
+t_stat, p_val = stats.ttest_ind(group1, group2)
+print("t-statistic:", t_stat, "p-value:", p_val)</code></pre>
+
+<h3>Chi-Square Test</h3>
+<pre><code>observed = [30, 10, 20]
+expected = [20, 20, 20]
+
+chi2, p = stats.chisquare(f_obs=observed, f_exp=expected)
+print("Chi-square stat:", chi2, "p-value:", p)</code></pre>
+
+<h2>5. Correlation and Covariance</h2>
+
+<pre><code>x = [1, 2, 3, 4, 5]
+y = [5, 4, 3, 2, 1]
+
+# Pearson correlation
+r, p_val = stats.pearsonr(x, y)
+print("Pearson Correlation:", r)
+
+# Spearman correlation
+rho, p_val = stats.spearmanr(x, y)
+print("Spearman Correlation:", rho)</code></pre>
+
+<h2>6. Confidence Intervals</h2>
+<pre><code>mean = np.mean(data)
+sem = stats.sem(data)  # standard error of mean
+ci = stats.t.interval(0.95, len(data)-1, loc=mean, scale=sem)
+
+print("95% Confidence Interval:", ci)</code></pre>
+
+<h2>7. Summary</h2>
+<ul>
+  <li><code>scipy.stats</code> offers a broad set of statistical tools.</li>
+  <li>Supports both descriptive and inferential statistics.</li>
+  <li>Includes probability distributions, hypothesis tests, correlation, and more.</li>
+</ul>
+
+<div class="note">
+  <strong>Note:</strong> Combine SciPy with NumPy and Matplotlib for full power in data science workflows.
+</div>
+
+<footer>
+  &copy; 2025 Your Python + SciPy Course
+</footer>
+
+</body>
+</html>

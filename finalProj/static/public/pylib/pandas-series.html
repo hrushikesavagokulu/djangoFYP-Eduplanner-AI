@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Working with Series and DataFrames</title>
+  <style>
+    /* Basic styles or overrides */
+  </style>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<h1>Working with Series and DataFrames</h1>
+
+<p><strong>Pandas</strong> is a powerful Python library used for data manipulation and analysis. Its two primary data structures are <code>Series</code> and <code>DataFrame</code>. Understanding these is essential for effective data analysis.</p>
+
+<h2>1. Pandas Series</h2>
+<p>A <code>Series</code> is a one-dimensional labeled array capable of holding any data type.</p>
+
+<h3>Creating a Series</h3>
+<pre><code>import pandas as pd
+
+# Create a Series from a list
+data = [10, 20, 30, 40]
+s = pd.Series(data)
+print(s)
+</code></pre>
+
+<p><strong>Output:</strong></p>
+<pre><code>0    10
+1    20
+2    30
+3    40
+dtype: int64
+</code></pre>
+
+<h3>Custom Index</h3>
+<pre><code>s = pd.Series(data, index=['a', 'b', 'c', 'd'])
+print(s)
+</code></pre>
+
+<p><strong>Output:</strong></p>
+<pre><code>a    10
+b    20
+c    30
+d    40
+dtype: int64
+</code></pre>
+
+<h3>Accessing Series Elements</h3>
+<p>You can access elements by position or index label:</p>
+<pre><code>print(s[0])   # Access by position
+print(s['a']) # Access by label
+</code></pre>
+
+<h2>2. Pandas DataFrame</h2>
+<p>A <code>DataFrame</code> is a two-dimensional labeled data structure with columns of potentially different types.</p>
+
+<h3>Creating a DataFrame</h3>
+<pre><code>import pandas as pd
+
+# Create a DataFrame from a dictionary
+data = {
+    'Name': ['Alice', 'Bob', 'Charlie'],
+    'Age': [25, 30, 35],
+    'City': ['New York', 'Los Angeles', 'Chicago']
+}
+
+df = pd.DataFrame(data)
+print(df)
+</code></pre>
+
+<p><strong>Output:</strong></p>
+<pre><code>      Name  Age         City
+0    Alice   25     New York
+1      Bob   30  Los Angeles
+2  Charlie   35      Chicago
+</code></pre>
+
+<h3>Accessing Columns</h3>
+<p>Access a column as a Series:</p>
+<pre><code>print(df['Name'])
+</code></pre>
+
+<h3>Accessing Rows</h3>
+<p>Use <code>loc</code> and <code>iloc</code> for label-based and position-based indexing:</p>
+<pre><code>print(df.loc[0])  # Row by label
+print(df.iloc[1]) # Row by position
+</code></pre>
+
+<h3>Adding a New Column</h3>
+<pre><code>df['Salary'] = [50000, 60000, 70000]
+print(df)
+</code></pre>
+
+<h3>Basic DataFrame Operations</h3>
+<ul>
+  <li><code>df.head()</code> — View the first few rows</li>
+  <li><code>df.describe()</code> — Get summary statistics</li>
+  <li><code>df.info()</code> — Get DataFrame info including data types</li>
+  <li><code>df.shape</code> — Get dimensions (rows, columns)</li>
+</ul>
+
+<h2>3. Summary</h2>
+<ul>
+  <li><code>Series</code> is a one-dimensional labeled array.</li>
+  <li><code>DataFrame</code> is a two-dimensional table with labeled rows and columns.</li>
+  <li>Pandas provides flexible and powerful data manipulation capabilities.</li>
+</ul>
+
+<div class="note">
+  <strong>Note:</strong> Pandas integrates well with other Python libraries such as NumPy and Matplotlib for advanced data analysis and visualization.
+</div>
+
+<footer>
+  &copy; 2025 Your Python Pandas Course
+</footer>
+
+</body>
+</html>

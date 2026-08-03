@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Using GroupBy and aggregation in Pandas</title>
+  <style>
+    /* Add any small style overrides here if needed */
+  </style>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<h1>Using GroupBy and Aggregation in Pandas</h1>
+
+<p><strong>GroupBy</strong> is a powerful feature in Pandas used to split data into groups based on some criteria, apply a function to each group independently, and then combine the results back together. This is especially useful for summarizing data and performing aggregation.</p>
+
+<h2>How GroupBy Works</h2>
+<ul>
+  <li><strong>Split:</strong> The data is split into groups based on some column(s).</li>
+  <li><strong>Apply:</strong> A function is applied to each group independently (e.g., sum, mean, count).</li>
+  <li><strong>Combine:</strong> The results are combined into a new data structure.</li>
+</ul>
+
+<h2>Basic Syntax</h2>
+<pre><code>df.groupby('column_name').aggregation_function()</code></pre>
+
+<h2>Example: Grouping and Summarizing Data</h2>
+
+<pre><code>import pandas as pd
+
+# Sample data
+data = {
+    'Department': ['Sales', 'Sales', 'HR', 'HR', 'IT', 'IT'],
+    'Employee': ['Alice', 'Bob', 'Charlie', 'David', 'Eve', 'Frank'],
+    'Salary': [70000, 72000, 50000, 52000, 60000, 61000],
+    'Bonus': [5000, 4000, 3000, 3500, 4500, 4800]
+}
+
+df = pd.DataFrame(data)
+
+# Group by Department and calculate mean salary
+mean_salary = df.groupby('Department')['Salary'].mean()
+print(mean_salary)
+</code></pre>
+
+<h3>Output:</h3>
+<pre><code>
+Department
+HR       51000.0
+IT       60500.0
+Sales    71000.0
+Name: Salary, dtype: float64
+</code></pre>
+
+<h2>Common Aggregation Functions</h2>
+<ul>
+  <li><code>sum()</code> — Sum of values</li>
+  <li><code>mean()</code> — Average value</li>
+  <li><code>count()</code> — Count of non-null values</li>
+  <li><code>min()</code> and <code>max()</code> — Minimum and maximum values</li>
+  <li><code>std()</code> — Standard deviation</li>
+</ul>
+
+<h2>Using Multiple Aggregations</h2>
+<p>You can apply multiple aggregation functions at once using the <code>agg()</code> method.</p>
+
+<pre><code># Multiple aggregations on Salary and Bonus
+agg_data = df.groupby('Department').agg({
+    'Salary': ['mean', 'max', 'min'],
+    'Bonus': ['sum', 'mean']
+})
+
+print(agg_data)
+</code></pre>
+
+<h3>Output:</h3>
+<pre><code>
+           Salary             Bonus      
+             mean    max    min    sum    mean
+Department                                   
+HR        51000.0  52000  50000   6500  3250.0
+IT        60500.0  61000  60000   9300  4650.0
+Sales     71000.0  72000  70000   9000  4500.0
+</code></pre>
+
+<h2>Grouping by Multiple Columns</h2>
+<p>You can group data by multiple columns by passing a list to <code>groupby()</code>.</p>
+
+<pre><code># Group by Department and Employee, then sum Salary and Bonus
+grouped = df.groupby(['Department', 'Employee']).sum()
+print(grouped)
+</code></pre>
+
+<h3>Output:</h3>
+<pre><code>
+                       Salary  Bonus
+Department Employee                  
+HR         Charlie       50000   3000
+           David         52000   3500
+IT         Eve           60000   4500
+           Frank         61000   4800
+Sales      Alice         70000   5000
+           Bob           72000   4000
+</code></pre>
+
+<h2>Transformations vs Aggregations</h2>
+<ul>
+  <li><strong>Aggregation:</strong> Reduces each group to a single value per column.</li>
+  <li><strong>Transformation:</strong> Returns a modified version of the original data with the same shape, often used for normalization or filling missing values within groups.</li>
+</ul>
+
+<pre><code># Normalize salary within each department using transform
+df['Salary_Normalized'] = df.groupby('Department')['Salary'].transform(lambda x: (x - x.mean()) / x.std())
+print(df)
+</code></pre>
+
+<h3>Output:</h3>
+<pre><code>
+  Department Employee  Salary  Bonus  Salary_Normalized
+0      Sales    Alice   70000   5000          -0.707107
+1      Sales      Bob   72000   4000           0.707107
+2         HR  Charlie   50000   3000          -0.707107
+3         HR    David   52000   3500           0.707107
+4         IT      Eve   60000   4500          -0.707107
+5         IT    Frank   61000   4800           0.707107
+</code></pre>
+
+<h2>Filtering Groups</h2>
+<p>You can filter groups based on a condition using the <code>filter()</code> method.</p>
+
+<pre><code># Keep only departments with average salary > 60000
+high_salary_departments = df.groupby('Department').filter(lambda x: x['Salary'].mean() > 60000)
+print(high_salary_departments)
+</code></pre>
+
+<h3>Output:</h3>
+<pre><code>
+  Department Employee  Salary  Bonus
+0      Sales    Alice   70000   5000
+1      Sales      Bob   72000   4000
+4         IT      Eve   60000   4500
+5         IT    Frank   61000   4800
+</code></pre>
+
+<h2>Summary</h2>
+<p>The <code>groupby()</code> functionality in Pandas is extremely versatile and allows you to easily summarize, transform, and filter grouped data with just a few lines of code. It’s an essential tool for data analysis and aggregation.</p>
+
+<div class="note">
+  <strong>Note:</strong> For more details and advanced usage, visit the <a href="https://pandas.pydata.org/docs/user_guide/groupby.html">official Pandas GroupBy documentation</a>.
+</div>
+
+<footer>
+  &copy; 2025 Your Python Pandas Course
+</footer>
+
+</body>
+</html>

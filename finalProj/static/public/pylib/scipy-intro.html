@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Introduction to SciPy for Scientific Computing</title>
+  <style>
+    /* Basic page styles can go here or be overridden by styles.css */
+  </style>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<h1>Introduction to SciPy for Scientific Computing</h1>
+
+<p><strong>SciPy</strong> is an open-source Python library used for scientific and technical computing. It builds on top of <code>NumPy</code> and provides many user-friendly and efficient numerical routines such as routines for numerical integration, optimization, interpolation, eigenvalue problems, algebraic equations, differential equations, and others.</p>
+
+<h2>Why use SciPy?</h2>
+<ul>
+  <li>Extensive scientific functions library</li>
+  <li>Built on top of NumPy arrays for performance</li>
+  <li>Wide range of modules: <code>integrate</code>, <code>optimize</code>, <code>stats</code>, <code>linalg</code>, and more</li>
+  <li>Supports both simple and complex mathematical computations</li>
+</ul>
+
+<h2>1. Installing SciPy</h2>
+<p>You can install SciPy via pip:</p>
+<pre><code>pip install scipy</code></pre>
+
+<h2>2. Importing SciPy</h2>
+<p>Import SciPy modules as needed. For example:</p>
+<pre><code>from scipy import integrate
+from scipy import optimize
+from scipy import stats
+from scipy import linalg</code></pre>
+
+<h2>3. Common SciPy Submodules & Usage</h2>
+
+<h3>a) Integration</h3>
+<p>Numerical integration of functions:</p>
+<pre><code>import numpy as np
+from scipy import integrate
+
+# Define function
+def f(x):
+    return x**2
+
+# Compute definite integral from 0 to 1
+result, error = integrate.quad(f, 0, 1)
+print("Integral result:", result)
+print("Estimated error:", error)</code></pre>
+
+<h3>b) Optimization</h3>
+<p>Find the minimum of a scalar function:</p>
+<pre><code>from scipy import optimize
+
+def func(x):
+    return x**2 + 4*x + 4
+
+result = optimize.minimize(func, x0=0)
+print("Minimum occurs at:", result.x)</code></pre>
+
+<h3>c) Statistics</h3>
+<p>Access statistical functions and distributions:</p>
+<pre><code>from scipy import stats
+
+data = [1, 2, 3, 4, 5]
+mean = stats.tmean(data)
+print("Mean:", mean)</code></pre>
+
+<h3>d) Linear Algebra</h3>
+<p>Solve linear systems or calculate eigenvalues:</p>
+<pre><code>import numpy as np
+from scipy import linalg
+
+A = np.array([[3, 2], [1, 4]])
+b = np.array([6, 8])
+
+# Solve Ax = b
+x = linalg.solve(A, b)
+print("Solution:", x)</code></pre>
+
+<h2>4. Summary</h2>
+<ul>
+  <li>SciPy extends NumPy by providing a large collection of algorithms for scientific computing.</li>
+  <li>Its modular approach allows importing only what you need.</li>
+  <li>Perfect for numerical integration, optimization, statistics, linear algebra, and more.</li>
+</ul>
+
+<div class="note">
+  <strong>Note:</strong> SciPy works best when combined with <code>NumPy</code> for arrays and <code>Matplotlib</code> for plotting results.
+</div>
+
+<footer>
+  &copy; 2025 Your Python + SciPy Course
+</footer>
+
+</body>
+</html>

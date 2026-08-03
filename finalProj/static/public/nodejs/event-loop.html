@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>JavaScript Event Loop</title>
+  <link rel="stylesheet" href="styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+
+  <h1>JavaScript Event Loop</h1>
+
+  <section id="what-is-event-loop">
+    <h2>What is the Event Loop?</h2>
+    <p>
+      The Event Loop is a fundamental concept in JavaScript that allows non-blocking asynchronous programming. 
+      It handles execution of multiple chunks of your program, coordinating between the call stack, event queue, and callback functions.
+    </p>
+  </section>
+
+  <section id="call-stack">
+    <h2>The Call Stack</h2>
+    <p>
+      JavaScript is single-threaded, meaning it executes code in a single sequence. The call stack keeps track of function calls in a LIFO (Last In, First Out) order.
+    </p>
+  </section>
+
+  <section id="callback-queue">
+    <h2>Callback Queue (Task Queue)</h2>
+    <p>
+      When asynchronous functions (like timers, I/O, or promises) complete, their callbacks are pushed to the callback queue to be executed when the call stack is empty.
+    </p>
+  </section>
+
+  <section id="event-loop-mechanism">
+    <h2>How the Event Loop Works</h2>
+    <p>
+      The event loop constantly checks whether the call stack is empty. If it is, it takes the first callback from the callback queue and pushes it onto the call stack for execution.
+    </p>
+  </section>
+
+  <section id="example-basic">
+    <h2>Basic Event Loop Example</h2>
+    <pre><code>console.log('Start');
+
+setTimeout(() => {
+  console.log('Timeout callback');
+}, 0);
+
+console.log('End');</code></pre>
+    <p><strong>Output:</strong></p>
+    <pre><code>Start
+End
+Timeout callback</code></pre>
+    <p>
+      Although the timeout is set to 0ms, the callback executes last because it is pushed to the callback queue and waits for the call stack to be empty.
+    </p>
+  </section>
+
+  <section id="microtasks-vs-macrotasks">
+    <h2>Microtasks vs Macrotasks</h2>
+    <p>
+      The event loop differentiates between <strong>microtasks</strong> (e.g., Promises) and <strong>macrotasks</strong> (e.g., setTimeout, setInterval). 
+      Microtasks have higher priority and run immediately after the current operation before the event loop processes macrotasks.
+    </p>
+    <pre><code>console.log('Start');
+
+setTimeout(() => {
+  console.log('setTimeout');
+}, 0);
+
+Promise.resolve().then(() => {
+  console.log('Promise');
+});
+
+console.log('End');</code></pre>
+    <p><strong>Output:</strong></p>
+    <pre><code>Start
+End
+Promise
+setTimeout</code></pre>
+  </section>
+
+  <section id="event-loop-visualization">
+    <h2>Event Loop Visualization</h2>
+    <p>The event loop cycle looks like this:</p>
+    <ol>
+      <li>Execute code on the call stack.</li>
+      <li>Process all microtasks (e.g., promises).</li>
+      <li>Process the next macrotask from the task queue.</li>
+      <li>Repeat.</li>
+    </ol>
+  </section>
+
+  <section id="real-world-use-cases">
+    <h2>Real-World Use Cases</h2>
+    <ul>
+      <li>Handling user events like clicks and key presses.</li>
+      <li>Making network requests without blocking UI.</li>
+      <li>Scheduling repeated tasks with <code>setInterval</code>.</li>
+      <li>Working with Promises and async/await for asynchronous flows.</li>
+    </ul>
+  </section>
+
+  <section id="async-await">
+    <h2>Async/Await and the Event Loop</h2>
+    <p>Async functions are syntactic sugar over Promises and microtasks:</p>
+    <pre><code>async function example() {
+  console.log('Async start');
+  await Promise.resolve();
+  console.log('Async end');
+}
+
+example();
+console.log('Synchronous log');</code></pre>
+    <p><strong>Output:</strong></p>
+    <pre><code>Async start
+Synchronous log
+Async end</code></pre>
+  </section>
+
+  <section id="event-loop-tips">
+    <h2>Tips and Best Practices</h2>
+    <ul>
+      <li>Avoid blocking the event loop with heavy computations.</li>
+      <li>Use asynchronous APIs to keep your app responsive.</li>
+      <li>Be mindful of long-running microtasks which can delay macrotasks.</li>
+      <li>Use tools like <code>setImmediate</code> and <code>process.nextTick</code> (Node.js) for fine control over task scheduling.</li>
+    </ul>
+  </section>
+
+  <footer>
+    &copy; 2025 JavaScript Event Loop Guide — All rights reserved.
+  </footer>
+
+</body>
+</html>

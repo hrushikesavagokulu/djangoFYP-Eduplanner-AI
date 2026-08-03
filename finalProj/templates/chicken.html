@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Chicken Disease Detection{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-wrapper">
+
+<h2>Chicken Disease Detection 🐔</h2>
+<p>Upload a chicken image to check if it is infected.</p>
+
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <input type="file" name="image" required>
+
+    <br><br>
+
+    <button type="submit">Predict</button>
+
+</form>
+
+{% if result %}
+    <h3 style="margin-top:20px;">
+        Result: {{ result }}
+    </h3>
+{% endif %}
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Error Handling in Express.js</title>
+  <link rel="stylesheet" href="styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+
+  <h1>Error Handling in Express.js</h1>
+
+  <section id="why-error-handling">
+    <h2>Why is Error Handling Important?</h2>
+    <p>
+      Error handling ensures that your Express.js application can gracefully respond to unexpected issues,
+      providing meaningful feedback to users and preventing the server from crashing.
+    </p>
+  </section>
+
+  <section id="basic-error-handling">
+    <h2>Basic Error Handling with Middleware</h2>
+    <p>
+      Express provides a special error-handling middleware that takes four arguments:
+      <code>(err, req, res, next)</code>. This middleware catches errors from synchronous or asynchronous code.
+    </p>
+    <pre><code>app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something went wrong!');
+});
+</code></pre>
+  </section>
+
+  <section id="throwing-errors">
+    <h2>Throwing Errors in Routes</h2>
+    <p>You can throw errors in your routes to be caught by the error handler:</p>
+    <pre><code>app.get('/error', (req, res, next) => {
+  const err = new Error('This is a forced error');
+  err.status = 400;
+  next(err);
+});
+</code></pre>
+  </section>
+
+  <section id="async-error-handling">
+    <h2>Handling Errors in Asynchronous Code</h2>
+    <p>Errors in asynchronous functions should be passed to <code>next()</code> for proper handling:</p>
+    <pre><code>app.get('/async-error', async (req, res, next) => {
+  try {
+    await someAsyncFunction();
+    res.send('Success!');
+  } catch (err) {
+    next(err);
+  }
+});
+</code></pre>
+  </section>
+
+  <section id="custom-error-handling">
+    <h2>Custom Error Handling Middleware</h2>
+    <p>You can create custom middleware to handle specific error types:</p>
+    <pre><code>function notFoundHandler(req, res, next) {
+  res.status(404).send('Page Not Found');
+}
+
+function generalErrorHandler(err, req, res, next) {
+  res.status(err.status || 500);
+  res.json({
+    message: err.message,
+    error: process.env.NODE_ENV === 'production' ? {} : err.stack
+  });
+}
+
+app.use(notFoundHandler);
+app.use(generalErrorHandler);
+</code></pre>
+  </section>
+
+  <section id="best-practices">
+    <h2>Best Practices for Error Handling</h2>
+    <ul>
+      <li>Always call <code>next(err)</code> in asynchronous code to forward errors.</li>
+      <li>Use proper HTTP status codes to reflect error types.</li>
+      <li>Log errors for debugging but avoid exposing sensitive info to clients.</li>
+      <li>Handle 404 errors with a dedicated middleware.</li>
+      <li>Consider using third-party libraries like <code>http-errors</code> for easier error management.</li>
+    </ul>
+  </section>
+
+  <section id="useful-packages">
+    <h2>Useful Packages for Error Handling</h2>
+    <ul>
+      <li><code>http-errors</code> – Create HTTP errors with ease.</li>
+      <li><code>express-async-errors</code> – Simplify async error handling.</li>
+      <li><code>winston</code> or <code>morgan</code> – For logging errors and requests.</li>
+    </ul>
+  </section>
+
+  <footer>
+    &copy; 2025 Express.js Error Handling Guide — All rights reserved.
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Java - Polymorphism</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #1e272e;
+      color: #dcdde1;
+      margin: 20px auto;
+      max-width: 900px;
+      line-height: 1.7;
+      padding: 0 15px;
+    }
+    h1 {
+      font-weight: 700;
+      color: #00cec9;
+      text-align: center;
+      margin-bottom: 30px;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
+    h2 {
+      color: #ffffff;
+      margin-top: 40px;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #00cec9;
+      padding-bottom: 6px;
+      font-weight: 600;
+    }
+    p, ul {
+      font-size: 17px;
+      color: #dfe6e9;
+    }
+    ul {
+      margin-left: 20px;
+    }
+    strong {
+      color: #00cec9;
+    }
+    code {
+      background: #2f3640;
+      padding: 3px 7px;
+      border-radius: 5px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 16px;
+      color: #ff7675;
+    }
+    pre {
+      background: #2f3640;
+      padding: 15px 20px;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin-bottom: 25px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 16px;
+      line-height: 1.5;
+      box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+      color: #f1f2f6;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Java Polymorphism</h1>
+
+  <p><strong>Polymorphism</strong> is one of the core concepts of object-oriented programming (OOP) in Java. It allows objects to be treated as instances of their parent class rather than their actual class. The word "polymorphism" means "many forms," and in Java, it means that a single interface can represent different underlying forms (data types).</p>
+
+  <h2>Types of Polymorphism</h2>
+  <ul>
+    <li><strong>Compile-time Polymorphism (Method Overloading):</strong> Multiple methods in the same class have the same name but different parameters.</li>
+    <li><strong>Runtime Polymorphism (Method Overriding):</strong> A subclass provides a specific implementation of a method that is already defined in its superclass.</li>
+  </ul>
+
+  <h2>Why Use Polymorphism?</h2>
+  <ul>
+    <li>It improves code flexibility and reusability by allowing one interface to be used for a general class of actions.</li>
+    <li>Makes the code easier to extend and maintain.</li>
+    <li>Supports the design principle "Program to an interface, not an implementation."</li>
+  </ul>
+
+  <h2>Compile-time Polymorphism (Method Overloading)</h2>
+  <p>Method overloading occurs when multiple methods share the same name but have different parameters (number, type, or order). The compiler decides which method to invoke based on the method signature.</p>
+  
+  <h2>Syntax</h2>
+  <pre><code>class Example {
+    void display(int a) {
+        System.out.println("Argument: " + a);
+    }
+    void display(int a, int b) {
+        System.out.println("Arguments: " + a + " and " + b);
+    }
+}</code></pre>
+
+  <h2>Runtime Polymorphism (Method Overriding)</h2>
+  <p>Method overriding happens when a subclass provides a specific implementation for a method already defined in its superclass. The method to be executed is determined at runtime based on the object's actual class, not the reference type.</p>
+
+  <h2>Syntax</h2>
+  <pre><code>class Animal {
+    void sound() {
+        System.out.println("Animal makes a sound");
+    }
+}
+class Dog extends Animal {
+    @Override
+    void sound() {
+        System.out.println("Dog barks");
+    }
+}</code></pre>
+
+  <h2>Example</h2>
+  <p>You can create an object of subclass <code>Dog</code> but refer to it by superclass <code>Animal</code> type:</p>
+  <pre><code>Animal myDog = new Dog();
+myDog.sound();  // Output: Dog barks</code></pre>
+
+  <h2>Key Points</h2>
+  <ul>
+    <li>Method overriding requires the same method signature.</li>
+    <li>Overridden methods must have the same return type (or a subtype) and access level.</li>
+    <li>Use <code>@Override</code> annotation to indicate overriding explicitly.</li>
+    <li>Polymorphism enables dynamic method dispatch, where the call to an overridden method is resolved at runtime.</li>
+  </ul>
+
+  <h2>Benefits of Polymorphism</h2>
+  <ul>
+    <li>Allows for flexible and easily maintainable code.</li>
+    <li>Supports loose coupling between classes.</li>
+    <li>Makes it easier to add new functionality without modifying existing code.</li>
+  </ul>
+
+  <h2>Summary</h2>
+  <p>Polymorphism enables one interface to be used for a general class of actions, while the specific action is determined by the exact nature of the situation. It is a powerful feature in Java that promotes code reuse, flexibility, and scalability.</p>
+
+</body>
+</html>

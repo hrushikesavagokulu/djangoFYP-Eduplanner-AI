@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Mongoose Validation Guide</title>
+  <link rel="stylesheet" href="styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+
+  <h1>Mongoose Validation Guide</h1>
+
+  <section id="introduction">
+    <h2>Introduction to Mongoose Validation</h2>
+    <p>
+      Mongoose validation is a powerful feature that ensures data integrity by enforcing rules on schema fields before saving documents to MongoDB.
+    </p>
+    <p>
+      Validation rules can be built-in or custom, synchronous or asynchronous, allowing flexible control over data.
+    </p>
+  </section>
+
+  <section id="basic-validation">
+    <h2>Basic Schema Validation</h2>
+    <p>Use built-in validators like <code>required</code>, <code>min</code>, <code>max</code>, <code>maxlength</code>, and <code>enum</code> to enforce simple rules.</p>
+    <pre><code>const userSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  age: { type: Number, min: 0, max: 120 },
+  email: { type: String, required: true, unique: true }
+});</code></pre>
+    <p>Here, <code>name</code> and <code>email</code> are required, <code>age</code> must be between 0 and 120, and <code>email</code> is unique.</p>
+  </section>
+
+  <section id="built-in-validators">
+    <h2>Built-in Validators</h2>
+    <p>Mongoose includes several built-in validators you can use on schema fields:</p>
+    <ul>
+      <li><code>required</code> — Ensures the field exists.</li>
+      <li><code>min</code>, <code>max</code> — For numeric limits.</li>
+      <li><code>enum</code> — Restricts values to a predefined set.</li>
+      <li><code>match</code> — Validates strings against regex patterns.</li>
+      <li><code>maxlength</code>, <code>minlength</code> — String length constraints.</li>
+    </ul>
+    <h3>Example:</h3>
+    <pre><code>const productSchema = new mongoose.Schema({
+  category: { type: String, enum: ['Electronics', 'Books', 'Clothing'], required: true },
+  price: { type: Number, min: 0, required: true },
+  sku: { type: String, match: /^[A-Z0-9]{8}$/ }
+});</code></pre>
+  </section>
+
+  <section id="custom-validators">
+    <h2>Custom Validators</h2>
+    <p>Define your own validation logic using a function. Return <code>true</code> for valid values or <code>false</code> for invalid.</p>
+    <pre><code>const userSchema = new mongoose.Schema({
+  password: {
+    type: String,
+    validate: {
+      validator: function(value) {
+        return value && value.length >= 6;
+      },
+      message: 'Password must be at least 6 characters long'
+    }
+  }
+});</code></pre>
+    <p>The <code>message</code> is shown when validation fails.</p>
+  </section>
+
+  <section id="async-validation">
+    <h2>Async Validation</h2>
+    <p>Sometimes validation requires asynchronous operations, like checking database uniqueness.</p>
+    <pre><code>const userSchema = new mongoose.Schema({
+  email: {
+    type: String,
+    validate: {
+      validator: async function(value) {
+        const existingUser = await User.findOne({ email: value });
+        return !existingUser;
+      },
+      message: 'Email already exists'
+    }
+  }
+});</code></pre>
+    <p>This example checks if an email is unique before saving.</p>
+  </section>
+
+  <section id="validation-hooks">
+    <h2>Validation Hooks (Middleware)</h2>
+    <p>Use Mongoose middleware to run code before or after validation.</p>
+    <pre><code>userSchema.pre('validate', function(next) {
+  if (this.password && this.password.length < 6) {
+    this.invalidate('password', 'Password too short');
+  }
+  next();
+});</code></pre>
+    <p>This runs custom validation logic before saving the document.</p>
+  </section>
+
+  <section id="error-handling">
+    <h2>Handling Validation Errors</h2>
+    <p>Mongoose throws a <code>ValidationError</code> when validation fails. You can catch it and process detailed errors.</p>
+    <pre><code>user.save()
+  .then(() => console.log('User saved!'))
+  .catch(err => {
+    if (err.name === 'ValidationError') {
+      for (let field in err.errors) {
+        console.error(err.errors[field].message);
+      }
+    }
+  });</code></pre>
+    <p>You can then send these messages to clients or logs.</p>
+  </section>
+
+  <section id="validation-options">
+    <h2>Additional Validation Options</h2>
+    <ul>
+      <li><code>unique</code>: Creates a unique index at the MongoDB level (note: not a validator but prevents duplicates at DB).</li>
+      <li><code>default</code>: Provides a default value if none is given.</li>
+      <li><code>validate</code>: You can pass an array of validators for multiple checks.</li>
+    </ul>
+    <pre><code>const postSchema = new mongoose.Schema({
+  title: { type: String, required: true },
+  tags: {
+    type: [String],
+    validate: [
+      {
+        validator: function(v) { return v.length > 0; },
+        message: 'At least one tag required'
+      },
+      {
+        validator: function(v) { return v.every(tag => tag.length >= 2); },
+        message: 'Tags must be at least 2 characters'
+      }
+    ]
+  }
+});</code></pre>
+  </section>
+
+  <footer>
+    &copy; 2025 Mongoose Validation Guide — All rights reserved.
+  </footer>
+
+</body>
+</html>

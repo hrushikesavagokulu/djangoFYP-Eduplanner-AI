@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Creating and Manipulating Arrays in NumPy</title>
+  <style>
+    /* Page-specific styles can go here */
+  </style>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<h1>Creating and Manipulating Arrays in NumPy</h1>
+
+<p><strong>NumPy arrays</strong> are the fundamental data structure for scientific computing in Python. They allow efficient storage and manipulation of numerical data.</p>
+
+<h2>Creating NumPy Arrays</h2>
+
+<h3>1. Creating from Python Lists or Tuples</h3>
+<p>Convert existing Python lists or tuples into NumPy arrays using <code>np.array()</code>.</p>
+
+<pre><code>import numpy as np
+
+arr1 = np.array([1, 2, 3, 4])
+arr2 = np.array((5, 6, 7, 8))
+
+print(arr1)  # [1 2 3 4]
+print(arr2)  # [5 6 7 8]
+</code></pre>
+
+<h3>2. Creating Arrays of Zeros, Ones, or a Constant Value</h3>
+
+<ul>
+  <li><code>np.zeros(shape)</code>: Creates an array filled with zeros.</li>
+  <li><code>np.ones(shape)</code>: Creates an array filled with ones.</li>
+  <li><code>np.full(shape, fill_value)</code>: Creates an array filled with a specific value.</li>
+</ul>
+
+<pre><code>zeros = np.zeros((3, 4))    # 3 rows, 4 columns filled with 0
+ones = np.ones(5)            # 1D array with five ones
+full = np.full((2, 3), 7)   # 2x3 array filled with 7
+
+print(zeros)
+print(ones)
+print(full)
+</code></pre>
+
+<h3>3. Creating Arrays with a Range of Values</h3>
+
+<ul>
+  <li><code>np.arange(start, stop, step)</code>: Similar to Python's range but returns an array.</li>
+  <li><code>np.linspace(start, stop, num)</code>: Generates evenly spaced numbers over a specified interval.</li>
+</ul>
+
+<pre><code>range_arr = np.arange(0, 10, 2)    # [0 2 4 6 8]
+linspace_arr = np.linspace(0, 1, 5) # [0.   0.25 0.5  0.75 1.  ]
+
+print(range_arr)
+print(linspace_arr)
+</code></pre>
+
+<h2>Inspecting Array Properties</h2>
+
+<p>Useful attributes to check the properties of arrays:</p>
+
+<ul>
+  <li><code>arr.shape</code>: Returns the dimensions (rows, columns, etc.).</li>
+  <li><code>arr.size</code>: Total number of elements.</li>
+  <li><code>arr.ndim</code>: Number of dimensions.</li>
+  <li><code>arr.dtype</code>: Data type of elements.</li>
+</ul>
+
+<pre><code>print(arr1.shape)  # (4,)
+print(zeros.shape) # (3, 4)
+print(arr1.size)   # 4
+print(arr1.ndim)   # 1
+print(arr1.dtype)  # int64 (may vary)</code></pre>
+
+<h2>Manipulating Arrays</h2>
+
+<h3>Reshaping Arrays</h3>
+<p>Change the shape of an array without changing the data using <code>reshape()</code>.</p>
+
+<pre><code>arr = np.arange(12)  # 1D array from 0 to 11
+reshaped = arr.reshape(3, 4)  # Reshape to 3 rows, 4 columns
+
+print(reshaped)
+</code></pre>
+
+<h3>Flattening Arrays</h3>
+<p>Convert a multi-dimensional array back to 1D using <code>flatten()</code> or <code>ravel()</code>.</p>
+
+<pre><code>flat = reshaped.flatten()
+print(flat)  # [0 1 2 3 4 5 6 7 8 9 10 11]</code></pre>
+
+<h3>Indexing and Slicing</h3>
+
+<p>You can access or modify elements by their index or slice.</p>
+
+<pre><code>arr = np.array([10, 20, 30, 40, 50])
+print(arr[0])    # 10
+print(arr[1:4])  # [20 30 40]
+
+# Multi-dimensional arrays:
+mat = np.array([[1, 2], [3, 4]])
+print(mat[1, 0]) # 3</code></pre>
+
+<h3>Joining and Splitting Arrays</h3>
+
+<ul>
+  <li><code>np.concatenate()</code>: Joins arrays along an existing axis.</li>
+  <li><code>np.vstack()</code> and <code>np.hstack()</code>: Stack arrays vertically or horizontally.</li>
+  <li><code>np.split()</code>: Split an array into sub-arrays.</li>
+</ul>
+
+<pre><code>a = np.array([1, 2, 3])
+b = np.array([4, 5, 6])
+
+print(np.concatenate([a, b]))  # [1 2 3 4 5 6]
+
+mat1 = np.array([[1, 2], [3, 4]])
+mat2 = np.array([[5, 6]])
+
+print(np.vstack([mat1, mat2]))
+print(np.hstack([mat1, mat2.T]))
+
+arr = np.arange(10)
+print(np.split(arr, [3, 7]))
+</code></pre>
+
+<h2>Summary</h2>
+<p>NumPy arrays offer efficient storage and powerful operations for numerical data. Mastery of array creation and manipulation is essential for data science, machine learning, and scientific computing.</p>
+
+<footer>
+  &copy; 2025 Your Python NumPy Course
+</footer>
+
+</body>
+</html>

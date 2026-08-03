@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Customizing Plots in Matplotlib</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 900px;
+      margin: auto;
+      padding: 20px;
+      line-height: 1.6;
+      background-color: #fafafa;
+      color: #333;
+    }
+    h1, h2 {
+      color: #2c3e50;
+    }
+    hr {
+      border: none;
+      border-top: 2px solid #ddd;
+      margin: 30px 0;
+    }
+    pre {
+      background-color: #eee;
+      padding: 15px;
+      border-radius: 5px;
+      overflow-x: auto;
+      font-family: Consolas, monospace;
+      font-size: 0.9rem;
+    }
+    ul {
+      margin-left: 20px;
+    }
+    code {
+      background-color: #f4f4f4;
+      padding: 2px 5px;
+      border-radius: 3px;
+      font-family: Consolas, monospace;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 10px;
+      border-top: 1px solid #ccc;
+      font-size: 0.9em;
+      color: #666;
+      text-align: center;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<h1>Customizing Plots in Matplotlib</h1>
+
+<p>Matplotlib is a powerful Python library for creating static, animated, and interactive visualizations. One of its strengths is the ability to customize every aspect of a plot — from colors and line styles to fonts and layouts — to make your data more insightful and visually appealing.</p>
+
+<hr />
+
+<h2>1. Basic Plot Customization</h2>
+
+<p>You can customize simple plot elements like color, line style, marker style, and labels using parameters in plotting functions.</p>
+
+<pre><code>import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.linspace(0, 10, 100)
+y = np.sin(x)
+
+plt.plot(x, y, color='red', linestyle='--', marker='o', label='sin(x)')
+plt.title('Sine Wave')
+plt.xlabel('X-axis')
+plt.ylabel('Y-axis')
+plt.legend()
+plt.show()
+</code></pre>
+
+<ul>
+  <li><code>color</code>: Defines the color of the line or markers (e.g., 'red', '#00FF00', 'r').</li>
+  <li><code>linestyle</code>: Can be solid ('-'), dashed ('--'), dash-dot ('-.'), or dotted (':').</li>
+  <li><code>marker</code>: Marks data points with symbols like 'o' (circle), 's' (square), '^' (triangle), etc.</li>
+  <li><code>label</code>: Adds a label for the legend.</li>
+</ul>
+
+<hr />
+
+<h2>2. Changing Plot Size and Resolution</h2>
+
+<p>You can control the figure size and DPI (dots per inch) which impacts the resolution.</p>
+
+<pre><code>plt.figure(figsize=(8, 4), dpi=100)
+plt.plot(x, y)
+plt.title('Figure size 8x4 inches')
+plt.show()
+</code></pre>
+
+<ul>
+  <li><code>figsize=(width, height)</code>: Size in inches.</li>
+  <li><code>dpi</code>: Controls resolution, higher means sharper images.</li>
+</ul>
+
+<hr />
+
+<h2>3. Using Stylesheets</h2>
+
+<p>Matplotlib supports predefined style sheets that change the look and feel of plots globally.</p>
+
+<pre><code>plt.style.use('ggplot')  # Other examples: 'seaborn', 'bmh', 'dark_background'
+
+plt.plot(x, y)
+plt.title('Using ggplot style')
+plt.show()
+</code></pre>
+
+<p>You can list all available styles using:</p>
+<pre><code>print(plt.style.available)</code></pre>
+
+<hr />
+
+<h2>4. Customizing Fonts and Text</h2>
+
+<p>Matplotlib allows detailed control over fonts for titles, labels, legends, and annotations.</p>
+
+<pre><code>plt.plot(x, y)
+plt.title('Custom Font Title', fontsize=16, fontweight='bold', color='purple', family='serif')
+plt.xlabel('X-axis Label', fontsize=12)
+plt.ylabel('Y-axis Label', fontsize=12)
+plt.show()
+</code></pre>
+
+<ul>
+  <li><code>fontsize</code>: Size of the font.</li>
+  <li><code>fontweight</code>: Thickness like 'normal', 'bold'.</li>
+  <li><code>family</code>: Font family such as 'serif', 'sans-serif', 'monospace'.</li>
+</ul>
+
+<hr />
+
+<h2>5. Adding Grid, Legends, and Annotations</h2>
+
+<p>Grids help in reading values, legends explain plot lines, and annotations add notes at specific points.</p>
+
+<pre><code>plt.plot(x, y, label='sin(x)')
+plt.grid(True, linestyle='--', color='gray', alpha=0.7)
+plt.legend(loc='upper right')
+plt.annotate('Peak', xy=(np.pi/2, 1), xytext=(np.pi/2+1, 0.8),
+             arrowprops=dict(facecolor='black', shrink=0.05))
+plt.show()
+</code></pre>
+
+<ul>
+  <li><code>plt.grid()</code> parameters: <code>linestyle</code>, <code>color</code>, <code>alpha</code> (transparency).</li>
+  <li><code>plt.legend()</code>: Position can be controlled with <code>loc</code> (e.g., 'upper right').</li>
+  <li><code>plt.annotate()</code>: Used to add annotations with arrows or text.</li>
+</ul>
+
+<hr />
+
+<h2>6. Multiple Subplots and Layouts</h2>
+
+<p>You can create multiple plots in a grid layout within one figure and customize each subplot.</p>
+
+<pre><code>fig, axs = plt.subplots(2, 2, figsize=(10, 8))
+
+axs[0, 0].plot(x, np.sin(x))
+axs[0, 0].set_title('Sine')
+
+axs[0, 1].plot(x, np.cos(x), 'r--')
+axs[0, 1].set_title('Cosine')
+
+axs[1, 0].plot(x, np.tan(x), 'g-.')
+axs[1, 0].set_ylim(-10, 10)  # Limit y-axis to avoid extreme values
+axs[1, 0].set_title('Tangent')
+
+axs[1, 1].plot(x, np.log1p(x), 'm:')
+axs[1, 1].set_title('Logarithm')
+
+plt.tight_layout()
+plt.show()
+</code></pre>
+
+<hr />
+
+<h2>7. Saving Figures</h2>
+
+<p>Save your plots in various formats like PNG, PDF, SVG, etc.</p>
+
+<pre><code>plt.plot(x, y)
+plt.title('Save plot example')
+plt.savefig('plot.png', dpi=300, bbox_inches='tight')  # Saves high-res image
+plt.close()
+</code></pre>
+
+<hr />
+
+<h2>Summary</h2>
+<ul>
+  <li>Use parameters like <code>color</code>, <code>linestyle</code>, and <code>marker</code> to customize plot appearance.</li>
+  <li>Change figure size with <code>figsize</code> and resolution with <code>dpi</code>.</li>
+  <li>Apply predefined stylesheets to quickly change overall aesthetics.</li>
+  <li>Customize fonts and add grids, legends, and annotations for clarity.</li>
+  <li>Create multiple subplots for complex visualizations.</li>
+  <li>Save figures with control over format and quality.</li>
+</ul>
+
+<footer>
+  &copy; 2025 Your Python Visualization Course
+</footer>
+
+</body>
+</html>

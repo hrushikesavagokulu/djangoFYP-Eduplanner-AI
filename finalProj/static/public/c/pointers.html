@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pointers</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 900px;
+      margin: 30px auto;
+      line-height: 1.6;
+      color: #222;
+      padding: 0 20px;
+      background: #f9f9f9;
+    }
+    h1, h2, h3 {
+      color: #005a9c;
+    }
+    pre {
+      background: #272822;
+      color: #f8f8f2;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 1rem;
+    }
+    code {
+      font-family: Consolas, monospace;
+      background: #eee;
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: #c7254e;
+    }
+    .note {
+      background: #fff3cd;
+      border-left: 6px solid #ffeeba;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #856404;
+    }
+    .warning {
+      background: #f8d7da;
+      border-left: 6px solid #f5c6cb;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #721c24;
+    }
+    ul {
+      margin-left: 20px;
+    }
+    a {
+      color: #005a9c;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      margin-top: 40px;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<h1>Pointers in C</h1>
+
+<p>Pointers are one of the most powerful and important features of the C programming language. A pointer is a variable that stores the memory address of another variable. Pointers allow you to directly access and manipulate memory, making C very flexible and efficient.</p>
+
+<h2>Why Use Pointers?</h2>
+<ul>
+  <li>To access and modify variables directly in memory.</li>
+  <li>To dynamically allocate memory.</li>
+  <li>To work efficiently with arrays and strings.</li>
+  <li>To enable functions to modify variables passed by reference.</li>
+</ul>
+
+<h2>Pointer Syntax</h2>
+
+<h3>Declaring a Pointer</h3>
+<p>Use the <code>*</code> operator to declare a pointer to a specific type.</p>
+<pre><code>int *ptr;        // pointer to an int
+char *cptr;       // pointer to a char
+float *fptr;      // pointer to a float</code></pre>
+
+<h3>Assigning Address to a Pointer</h3>
+<p>Use the address-of operator <code>&amp;</code> to get the address of a variable.</p>
+<pre><code>int x = 10;
+int *ptr = &x;    // ptr now holds the address of x</code></pre>
+
+<h3>Dereferencing a Pointer</h3>
+<p>The <code>*</code> operator is used to access the value stored at the address the pointer holds.</p>
+<pre><code>printf("Value of x: %d\n", *ptr);   // prints 10
+
+*ptr = 20;        // changes the value of x to 20
+printf("New value of x: %d\n", x);    // prints 20</code></pre>
+
+<h2>Example: Basic Pointer Usage</h2>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    int num = 5;
+    int *ptr = &num;
+
+    printf("Address of num: %p\n", ptr);
+    printf("Value of num via pointer: %d\n", *ptr);
+
+    *ptr = 15;
+    printf("Updated value of num: %d\n", num);
+
+    return 0;
+}</code></pre>
+
+<h2>Pointer Arithmetic</h2>
+<p>When pointers point to elements in arrays, you can perform arithmetic on them:</p>
+<ul>
+  <li><code>ptr + 1</code> moves the pointer to the next element of the pointer's type.</li>
+  <li><code>ptr - 1</code> moves it to the previous element.</li>
+  <li>Incrementing/decrementing pointers is useful for traversing arrays.</li>
+</ul>
+<pre><code>int arr[] = {10, 20, 30};
+int *ptr = arr;
+
+printf("%d\n", *ptr);       // 10
+printf("%d\n", *(ptr + 1)); // 20
+ptr++;
+printf("%d\n", *ptr);       // 20</code></pre>
+
+<h2>Important Notes</h2>
+<ul>
+  <li>Always initialize pointers before use to avoid undefined behavior.</li>
+  <li>Pointer type must match the type of data they point to for proper dereferencing.</li>
+  <li>Use <code>NULL</code> to indicate a pointer that points to nothing.</li>
+  <li>Be cautious with pointer arithmetic to avoid accessing invalid memory.</li>
+</ul>
+
+<div class="note">
+  <strong>Note:</strong> Using pointers incorrectly can lead to serious bugs such as segmentation faults or memory corruption.
+</div>
+
+<h2>Additional Resources</h2>
+<ul>
+  <li><a href="https://www.learn-c.org/en/Pointers" target="_blank">Learn-C.org: Pointers Tutorial</a></li>
+  <li><a href="https://www.cprogramming.com/tutorial/c/lesson6.html" target="_blank">C Programming Tutorial: Pointers</a></li>
+  <li><a href="https://gcc.gnu.org/onlinedocs/gcc/Pointer-Arithmetic.html" target="_blank">GCC Pointer Arithmetic Documentation</a></li>
+</ul>
+
+<footer>
+  &copy; 2025 Your C Programming Course
+</footer>
+
+
+</body>
+</html>

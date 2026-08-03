@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Introduction to NumPy</title>
+  
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* You can add page-specific styles here if needed */
+    #top{
+      margin-top: 80px;
+      padding-top:100px;
+    }
+  </style>
+</head>
+<body>
+
+<h1 id="top">Introduction to NumPy</h1>
+
+<p><strong>NumPy</strong> (Numerical Python) is a fundamental package for scientific computing with Python. It provides support for large, multi-dimensional arrays and matrices, along with a large collection of high-level mathematical functions to operate on these arrays efficiently.</p>
+
+<h2>Why use NumPy?</h2>
+<ul>
+  <li>Efficient storage and manipulation of numerical data.</li>
+  <li>Provides vectorized operations that are faster than Python loops.</li>
+  <li>Essential for data science, machine learning, and scientific computing.</li>
+  <li>Foundation for libraries like Pandas, SciPy, scikit-learn, and others.</li>
+</ul>
+
+<h2>Installing NumPy</h2>
+<p>Install NumPy using pip:</p>
+<pre><code>pip install numpy</code></pre>
+
+<h2>Importing NumPy</h2>
+<p>Import the library using the common alias <code>np</code>:</p>
+<pre><code>import numpy as np</code></pre>
+
+<h2>Creating NumPy Arrays</h2>
+<p>NumPy arrays are the core data structure:</p>
+<pre><code># Create a 1D array from a Python list
+arr = np.array([1, 2, 3, 4, 5])
+
+# Create a 2D array (matrix)
+mat = np.array([[1, 2], [3, 4]])</code></pre>
+<div style="
+  margin: 40px auto;
+  max-width: 800px;
+  width: 90%;
+  aspect-ratio: 16 / 9;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #000;
+">
+  <iframe
+    src="https://www.youtube.com/embed/8LlXhtfNZEQ"
+    title="Python Tutorial for Beginners | Why Numpy? Installing Numpy in Pycharm"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen
+    style="width: 100%; height: 100%; border: none; display: block;"
+  ></iframe>
+</div>
+
+
+
+<h2>Array Attributes</h2>
+<p>Commonly used attributes to understand array structure:</p>
+<ul>
+  <li><code>arr.shape</code>: Returns the dimensions (rows, columns).</li>
+  <li><code>arr.size</code>: Total number of elements.</li>
+  <li><code>arr.dtype</code>: Data type of elements.</li>
+  <li><code>arr.ndim</code>: Number of dimensions.</li>
+</ul>
+<pre><code>print(arr.shape)  # Output: (5,)
+print(mat.shape)  # Output: (2, 2)
+print(arr.size)   # Output: 5
+print(arr.dtype)  # Output: int64 (or similar)
+print(arr.ndim)   # Output: 1</code></pre>
+
+<h2>Why NumPy Arrays instead of Python Lists?</h2>
+<p>NumPy arrays consume less memory and provide better performance:</p>
+<ul>
+  <li>Support for vectorized operations.</li>
+  <li>Broadcasting capabilities for arithmetic operations.</li>
+  <li>Convenient mathematical and statistical functions.</li>
+</ul>
+
+<h2>Basic Array Operations</h2>
+<p>You can perform arithmetic operations on entire arrays:</p>
+<pre><code>arr = np.array([1, 2, 3])
+print(arr + 10)   # [11 12 13]
+print(arr * 2)    # [2 4 6]</code></pre>
+
+<h2>Summary</h2>
+<p>NumPy is essential for anyone doing numerical computations in Python. It allows fast, memory-efficient operations on large datasets and forms the foundation of the Python data science ecosystem.</p>
+
+<footer>
+  &copy; 2025 Your Python NumPy Course
+</footer>
+
+</body>
+</html>

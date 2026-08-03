@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Passport Authentication in Express.js</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <h1>Passport.js Authentication</h1>
+
+  <p>
+    Passport.js is a popular authentication middleware for Node.js and Express applications. It provides a flexible and modular approach to handle authentication with support for many strategies like local username/password, OAuth, OpenID, and more.
+  </p>
+
+  <h2>Why Use Passport.js?</h2>
+  <ul>
+    <li>Modular and supports over 500 authentication strategies.</li>
+    <li>Simple API and easy integration with Express.</li>
+    <li>Helps implement robust authentication flows with minimal code.</li>
+    <li>Supports sessions, JWT, OAuth, and social logins.</li>
+  </ul>
+
+  <h2>Installing Passport.js</h2>
+  <pre><code>npm install passport passport-local express-session</code></pre>
+
+  <h2>Basic Setup with Local Strategy</h2>
+  <p>The local strategy is used for authenticating users using a username and password.</p>
+
+  <pre><code>
+const express = require('express');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const session = require('express-session');
+
+const app = express();
+
+app.use(express.urlencoded({ extended: false }));
+
+app.use(session({ secret: 'yourSecretKey', resave: false, saveUninitialized: false }));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+// User database simulation
+const users = [{ id: 1, username: 'user1', password: 'pass123' }];
+
+// Configure Local Strategy
+passport.use(new LocalStrategy((username, password, done) => {
+  const user = users.find(u => u.username === username);
+  if (!user) return done(null, false, { message: 'Incorrect username.' });
+  if (user.password !== password) return done(null, false, { message: 'Incorrect password.' });
+  return done(null, user);
+}));
+
+// Serialize user to session
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+
+// Deserialize user from session
+passport.deserializeUser((id, done) => {
+  const user = users.find(u => u.id === id);
+  done(null, user);
+});
+
+// Routes
+app.get('/login', (req, res) => {
+  res.send('<form method="post" action="/login">' +
+           'Username: <input name="username" type="text"/><br/>' +
+           'Password: <input name="password" type="password"/><br/>' +
+           '<button type="submit">Login</button>' +
+           '</form>');
+});
+
+app.post('/login',
+  passport.authenticate('local', {
+    successRedirect: '/dashboard',
+    failureRedirect: '/login'
+  })
+);
+
+app.get('/dashboard', (req, res) => {
+  if (req.isAuthenticated()) {
+    res.send(`Hello, ${req.user.username}. Welcome to your dashboard.`);
+  } else {
+    res.redirect('/login');
+  }
+});
+
+app.listen(3000, () => console.log('Server running on http://localhost:3000'));
+  </code></pre>
+
+  <h2>Key Concepts</h2>
+  <ul>
+    <li><strong>Strategies:</strong> Authentication mechanisms (local, OAuth, JWT, etc.).</li>
+    <li><strong>serializeUser:</strong> Defines how user data is stored in the session.</li>
+    <li><strong>deserializeUser:</strong> Retrieves user data from the session on each request.</li>
+    <li><strong>Middleware:</strong> Passport provides middleware to handle login, logout, and authentication checks.</li>
+  </ul>
+
+  <h2>Using Social Login Strategies</h2>
+  <p>Passport also supports OAuth providers such as Google, Facebook, and Twitter. These require registering your app with the provider and using their OAuth credentials.</p>
+
+  <h3>Example: Google OAuth Strategy</h3>
+  <pre><code>
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+
+passport.use(new GoogleStrategy({
+    clientID: 'GOOGLE_CLIENT_ID',
+    clientSecret: 'GOOGLE_CLIENT_SECRET',
+    callbackURL: '/auth/google/callback'
+  },
+  (accessToken, refreshToken, profile, done) => {
+    // Find or create user in DB
+    return done(null, profile);
+  }
+));
+
+app.get('/auth/google',
+  passport.authenticate('google', { scope: ['profile', 'email'] })
+);
+
+app.get('/auth/google/callback', 
+  passport.authenticate('google', { failureRedirect: '/login' }),
+  (req, res) => {
+    res.redirect('/dashboard');
+  }
+);
+  </code></pre>
+
+  <h2>Best Practices</h2>
+  <ul>
+    <li>Use HTTPS to secure authentication tokens and cookies.</li>
+    <li>Store secrets like session keys and OAuth credentials securely using environment variables.</li>
+    <li>Implement proper error handling on authentication failures.</li>
+    <li>Regularly update Passport and related libraries to patch security vulnerabilities.</li>
+  </ul>
+
+  <footer>
+    &copy; 2025 Express.js Tutorial – Passport.js Authentication
+  </footer>
+
+</body>
+</html>

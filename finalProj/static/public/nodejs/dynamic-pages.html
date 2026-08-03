@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dynamic Pages in Express.js</title>
+  <link rel="stylesheet" href="styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+
+  <h1>Dynamic Pages in Express.js</h1>
+
+  <section id="what-are-dynamic-pages">
+    <h2>What Are Dynamic Pages?</h2>
+    <p>
+      Dynamic pages are web pages that generate content on the fly based on user input, database data, or other runtime parameters.
+      Unlike static pages, their content can change without altering the HTML files manually.
+    </p>
+  </section>
+<div style="
+  margin: 40px auto;
+  max-width: 800px;
+  width: 90%;
+  aspect-ratio: 16 / 9;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #000;
+">
+  <iframe
+    src="https://www.youtube.com/embed/yy9cbu_e3Xg"
+    title="YouTube video player"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen
+    style="width: 100%; height: 100%; border: none; display: block;"
+  ></iframe>
+</div>
+
+  <section id="using-template-engines">
+    <h2>Using Template Engines</h2>
+    <p>Express supports several template engines like EJS, Pug, Handlebars, etc., which help generate HTML dynamically.</p>
+
+    <h3>Example with EJS:</h3>
+    <pre><code>// Install EJS:
+// npm install ejs
+
+// In app.js:
+const express = require('express');
+const app = express();
+
+app.set('view engine', 'ejs');
+
+app.get('/', (req, res) => {
+  res.render('index', { title: 'Home Page', message: 'Welcome to dynamic pages!' });
+});
+
+app.listen(3000, () => console.log('Server running on port 3000'));
+</code></pre>
+
+    <p>Example <code>views/index.ejs</code> file:</p>
+    <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;&lt;%= title %&gt;&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;&lt;%= message %&gt;&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+  </section>
+
+  <section id="route-parameters">
+    <h2>Route Parameters for Dynamic URLs</h2>
+    <p>Express lets you capture dynamic parts of the URL using route parameters:</p>
+    <pre><code>app.get('/user/:id', (req, res) => {
+  const userId = req.params.id;
+  res.send(`User ID is ${userId}`);
+});
+</code></pre>
+    <p>Visiting <code>/user/123</code> will respond with: <code>User ID is 123</code>.</p>
+  </section>
+
+  <section id="query-parameters">
+    <h2>Query Parameters</h2>
+    <p>You can access query string parameters via <code>req.query</code>:</p>
+    <pre><code>app.get('/search', (req, res) => {
+  const term = req.query.term;
+  res.send(`Search results for: ${term}`);
+});
+</code></pre>
+    <p>Visiting <code>/search?term=nodejs</code> will respond with: <code>Search results for: nodejs</code>.</p>
+  </section>
+
+  <section id="real-world-use-cases">
+    <h2>Real-World Use Cases</h2>
+    <ul>
+      <li>User profiles</li>
+      <li>Product pages</li>
+      <li>Search results</li>
+      <li>Blog posts</li>
+    </ul>
+  </section>
+
+  <section id="best-practices">
+    <h2>Best Practices</h2>
+    <ul>
+      <li>Sanitize user inputs to avoid security risks.</li>
+      <li>Use caching strategies for frequently requested dynamic pages.</li>
+      <li>Validate route and query parameters.</li>
+      <li>Keep template logic minimal; handle most logic in the controller.</li>
+    </ul>
+  </section>
+
+  <footer>
+    &copy; 2025 Express.js Dynamic Pages Guide — All rights reserved.
+  </footer>
+
+</body>
+</html>

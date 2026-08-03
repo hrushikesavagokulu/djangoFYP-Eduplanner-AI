@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>DevHive - Lists</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f4f7fa;
+      color: #2c3e50;
+      margin: 20px auto;
+      max-width: 900px;
+      line-height: 1.7;
+      padding: 0 15px;
+    }
+    h1 {
+      font-weight: 700;
+      color: #1abc9c;
+      text-align: center;
+      margin-bottom: 30px;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
+    h2 {
+      color: #34495e;
+      margin-top: 40px;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #1abc9c;
+      padding-bottom: 6px;
+      font-weight: 600;
+    }
+    p {
+      font-size: 17px;
+      margin-bottom: 18px;
+      color: #34495e;
+    }
+    code {
+      background: #ecf0f1;
+      padding: 3px 7px;
+      border-radius: 5px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 16px;
+      color: #e74c3c;
+    }
+    pre {
+      background: #ecf0f1;
+      padding: 15px 20px;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin-bottom: 25px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 16px;
+      line-height: 1.5;
+      box-shadow: inset 0 0 5px rgba(0,0,0,0.05);
+    }
+    .try-it {
+      margin-top: 35px;
+      border: 2px solid #1abc9c;
+      border-radius: 10px;
+      background: #e8f6f3;
+      padding: 15px 20px;
+      box-shadow: 0 5px 10px rgb(26 188 156 / 0.2);
+    }
+    textarea.code-input {
+      width: 100%;
+      height: 130px;
+      font-family: monospace;
+      font-size: 16px;
+      border: 2px solid #1abc9c;
+      border-radius: 6px;
+      padding: 12px;
+      resize: vertical;
+      background: #f0fcfb;
+      color: #222;
+    }
+    button.run-btn {
+      margin-top: 10px;
+      background-color: #1abc9c;
+      border: none;
+      color: white;
+      font-weight: 700;
+      padding: 10px 18px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+    button.run-btn:hover {
+      background-color: #16a085;
+    }
+    .output {
+      margin-top: 15px;
+      background: #fff;
+      padding: 12px 18px;
+      border-radius: 8px;
+      border: 2px solid #16a085;
+      min-height: 40px;
+      font-family: monospace;
+      font-size: 15px;
+      white-space: pre-wrap;
+      color: #34495e;
+    }
+    .error {
+      color: #e74c3c;
+      font-weight: 700;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <h1>Lists (Arrays) - DevHive</h1>
+
+  <p>
+    In JavaScript, <strong>arrays</strong> (also called lists in other languages) are used to store
+    multiple values in a single variable. Arrays maintain the order of their elements and
+    allow you to access each item by its <em>index</em>.
+  </p>
+
+  <h2>Array Declaration</h2>
+  <p>Arrays are created by placing elements inside square brackets <code>[]</code>, separated by commas.</p>
+  <pre><code>const fruits = ["Apple", "Banana", "Cherry"];</code></pre>
+  <p>
+    Here, <code>fruits</code> is an array that contains three strings.
+    Each element can be accessed using an index starting at <code>0</code>:
+  </p>
+  <pre><code>console.log(fruits[0]); // Outputs: Apple
+console.log(fruits[2]); // Outputs: Cherry</code></pre>
+<div style="
+  margin: 40px auto;
+  max-width: 800px;
+  width: 90%;
+  aspect-ratio: 16 / 9;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #000;
+">
+  <iframe
+    src="https://www.youtube.com/embed/Eaz5e6M8tL4"
+    title="YouTube video player"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen
+    style="width: 100%; height: 100%; border: none; display: block;"
+  ></iframe>
+</div>
+
+  <h2>Access and Modify Elements</h2>
+  <p>
+    You can access elements by their index and assign new values to update them:
+  </p>
+  <pre><code>console.log(fruits[1]); // Banana
+fruits[2] = "Orange";     // Replace "Cherry" with "Orange"
+console.log(fruits);      // ["Apple", "Banana", "Orange"]</code></pre>
+  <p>Note: Trying to access an index that doesn’t exist will return <code>undefined</code>.</p>
+
+  <h2>Common Array Methods</h2>
+  <p>Arrays have many built-in methods to manipulate their elements easily:</p>
+  <ul>
+    <li><code>push(item)</code>: Adds an item to the <strong>end</strong> of the array.</li>
+    <li><code>pop()</code>: Removes the <strong>last</strong> item and returns it.</li>
+    <li><code>shift()</code>: Removes the <strong>first</strong> item and returns it.</li>
+    <li><code>unshift(item)</code>: Adds an item to the <strong>start</strong> of the array.</li>
+    <li><code>length</code>: Property that returns the number of items in the array.</li>
+  </ul>
+  <pre><code>fruits.push("Grapes");  // Add "Grapes" at end
+console.log(fruits);       // ["Apple", "Banana", "Orange", "Grapes"]
+
+const lastFruit = fruits.pop(); // Removes "Grapes"
+console.log(lastFruit);          // Outputs: Grapes
+console.log(fruits.length);     // Outputs: 3</code></pre>
+
+  <h2>Arrays Can Store Any Data Type</h2>
+  <p>
+    Arrays can hold any combination of data types, including numbers, strings, objects, or even other arrays:
+  </p>
+  <pre><code>const mixed = [42, "hello", true, { name: "Alice" }, [1, 2, 3]];
+console.log(mixed[3].name); // Outputs: Alice
+console.log(mixed[4][1]);   // Outputs: 2</code></pre>
+
+  <div class="try-it">
+    <h3>Try it Yourself</h3>
+    <textarea class="code-input" id="codeArea" spellcheck="false">let fruits = ["Mango", "Banana"];
+fruits.push("Apple");
+console.log(fruits);
+
+fruits[1] = "Strawberry";
+console.log(fruits);
+
+console.log("First fruit:", fruits[0]);
+console.log("Number of fruits:", fruits.length);</textarea>
+    <button class="run-btn" onclick="runCode()">Run Code</button>
+    <div class="output" id="output"></div>
+  </div>
+
+  <script>
+    function runCode() {
+      const code = document.getElementById("codeArea").value;
+      const outputElement = document.getElementById("output");
+      outputElement.innerHTML = '';
+      try {
+        const logs = [];
+        console.log = (...args) => logs.push(args.join(' '));
+        new Function(code)();
+        outputElement.innerText = logs.join('\n');
+      } catch (e) {
+        outputElement.innerHTML = "<span class='error'>Error: " + e.message + "</span>";
+      }
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>While Loops</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 900px;
+      margin: 30px auto;
+      line-height: 1.6;
+      color: #222;
+      padding: 0 20px;
+      background: #f9f9f9;
+    }
+    h1, h2, h3 {
+      color: #005a9c;
+    }
+    pre {
+      background: #272822;
+      color: #f8f8f2;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 1rem;
+    }
+    code {
+      font-family: Consolas, monospace;
+      background: #eee;
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: #c7254e;
+    }
+    .note {
+      background: #fff3cd;
+      border-left: 6px solid #ffeeba;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #856404;
+    }
+    .warning {
+      background: #f8d7da;
+      border-left: 6px solid #f5c6cb;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #721c24;
+    }
+    ul {
+      margin-left: 20px;
+    }
+    a {
+      color: #005a9c;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      margin-top: 40px;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<h1>While Loops</h1>
+
+<p>The <code>while</code> loop in C is a control flow statement that allows code to be executed repeatedly based on a given Boolean condition. The loop continues to execute as long as the condition evaluates to true.</p>
+
+<h2>Syntax</h2>
+<pre><code>while (condition) {
+    // statements to execute
+}
+</code></pre>
+
+<p>Here, <code>condition</code> is an expression that is evaluated before each iteration. If it evaluates to true (non-zero), the statements inside the loop execute. When the condition becomes false (zero), the loop terminates, and control passes to the next statement after the loop.</p>
+
+<h2>Flowchart</h2>
+<p>In a <code>while</code> loop:</p>
+<ul>
+  <li>The condition is checked first.</li>
+  <li>If true, the loop body executes.</li>
+  <li>After the body, the condition is checked again.</li>
+  <li>This continues until the condition is false.</li>
+</ul>
+
+<h2>Example: Counting from 1 to 5</h2>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    int count = 1;
+    
+    while (count <= 5) {
+        printf("Count is %d\n", count);
+        count++;  // increment count by 1
+    }
+    
+    return 0;
+}
+</code></pre>
+
+<p><strong>Output:</strong></p>
+<pre><code>Count is 1
+Count is 2
+Count is 3
+Count is 4
+Count is 5
+</code></pre>
+
+<h2>Key Points</h2>
+<ul>
+  <li>The condition is evaluated before the loop body executes. This means if the condition is false initially, the loop body will not execute even once.</li>
+  <li>If the condition never becomes false, the loop will continue forever (infinite loop).</li>
+  <li>Use a variable or expression inside the loop to eventually make the condition false, otherwise the loop will not terminate.</li>
+</ul>
+
+<div class="note">
+  <strong>Note:</strong> If you want the loop body to execute at least once regardless of the condition, use a <code>do-while</code> loop instead.
+</div>
+
+<h2>Common Mistake: Forgetting to Update the Loop Variable</h2>
+<p>If you forget to increment or update the variable that controls the loop condition, your program may enter an infinite loop. For example:</p>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    int count = 1;
+    
+    while (count <= 5) {
+        printf("Count is %d\n", count);
+        // Missing count++ here causes infinite loop
+    }
+    
+    return 0;
+}
+</code></pre>
+
+<div class="warning">
+  <strong>Warning:</strong> This will cause the loop to run forever because <code>count</code> never changes.
+</div>
+
+<h2>Summary</h2>
+<ul>
+  <li><code>while</code> loops repeat as long as a condition is true.</li>
+  <li>Condition is checked before executing the loop body.</li>
+  <li>Useful when the number of iterations is not known beforehand.</li>
+  <li>Always ensure the loop will terminate by modifying the loop condition inside the loop.</li>
+</ul>
+
+<footer>
+  &copy; 2025 Your C Programming Course
+</footer>
+
+</body>
+</html>

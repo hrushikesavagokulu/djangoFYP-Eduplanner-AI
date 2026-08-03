@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Array Operations using NumPy</title>
+  <style>
+    /* Add any page-specific style overrides here */
+  </style>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<h1>Array Operations using NumPy</h1>
+
+<p>NumPy is the fundamental package for numerical computing in Python. It provides powerful tools to create and manipulate arrays efficiently.</p>
+
+<h2>Creating Arrays</h2>
+<p>You can create arrays from lists or tuples, or use built-in functions:</p>
+<pre><code>import numpy as np
+
+# Create a 1D array from a list
+arr = np.array([1, 2, 3, 4, 5])
+
+# Create a 2D array from a list of lists
+matrix = np.array([[1, 2], [3, 4]])
+
+# Create arrays of zeros, ones, or empty
+zeros = np.zeros((3, 3))
+ones = np.ones((2, 4))
+empty = np.empty((2, 2))  # Uninitialized values</code></pre>
+
+<h2>Basic Array Operations</h2>
+<ul>
+  <li><code>arr + 5</code>: Adds 5 to every element.</li>
+  <li><code>arr * 2</code>: Multiplies every element by 2.</li>
+  <li><code>arr - 1</code>: Subtracts 1 from every element.</li>
+  <li><code>arr / 2</code>: Divides every element by 2.</li>
+  <li><code>arr ** 2</code>: Squares every element.</li>
+</ul>
+
+<pre><code>arr = np.array([1, 2, 3, 4])
+print(arr + 5)  # Output: [6 7 8 9]
+print(arr * 2)  # Output: [2 4 6 8]</code></pre>
+
+<h2>Element-wise Mathematical Functions</h2>
+<p>NumPy provides many element-wise functions:</p>
+<pre><code>np.sqrt(arr)     # Square root
+np.exp(arr)      # Exponential
+np.log(arr)      # Natural logarithm
+np.sin(arr)      # Sine
+np.cos(arr)      # Cosine</code></pre>
+
+<h2>Aggregation Functions</h2>
+<p>Calculate summary statistics:</p>
+<pre><code>np.sum(arr)        # Sum of elements
+np.mean(arr)       # Mean value
+np.median(arr)     # Median value
+np.std(arr)        # Standard deviation
+np.min(arr)        # Minimum value
+np.max(arr)        # Maximum value</code></pre>
+
+<h2>Array Indexing and Slicing</h2>
+<p>Access and modify parts of arrays:</p>
+<pre><code>arr = np.array([10, 20, 30, 40, 50])
+print(arr[1])       # Output: 20
+print(arr[1:4])     # Output: [20 30 40]
+
+arr[2] = 100        # Modify element at index 2
+print(arr)          # Output: [10  20 100  40  50]</code></pre>
+
+<h2>Multi-dimensional Array Operations</h2>
+<p>Operations on matrices:</p>
+<pre><code>mat1 = np.array([[1, 2], [3, 4]])
+mat2 = np.array([[5, 6], [7, 8]])
+
+# Element-wise addition
+print(mat1 + mat2)
+
+# Matrix multiplication (dot product)
+print(np.dot(mat1, mat2))
+
+# Transpose of a matrix
+print(mat1.T)</code></pre>
+
+<h2>Broadcasting</h2>
+<p>NumPy supports broadcasting, allowing operations on arrays of different shapes:</p>
+<pre><code>arr = np.array([1, 2, 3])
+mat = np.array([[1, 1, 1],
+                [2, 2, 2]])
+
+print(mat + arr)  # arr is broadcasted to match mat's shape</code></pre>
+
+<h2>Reshaping Arrays</h2>
+<p>Change the shape of arrays without changing data:</p>
+<pre><code>arr = np.arange(12)
+print(arr.reshape(3, 4))   # 3 rows, 4 columns
+print(arr.reshape(-1, 6))  # Automatically calculates rows</code></pre>
+
+<h2>Example: Combining Operations</h2>
+<pre><code>import numpy as np
+
+# Create an array of integers from 1 to 10
+arr = np.arange(1, 11)
+
+# Compute squares
+squares = arr ** 2
+
+# Compute mean of squares
+mean_squares = np.mean(squares)
+
+print("Array:", arr)
+print("Squares:", squares)
+print("Mean of squares:", mean_squares)
+</code></pre>
+
+<footer>
+  &copy; 2025 Your Python NumPy Course
+</footer>
+
+</body>
+</html>

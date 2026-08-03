@@ -1,0 +1,263 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>{{ course.title }} - Python Libraries</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Fonts and Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --navy: #0f172a;
+            --slate: #1e293b;
+            --teal: #2dd4bf;
+            --sky: #38bdf8;
+            --rose: #f43f5e;
+            --light: #f8fafc;
+            --mid: #94a3b8;
+            --hover-bg: #334155;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            height: 100vh;
+            background-color: var(--slate);
+            color: var(--light);
+        }
+
+        /* NAVBAR */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 56px;
+            width: 100%;
+            background-color: var(--navy);
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 0 30px;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+        }
+
+        nav a, nav button {
+            color: var(--light);
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 14px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px 14px;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+
+        nav a:hover, nav button:hover {
+            background-color: var(--sky);
+            color: var(--navy);
+        }
+
+        /* SIDEBAR */
+        #sidebar {
+            margin-top: 56px;
+            width: 300px;
+            background-color: var(--navy);
+            padding: 30px 25px;
+            overflow-y: auto;
+            box-shadow: 2px 0 8px rgba(0,0,0,0.4);
+        }
+
+        #sidebar h2 {
+            font-size: 22px;
+            margin-bottom: 20px;
+            color: var(--sky);
+            text-transform: uppercase;
+        }
+
+        #sidebar h3 {
+            font-size: 14px;
+            margin-top: 28px;
+            margin-bottom: 10px;
+            color: var(--teal);
+            text-transform: uppercase;
+        }
+
+        #sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        #sidebar li { margin-bottom: 8px; }
+
+        #sidebar a {
+            display: block;
+            color: var(--mid);
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            transition: 0.3s ease;
+        }
+
+        #sidebar a:hover {
+            background-color: var(--hover-bg);
+            color: var(--sky);
+        }
+
+        #sidebar a.active {
+            background-color: var(--sky);
+            color: var(--navy);
+            font-weight: 600;
+        }
+
+        /* CONTENT */
+        #content {
+            flex: 1;
+            margin-top: 56px;
+            background-color: #f9fafb;
+            display: flex;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: white;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav>
+    <a href="{% url 'dashboard' %}">
+        <i class="fas fa-home"></i> Dashboard
+    </a>
+{% comment %} 
+    <button onclick="location.href='{% url 'compiler' %}'">
+        Compiler
+    </button> {% endcomment %}
+
+    <button onclick="location.href='{% url 'chatbot' %}'">
+        Chatbot
+    </button>
+
+    <a href="{% url 'python_course' %}">
+        <i class="fab fa-python"></i> Python
+    </a>
+
+    <a href="{% url 'java_course' %}">
+        <i class="fab fa-java"></i> Java
+    </a>
+
+    <a href="{% url 'node_course' %}">
+        <i class="fab fa-node-js"></i> Node.js
+    </a>
+
+    <a href="{% url 'pylib_course' %}">
+        <i class="fas fa-box-open"></i> Py Libraries
+    </a>
+
+    <a href="{% url 'c_course' %}">
+        <i class="fas fa-code"></i> C
+    </a>
+
+    <a href="{% url 'logout' %}">
+        <i class="fas fa-sign-out-alt"></i> Logout
+    </a>
+</nav>
+
+<!-- SIDEBAR -->
+<div id="sidebar">
+
+    <ul>
+        <li>
+            <a href="{% url 'courses' %}">
+                <i class="fas fa-home"></i> Courses
+            </a>
+        </li>
+    </ul>
+
+    <h2>{{ course.title }}</h2>
+
+    <!-- NumPy -->
+    <h3>NumPy</h3>
+    <ul>
+        <li><a href="{% static 'public/pylib/numpy-intro.html' %}" target="contentFrame">Introduction to NumPy</a></li>
+        <li><a href="{% static 'public/pylib/numpy-arrays.html' %}" target="contentFrame">Creating & Manipulating Arrays</a></li>
+        <li><a href="{% static 'public/pylib/numpy-operations.html' %}" target="contentFrame">Array Operations</a></li>
+        <li><a href="{% static 'public/pylib/numpy-broadcasting.html' %}" target="contentFrame">Broadcasting & Vectorization</a></li>
+    </ul>
+
+    <!-- Pandas -->
+    <h3>Pandas</h3>
+    <ul>
+        <li><a href="{% static 'public/pylib/pandas-intro.html' %}" target="contentFrame">Introduction to Pandas</a></li>
+        <li><a href="{% static 'public/pylib/pandas-series.html' %}" target="contentFrame">Series & DataFrames</a></li>
+        <li><a href="{% static 'public/pylib/pandas-operations.html' %}" target="contentFrame">Data Manipulation</a></li>
+        <li><a href="{% static 'public/pylib/pandas-cleaning.html' %}" target="contentFrame">Data Cleaning</a></li>
+        <li><a href="{% static 'public/pylib/pandas-groupby.html' %}" target="contentFrame">GroupBy & Aggregations</a></li>
+    </ul>
+
+    <!-- Matplotlib -->
+    <h3>Matplotlib</h3>
+    <ul>
+        <li><a href="{% static 'public/pylib/matplotlib-intro.html' %}" target="contentFrame">Introduction to Matplotlib</a></li>
+        <li><a href="{% static 'public/pylib/matplotlib-basic.html' %}" target="contentFrame">Basic Plotting</a></li>
+        <li><a href="{% static 'public/pylib/matplotlib-styles.html' %}" target="contentFrame">Customizing Plots</a></li>
+    </ul>
+
+    <!-- Scikit-learn -->
+    <h3>Scikit-learn</h3>
+    <ul>
+        <li><a href="{% static 'public/pylib/sklearn-intro.html' %}" target="contentFrame">Machine Learning</a></li>
+        <li><a href="{% static 'public/pylib/sklearn-preprocessing.html' %}" target="contentFrame">Data Preprocessing</a></li>
+        <li><a href="{% static 'public/pylib/sklearn-models.html' %}" target="contentFrame">Models</a></li>
+        <li><a href="{% static 'public/pylib/sklearn-evaluation.html' %}" target="contentFrame">Evaluation</a></li>
+    </ul>
+
+    <!-- SciPy -->
+    <h3>SciPy</h3>
+    <ul>
+        <li><a href="{% static 'public/pylib/scipy-intro.html' %}" target="contentFrame">Introduction to SciPy</a></li>
+        <li><a href="{% static 'public/pylib/scipy-stats.html' %}" target="contentFrame">Statistics</a></li>
+    </ul>
+
+</div>
+
+<!-- CONTENT -->
+<div id="content">
+    <iframe name="contentFrame"
+            src="{% static 'public/pylib/numpy-intro.html' %}">
+    </iframe>
+</div>
+
+<script>
+    const links = document.querySelectorAll('#sidebar a[target="contentFrame"]');
+
+    if (links.length > 0) {
+        links[0].classList.add('active');
+    }
+
+    links.forEach(link => {
+        link.addEventListener('click', function () {
+            links.forEach(l => l.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+</script>
+
+</body>
+</html>

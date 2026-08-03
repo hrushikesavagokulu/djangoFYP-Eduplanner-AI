@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Session-Based Authentication in Express.js</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <h1>Session-Based Authentication in Express.js</h1>
+
+  <p>
+    Session-based authentication is a common method of maintaining user state and identity across multiple requests in web applications. It allows servers to keep users logged in using server-side sessions and client-side cookies.
+  </p>
+
+  <h2>1. Install Required Packages</h2>
+  <p>To implement session-based authentication, install the following packages:</p>
+  <pre><code>npm install express express-session body-parser</code></pre>
+
+  <h2>2. Basic Express Setup with Sessions</h2>
+  <p>Here’s how to set up session-based authentication in your Express application:</p>
+  <pre><code>
+// app.js
+const express = require('express');
+const session = require('express-session');
+const bodyParser = require('body-parser');
+
+const app = express();
+const PORT = 3000;
+
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// Setup session middleware
+app.use(session({
+  secret: 'my-secret-key',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false } // Set true in production with HTTPS
+}));
+
+// Simple login simulation
+const USER = { username: 'admin', password: '1234' };
+
+// Render login form
+app.get('/login', (req, res) => {
+  res.send(`
+    &lt;form method="POST" action="/login"&gt;
+      &lt;input name="username" placeholder="Username" required /&gt;
+      &lt;input name="password" type="password" placeholder="Password" required /&gt;
+      &lt;button type="submit"&gt;Login&lt;/button&gt;
+    &lt;/form&gt;
+  `);
+});
+
+// Handle login
+app.post('/login', (req, res) => {
+  const { username, password } = req.body;
+  if (username === USER.username && password === USER.password) {
+    req.session.user = username;
+    res.redirect('/dashboard');
+  } else {
+    res.send('Invalid credentials');
+  }
+});
+
+// Protected route
+app.get('/dashboard', (req, res) => {
+  if (req.session.user) {
+    res.send(`Welcome ${req.session.user}, you are logged in! &lt;a href="/logout"&gt;Logout&lt;/a&gt;`);
+  } else {
+    res.redirect('/login');
+  }
+});
+
+// Logout
+app.get('/logout', (req, res) => {
+  req.session.destroy(() => {
+    res.redirect('/login');
+  });
+});
+
+app.listen(PORT, () => {
+  console.log(\`Server running on http://localhost:\${PORT}\`);
+});
+</code></pre>
+
+  <h2>3. How It Works</h2>
+  <ul>
+    <li>User submits login form with valid credentials.</li>
+    <li>Server creates a session and stores user data.</li>
+    <li>Session ID is sent to the client via a cookie.</li>
+    <li>On future requests, the session ID is verified and the user is authenticated.</li>
+  </ul>
+
+  <h2>4. Important Notes</h2>
+  <ul>
+    <li>Always store sessions securely (use `secure: true` and HTTPS in production).</li>
+    <li>Use session store (e.g., Redis or MongoDB) for scalability in production apps.</li>
+    <li>Rotate session secrets periodically and handle session expiration properly.</li>
+  </ul>
+
+  <h2>5. Alternatives</h2>
+  <p>For APIs and modern SPAs, consider using JWTs (JSON Web Tokens) instead of sessions.</p>
+
+  <footer>
+    &copy; 2025 Express.js Tutorial – Session Auth
+  </footer>
+
+</body>
+</html>

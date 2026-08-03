@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>OAuth Comprehensive Guide</title>
+  <link rel="stylesheet" href="styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    pre {
+      background-color: #f4f4f4;
+      padding: 10px;
+      border-radius: 5px;
+      overflow-x: auto;
+    }
+    code {
+      font-family: monospace;
+      color: #c7254e;
+    }
+    section {
+      margin-bottom: 2rem;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <h1>OAuth Comprehensive Guide</h1>
+
+  <section id="overview">
+    <h2>OAuth Overview</h2>
+    <p>
+      OAuth is an open standard for access delegation commonly used to grant websites or applications limited access to user information on another service without exposing user credentials.
+    </p>
+    <p>
+      It allows users to authorize third-party applications to access their resources hosted on a service provider without sharing their password.
+    </p>
+    <p><strong>Key Components:</strong></p>
+    <ul>
+      <li><strong>Resource Owner:</strong> The user who owns the data.</li>
+      <li><strong>Client:</strong> The app requesting access.</li>
+      <li><strong>Authorization Server:</strong> Issues access tokens after authentication.</li>
+      <li><strong>Resource Server:</strong> Hosts the protected user data.</li>
+    </ul>
+  </section>
+
+  <section id="flows">
+    <h2>OAuth Flows</h2>
+    <p>
+      OAuth defines several authorization flows to accommodate different client types and use cases:
+    </p>
+    <ul>
+      <li>
+        <strong>Authorization Code Flow:</strong> 
+        <p>This is the most common and secure flow used by web and mobile apps.</p>
+        <pre><code>// Step 1: Redirect user to authorization server
+GET /authorize?response_type=code&client_id=CLIENT_ID&redirect_uri=REDIRECT_URI&scope=read
+
+// Step 2: After user login & consent, get authorization code in callback
+GET /callback?code=AUTHORIZATION_CODE
+
+// Step 3: Exchange code for access token (server-side)
+POST /token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=authorization_code&code=AUTHORIZATION_CODE&redirect_uri=REDIRECT_URI&client_id=CLIENT_ID&client_secret=CLIENT_SECRET
+        </code></pre>
+      </li>
+      <li>
+        <strong>Implicit Flow:</strong> 
+        <p>This flow was designed for single-page apps (SPAs), but is now discouraged due to security risks.</p>
+        <pre><code>// Step 1: Redirect user to authorization server requesting token directly
+GET /authorize?response_type=token&client_id=CLIENT_ID&redirect_uri=REDIRECT_URI&scope=read
+
+// Step 2: Access token is returned in URL fragment (#access_token=TOKEN)
+        </code></pre>
+      </li>
+      <li>
+        <strong>Client Credentials Flow:</strong> 
+        <p>Used for server-to-server communication, where no user is involved.</p>
+        <pre><code>// Request token using client credentials
+POST /token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=client_credentials&client_id=CLIENT_ID&client_secret=CLIENT_SECRET
+        </code></pre>
+      </li>
+      <li>
+        <strong>Resource Owner Password Credentials Flow:</strong>
+        <p>Exchanges user credentials directly for access tokens; recommended only for trusted clients.</p>
+        <pre><code>// Exchange username and password for token
+POST /token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=password&username=USER&password=PASS&client_id=CLIENT_ID&client_secret=CLIENT_SECRET
+        </code></pre>
+      </li>
+    </ul>
+  </section>
+
+  <section id="authorization-server">
+    <h2>OAuth Authorization Server</h2>
+    <p>
+      The Authorization Server is responsible for authenticating users, handling consent, and issuing access tokens and refresh tokens.
+    </p>
+    <p>
+      It must validate client credentials, user authentication, and scopes requested by the client app.
+    </p>
+    <p><strong>Typical endpoints:</strong></p>
+    <ul>
+      <li><code>/authorize</code> - Handles user authorization and consent.</li>
+      <li><code>/token</code> - Issues access and refresh tokens.</li>
+      <li><code>/revoke</code> - Revokes tokens.</li>
+    </ul>
+    <p><strong>Example Express route for /authorize:</strong></p>
+    <pre><code>app.get('/authorize', (req, res) => {
+  const { response_type, client_id, redirect_uri, scope, state } = req.query;
+  // Authenticate user, ask for consent, then redirect with authorization code
+  // ...
+  res.redirect(`${redirect_uri}?code=AUTH_CODE&state=${state}`);
+});
+    </code></pre>
+  </section>
+
+  <section id="access-tokens">
+    <h2>OAuth Access Tokens</h2>
+    <p>
+      Access tokens represent authorization granted to the client by the user and are sent with requests to access protected resources.
+    </p>
+    <p>
+      They can be:
+      <ul>
+        <li><strong>Opaque tokens:</strong> Random strings with no meaning to clients.</li>
+        <li><strong>JWTs (JSON Web Tokens):</strong> Self-contained tokens with claims encoded.</li>
+      </ul>
+    </p>
+    <p>
+      Tokens usually expire after a short duration for security reasons. Refresh tokens are long-lived and used to obtain new access tokens.
+    </p>
+    <p><strong>Example: Using access token to access protected API</strong></p>
+    <pre><code>GET /api/userinfo
+Authorization: Bearer ACCESS_TOKEN
+    </code></pre>
+  </section>
+
+  <section id="oauth-express">
+    <h2>Using OAuth in Express.js</h2>
+    <p>
+      In Express.js, popular libraries like <code>passport-oauth2</code> simplify OAuth integration.
+    </p>
+    <p><strong>Example with Passport OAuth2:</strong></p>
+    <pre><code>const passport = require('passport');
+const OAuth2Strategy = require('passport-oauth2').Strategy;
+
+passport.use(new OAuth2Strategy({
+    authorizationURL: 'https://provider.com/oauth2/authorize',
+    tokenURL: 'https://provider.com/oauth2/token',
+    clientID: 'CLIENT_ID',
+    clientSecret: 'CLIENT_SECRET',
+    callbackURL: 'http://localhost:3000/auth/callback'
+  },
+  function(accessToken, refreshToken, profile, cb) {
+    // Save or update user info here
+    User.findOrCreate({ oauthId: profile.id }, function (err, user) {
+      return cb(err, user);
+    });
+  }
+));
+
+app.get('/auth/provider', passport.authenticate('oauth2'));
+
+app.get('/auth/callback',
+  passport.authenticate('oauth2', { failureRedirect: '/login' }),
+  (req, res) => {
+    res.redirect('/');
+  });
+    </code></pre>
+    <p>
+      This setup handles the redirect, callback, token exchange, and user session management.
+    </p>
+  </section>
+
+  <footer>
+    &copy; 2025 OAuth Guide — All rights reserved.
+  </footer>
+
+</body>
+</html>

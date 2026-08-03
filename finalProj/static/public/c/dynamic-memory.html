@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dynamic Memory</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 900px;
+      margin: 30px auto;
+      line-height: 1.6;
+      color: #222;
+      padding: 0 20px;
+      background: #f9f9f9;
+    }
+    h1, h2, h3 {
+      color: #005a9c;
+    }
+    pre {
+      background: #272822;
+      color: #f8f8f2;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 1rem;
+    }
+    code {
+      font-family: Consolas, monospace;
+      background: #eee;
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: #c7254e;
+    }
+    .note {
+      background: #fff3cd;
+      border-left: 6px solid #ffeeba;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #856404;
+    }
+    .warning {
+      background: #f8d7da;
+      border-left: 6px solid #f5c6cb;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #721c24;
+    }
+    ul {
+      margin-left: 20px;
+    }
+    a {
+      color: #005a9c;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      margin-top: 40px;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dynamic Memory</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 900px;
+      margin: 30px auto;
+      line-height: 1.6;
+      color: #222;
+      padding: 0 20px;
+      background: #f9f9f9;
+    }
+    h1, h2, h3 {
+      color: #005a9c;
+    }
+    pre {
+      background: #272822;
+      color: #f8f8f2;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 1rem;
+    }
+    code {
+      font-family: Consolas, monospace;
+      background: #eee;
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: #c7254e;
+    }
+    .note {
+      background: #fff3cd;
+      border-left: 6px solid #ffeeba;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #856404;
+    }
+    .warning {
+      background: #f8d7da;
+      border-left: 6px solid #f5c6cb;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #721c24;
+    }
+    ul {
+      margin-left: 20px;
+    }
+    a {
+      color: #005a9c;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      margin-top: 40px;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<h1>Dynamic Memory in C</h1>
+
+<p>Dynamic memory allocation allows you to request memory at runtime, which is useful when the amount of memory required is not known at compile time.</p>
+
+<h2>Why Use Dynamic Memory?</h2>
+<ul>
+  <li>Allocate memory as needed during program execution.</li>
+  <li>Create data structures like linked lists, trees, or resizable arrays.</li>
+  <li>Manage memory efficiently for variable-sized data.</li>
+</ul>
+
+<h2>Key Functions for Dynamic Memory</h2>
+<p>C provides four main functions in <code>&lt;stdlib.h&gt;</code> for managing dynamic memory:</p>
+
+<ul>
+  <li><code>malloc(size_t size)</code>: Allocates <code>size</code> bytes and returns a pointer to the allocated memory.</li>
+  <li><code>calloc(size_t nitems, size_t size)</code>: Allocates memory for an array of <code>nitems</code> elements, each of <code>size</code> bytes, and initializes all bytes to zero.</li>
+  <li><code>realloc(void *ptr, size_t size)</code>: Changes the size of the memory block pointed to by <code>ptr</code> to <code>size</code> bytes.</li>
+  <li><code>free(void *ptr)</code>: Frees the memory previously allocated by <code>malloc</code>, <code>calloc</code>, or <code>realloc</code>.</li>
+</ul>
+
+<h2>Example: Using <code>malloc</code> and <code>free</code></h2>
+
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main() {
+    int *ptr;
+    int n = 5;
+
+    // Allocate memory for 5 integers
+    ptr = (int *)malloc(n * sizeof(int));
+    if (ptr == NULL) {
+        printf("Memory allocation failed\n");
+        return 1;
+    }
+
+    // Initialize and print the values
+    for (int i = 0; i &lt; n; i++) {
+        ptr[i] = i * 10;
+        printf("ptr[%d] = %d\n", i, ptr[i]);
+    }
+
+    // Free the allocated memory
+    free(ptr);
+
+    return 0;
+}
+</code></pre>
+
+<h2>Notes on Dynamic Memory</h2>
+<ul>
+  <li>Always check if the memory allocation succeeded by verifying the returned pointer is not <code>NULL</code>.</li>
+  <li>Memory allocated with <code>malloc</code>, <code>calloc</code>, or <code>realloc</code> must be freed using <code>free</code> to avoid memory leaks.</li>
+  <li>Using uninitialized pointers or accessing freed memory causes undefined behavior.</li>
+</ul>
+
+<div class="note">
+  <strong>Note:</strong> Casting the result of <code>malloc</code> is not required in C but often done for clarity or compatibility with C++.
+</div>
+
+<h2>Example: Using <code>calloc</code> and <code>realloc</code></h2>
+
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main() {
+    int *arr;
+    int n = 3;
+
+    // Allocate and initialize memory for 3 integers
+    arr = (int *)calloc(n, sizeof(int));
+    if (arr == NULL) {
+        printf("Memory allocation failed\n");
+        return 1;
+    }
+
+    // Print initialized values (all zeros)
+    for (int i = 0; i &lt; n; i++) {
+        printf("arr[%d] = %d\n", i, arr[i]);
+    }
+
+    // Resize array to hold 5 integers
+    arr = (int *)realloc(arr, 5 * sizeof(int));
+    if (arr == NULL) {
+        printf("Reallocation failed\n");
+        return 1;
+    }
+
+    // Initialize new elements
+    for (int i = n; i &lt; 5; i++) {
+        arr[i] = i * 10;
+    }
+
+    printf("After realloc:\n");
+    for (int i = 0; i &lt; 5; i++) {
+        printf("arr[%d] = %d\n", i, arr[i]);
+    }
+
+    free(arr);
+
+    return 0;
+}
+</code></pre>
+
+<footer>
+  &copy; 2025 Your C Programming Course
+</footer>
+
+</body>
+</html>
+
+</body>
+</html>

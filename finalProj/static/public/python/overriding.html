@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>DevHive - Method Overriding</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <h1>Method Overriding - DevHive</h1>
+
+  <p>Method overriding allows a subclass to provide a specific implementation of a method that is already defined in its superclass. This enables polymorphism where the child class behavior can replace or extend the parent class behavior.</p>
+
+  <h2>Why Use Method Overriding?</h2>
+  <ul>
+    <li>To modify or extend the behavior of inherited methods.</li>
+    <li>To achieve runtime polymorphism.</li>
+    <li>To provide specific behavior for subclass objects.</li>
+  </ul>
+
+  <h2>Example in JavaScript</h2>
+  <pre><code>class Animal {
+  speak() {
+    console.log("Animal speaks");
+  }
+}
+
+class Dog extends Animal {
+  speak() {
+    console.log("Dog barks");
+  }
+}
+
+const d = new Dog();
+d.speak();  // Dog barks</code></pre>
+
+  <h2>How It Works</h2>
+  <p>When the <code>speak()</code> method is called on a <code>Dog</code> instance, the overridden method in the <code>Dog</code> class is executed instead of the method in <code>Animal</code>. This is because the child class's method has the same name and signature.</p>
+
+  <h2>Calling the Parent Method</h2>
+  <p>You can still call the parent class method inside the child method using <code>super</code> keyword:</p>
+  <pre><code>class Dog extends Animal {
+  speak() {
+    super.speak();
+    console.log("Dog barks");
+  }
+}
+
+const d = new Dog();
+d.speak(); 
+// Output:
+// Animal speaks
+// Dog barks</code></pre>
+
+  <h2>Method Overriding vs Method Overloading</h2>
+  <ul>
+    <li><strong>Overriding:</strong> Same method name and parameters in child and parent class, changes behavior.</li>
+    <li><strong>Overloading:</strong> Multiple methods with same name but different parameters (not directly supported in JavaScript).</li>
+  </ul>
+
+  <h2>Real-world Use Case</h2>
+  <p>In a GUI application, you might have a generic <code>draw()</code> method in a parent <code>Shape</code> class, and each shape subclass like <code>Circle</code> or <code>Rectangle</code> overrides it to draw themselves differently.</p>
+
+  <hr>
+
+  <div class="try-it">
+    <h3>Try it Yourself</h3>
+    <textarea class="code-input" id="codeArea">class Parent {
+  show() {
+    console.log("Parent class method");
+  }
+}
+
+class Child extends Parent {
+  show() {
+    console.log("Child class method");
+  }
+}
+
+const c = new Child();
+c.show();</textarea>
+    <button class="run-btn" onclick="runCode()">Run Code</button>
+    <div class="output" id="output" style="white-space: pre-wrap; margin-top: 15px; font-family: monospace; border: 1px solid #ccc; padding: 10px; min-height: 40px;"></div>
+  </div>
+
+  <script>
+    function runCode() {
+      const code = document.getElementById("codeArea").value;
+      const output = document.getElementById("output");
+      output.innerHTML = '';
+      try {
+        const logs = [];
+        console.log = (...args) => logs.push(args.join(' '));
+        new Function(code)();
+        output.innerText = logs.join('\n');
+      } catch (e) {
+        output.innerHTML = "<span style='color:red;'>Error: " + e.message + "</span>";
+      }
+    }
+  </script>
+
+</body>
+</html>

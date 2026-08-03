@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Python Getting Started</title>
+  <style>
+    /* Reset and base styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body, html {
+      height: 100%;
+      font-family: Arial, sans-serif;
+      background: #f3b875;
+      color: #555;
+    }
+
+    /* Layout */
+    .container {
+      display: flex;
+      justify-content: center;
+      padding: 30px;
+    }
+
+    .main-content {
+      max-width: 800px;
+      background: rgb(187, 242, 182);
+      padding: 30px 40px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      overflow-y: auto;
+      height: 90vh;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      font-size: 28px;
+      color: #34495e;
+    }
+
+    h2 {
+      margin: 20px 0 10px;
+      color: #2c3e50;
+    }
+
+    p {
+      font-size: 16px;
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+
+    pre {
+      background: #eee;
+      padding: 15px;
+      border-radius: 5px;
+      font-family: Consolas, monospace;
+      font-size: 15px;
+      overflow-x: auto;
+      margin-bottom: 15px;
+      white-space: pre-wrap;
+    }
+
+    code {
+      background: #ecf0f1;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: Consolas, monospace;
+      font-size: 15px;
+      color: #e67e22;
+    }
+
+    a {
+      color: #2980b9;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .ad {
+      background: #dfe6e9;
+      color: #636e72;
+      text-align: center;
+      padding: 10px;
+      margin: 20px 0;
+      border-radius: 4px;
+      font-style: italic;
+      font-size: 14px;
+    }
+
+    /* Add your custom styles below */
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="main-content">
+    <h1>Python Getting Started</h1>
+
+    <h2>Python Install</h2>
+    <p>Many PCs and Macs will have Python already installed.</p>
+    <p>To check if you have Python installed on a Windows PC, search in the start bar for Python or run the following on the Command Line (cmd.exe):</p>
+    <pre>C:\Users\Your Name&gt; python --version</pre>
+
+    <p>To check if you have Python installed on a Linux or Mac, open the Terminal and type:</p>
+    <pre>python --version</pre>
+
+    <p>If you find that you do not have Python installed on your computer, you can download it for free from <a href="https://www.python.org/" target="_blank" rel="noopener">https://www.python.org/</a></p>
+<div style="
+  margin: 40px auto;
+  max-width: 800px;
+  width: 90%;
+  aspect-ratio: 16 / 9;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #000;
+">
+  <iframe
+    src="https://www.youtube.com/embed/CScxy0294SE"
+    title="YouTube video player"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen
+    style="width: 100%; height: 100%; border: none; display: block;"
+  ></iframe>
+</div>
+
+    <div class="ad">ADVERTISEMENT</div>
+
+    <h2>Python Quickstart</h2>
+    <p>Python is an interpreted programming language. This means that as a developer you write Python (<code>.py</code>) files in a text editor and then put those files into the Python interpreter to be executed.</p>
+    <p>Let's write our first Python file, called <code>hello.py</code>, which can be done in any text editor:</p>
+
+    <pre>hello.py:
+
+print("Hello, World!")</pre>
+
+    <p>Simple as that. Save your file. Open your command line, navigate to the directory where you saved your file, and run:</p>
+    <pre>C:\Users\Your Name&gt; python hello.py</pre>
+
+    <p>The output should be:</p>
+    <pre>Hello, World!</pre>
+
+    <p>Congratulations, you have written and executed your first Python program.</p>
+
+    <div class="ad">ADVERTISEMENT</div>
+
+    <h2>DEVHive's Python Editor</h2>
+    <p>We have an online Python editor where you can execute your own Python code and see the result:</p>
+    <pre>print("Hello, World!")</pre>
+    <p>This editor will be used throughout the entire tutorial to demonstrate the different aspects of Python.</p>
+
+    <h2>Python Version</h2>
+    <p>To check the Python version of the editor, you can find it by importing the <code>sys</code> module:</p>
+    <pre>import sys
+
+print(sys.version)</pre>
+    <p>You will learn more about importing modules in our Python Modules chapter.</p>
+
+    <div class="ad">ADVERTISEMENT</div>
+
+    <h2>The Python Command Line</h2>
+    <p>To test a short amount of code in Python, sometimes it is quickest and easiest not to write the code in a file. This is made possible because Python can be run as a command line itself.</p>
+    <p>Type the following on the Windows, Mac, or Linux command line:</p>
+    <pre>C:\Users\Your Name&gt; python</pre>
+
+    <p>Or, if the <code>python</code> command does not work, you can try <code>py</code>:</p>
+    <pre>C:\Users\Your Name&gt; py</pre>
+
+    <p>From there you can write any Python, including our hello world example from earlier in the tutorial:</p>
+    <pre>&gt;&gt;&gt; print("Hello, World!")</pre>
+
+    <p>Which will write "Hello, World!" in the command line:</p>
+    <pre>Hello, World!</pre>
+
+    <p>Whenever you are done in the Python command line, you can simply type the following to quit the Python command line interface:</p>
+    <pre>exit()</pre>
+  </div>
+</div>
+
+</body>
+</html>

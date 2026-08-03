@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Java - For Loops</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      color: #2c3e50;
+      max-width: 900px;
+      margin: auto;
+      padding: 20px;
+      line-height: 1.7;
+    }
+    h1 {
+      color: #0984e3;
+      text-align: center;
+    }
+    h2 {
+      color: #2d3436;
+      margin-top: 30px;
+    }
+    pre {
+      background: #f1f2f6;
+      padding: 12px;
+      border-left: 5px solid #74b9ff;
+      overflow-x: auto;
+    }
+    code {
+      font-family: Consolas, monospace;
+    }
+    .highlight {
+      background: #ffeaa7;
+      padding: 15px;
+      border-left: 5px solid #fdcb6e;
+      margin: 20px 0;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <h1>Java - For Loops</h1>
+
+  <p>
+    A <strong>for loop</strong> in Java is a control flow statement that allows code to be executed repeatedly based on a given boolean condition. It is typically used when the number of iterations is known in advance.
+  </p>
+
+  <h2>Syntax</h2>
+  <pre><code>for (initialization; condition; update) {
+  // code to be executed
+}</code></pre>
+
+  <p>
+    - <strong>Initialization:</strong> Executes once at the beginning. Typically used to declare and initialize a counter variable. <br>
+    - <strong>Condition:</strong> Evaluated before every loop iteration. If <code>true</code>, the loop continues; if <code>false</code>, the loop stops. <br>
+    - <strong>Update:</strong> Executed after each iteration. Usually updates the loop control variable.
+  </p>
+
+  <h2>Example 1: Print numbers 1 to 5</h2>
+  <pre><code>for (int i = 1; i <= 5; i++) {
+  System.out.println(i);
+}</code></pre>
+
+  <div class="highlight">Output:<br>1<br>2<br>3<br>4<br>5</div>
+
+  <h2>Example 2: Print even numbers from 2 to 10</h2>
+  <pre><code>for (int i = 2; i <= 10; i += 2) {
+  System.out.println(i);
+}</code></pre>
+
+  <div class="highlight">Output:<br>2<br>4<br>6<br>8<br>10</div>
+
+  <h2>Decrementing Loop</h2>
+  <p>You can also use a for loop to count backwards.</p>
+  <pre><code>for (int i = 5; i >= 1; i--) {
+  System.out.println(i);
+}</code></pre>
+
+  <div class="highlight">Output:<br>5<br>4<br>3<br>2<br>1</div>
+
+  <h2>Nested for Loops</h2>
+  <p>A for loop inside another for loop is called a nested loop. Useful for working with 2D arrays or printing patterns.</p>
+  <pre><code>for (int i = 1; i <= 3; i++) {
+  for (int j = 1; j <= 2; j++) {
+    System.out.println("i = " + i + ", j = " + j);
+  }
+}</code></pre>
+<div style="margin: 40px auto; max-width: 800px; width: 90%; aspect-ratio: 16 / 9; box-shadow: 0 8px 20px rgba(0,0,0,0.2); border-radius: 12px; overflow: hidden; background: #000;">
+  <iframe
+    src="https://www.youtube.com/embed/mh3sTmXWMLE"
+    title="#16 Need For Loop in Java"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen
+    style="width: 100%; height: 100%; border: none; display: block;"
+  ></iframe>
+</div>
+
+  <h2>Enhanced for Loop (For-each)</h2>
+  <p>Used to iterate over arrays or collections without needing an index.</p>
+  <pre><code>int[] numbers = {10, 20, 30};
+for (int num : numbers) {
+  System.out.println(num);
+}</code></pre>
+
+  <div class="highlight">Output:<br>10<br>20<br>30</div>
+
+  <h2>When to Use For Loops</h2>
+  <ul>
+    <li>When the number of iterations is known in advance.</li>
+    <li>When iterating through arrays using indexes.</li>
+    <li>When performance and concise control is needed.</li>
+  </ul>
+
+  <h2>Common Mistake</h2>
+  <pre><code>// Infinite loop - update is missing
+for (int i = 1; i <= 5;) {
+  System.out.println(i);
+}</code></pre>
+  <p>This loop runs forever unless <code>i</code> is manually updated inside the loop body.</p>
+
+  <h2>Conclusion</h2>
+  <p>
+    The <strong>for loop</strong> is one of the most efficient and compact looping mechanisms in Java. Whether you're looping through a list, counting numbers, or printing patterns, mastering the for loop structure is essential for any Java programmer.
+  </p>
+
+</body>
+</html>

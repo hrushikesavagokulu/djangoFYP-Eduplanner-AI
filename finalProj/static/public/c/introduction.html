@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Introduction</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 900px;
+      margin: 30px auto;
+      line-height: 1.6;
+      color: #222;
+      padding: 0 20px;
+      background: #f9f9f9;
+    }
+    h1, h2, h3 {
+      color: #005a9c;
+    }
+    pre {
+      background: #272822;
+      color: #f8f8f2;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 1rem;
+    }
+    code {
+      font-family: Consolas, monospace;
+      background: #eee;
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: #c7254e;
+    }
+    .note {
+      background: #fff3cd;
+      border-left: 6px solid #ffeeba;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #856404;
+    }
+    .warning {
+      background: #f8d7da;
+      border-left: 6px solid #f5c6cb;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #721c24;
+    }
+    ul {
+      margin-left: 20px;
+    }
+    a {
+      color: #005a9c;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      margin-top: 40px;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+
+<h1>Introduction to C Programming</h1>
+
+<p>C is one of the most powerful and widely used programming languages. It was developed in the early 1970s by Dennis Ritchie at Bell Labs and has since become the foundation of many modern programming languages such as C++, Java, and Python.</p>
+
+<h2>Why Learn C?</h2>
+<ul>
+  <li><strong>Foundation Language:</strong> Many modern languages borrow syntax and concepts from C.</li>
+  <li><strong>Efficient and Fast:</strong> C provides low-level access to memory and is compiled to very efficient machine code.</li>
+  <li><strong>Portability:</strong> C programs can be compiled and run on many different computer systems.</li>
+  <li><strong>Wide Application:</strong> Used in system programming, embedded devices, operating systems (like Unix/Linux), and game development.</li>
+</ul>
+
+<h2>Basic Structure of a C Program</h2>
+<p>A typical C program looks like this:</p>
+
+<pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    // This is the main function - program execution starts here
+    printf("Hello, World!\n");
+    return 0;
+}</code></pre>
+
+<p><strong>Explanation:</strong></p>
+<ul>
+  <li><code>#include &lt;stdio.h&gt;</code> - This line tells the compiler to include the Standard Input Output library which contains functions like <code>printf</code>.</li>
+  <li><code>int main()</code> - The main function is the entry point of every C program.</li>
+  <li><code>printf("Hello, World!\n");</code> - Prints the text "Hello, World!" to the console.</li>
+  <li><code>return 0;</code> - Indicates the program finished successfully.</li>
+</ul>
+
+<div class="note">
+  <strong>Note:</strong> Every C program must have exactly one <code>main</code> function.
+</div>
+
+<h2>How to Compile and Run a C Program</h2>
+<p>To run C code, you need a compiler. The most popular one is <code>gcc</code> (GNU Compiler Collection).</p>
+<p>Here is how you can compile and run the program above:</p>
+<pre><code>// Save the code in a file called hello.c
+gcc hello.c -o hello    // Compile hello.c to an executable named hello
+./hello                 // Run the executable</code></pre>
+
+<div class="warning">
+  <strong>Warning:</strong> Compilation errors are common when starting. Carefully read the error messages and fix issues step by step.
+</div>
+
+<h2>Basic Concepts You Will Learn in C</h2>
+<ul>
+  <li>Variables and Data Types</li>
+  <li>Operators and Expressions</li>
+  <li>Control Flow (if, switch, loops)</li>
+  <li>Functions and Recursion</li>
+  <li>Pointers and Memory Management</li>
+  <li>Structures and Unions</li>
+  <li>File Input/Output</li>
+  <li>Preprocessor Directives</li>
+</ul>
+
+<h2>Next Steps</h2>
+<p>Once you understand the basic structure and setup, you can start learning about <a href="/courses/c/setup.html" target="contentFrame">Setup & Installation</a> to get your environment ready for coding, followed by learning about <a href="/courses/c/syntax.html" target="contentFrame">C Syntax</a>.</p>
+
+<h2>Summary</h2>
+<p>C is a foundational programming language essential for understanding how software interacts with hardware. With practice, you will learn to write efficient and powerful programs.</p>
+
+
+<footer>
+  &copy; 2025 Your C Programming Course
+</footer>
+
+</body>
+</html>

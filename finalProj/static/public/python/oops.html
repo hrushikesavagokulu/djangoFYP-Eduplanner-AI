@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OOPs (Object-Oriented Programming) - DEVHive Hands-On</title>
+
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Skulpt Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt-stdlib.js"></script>
+
+  <script>
+    function builtinRead(x) {
+      if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][x] === undefined)
+        throw "File not found: '" + x + "'";
+      return Sk.builtinFiles["files"][x];
+    }
+
+    function runCode(textareaId, outputId) {
+      const prog = document.getElementById(textareaId).value;
+      const outputElement = document.getElementById(outputId);
+      outputElement.innerHTML = ''; // Clear previous output
+
+      Sk.pre = outputElement;
+      Sk.configure({
+        output: function(text) {
+          outputElement.innerHTML += text.replace(/\n/g, '<br>');
+        },
+        read: builtinRead,
+        execLimit: 10000,
+      });
+
+      (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = outputId;
+
+      Sk.misceval.asyncToPromise(() => Sk.importMainWithBody("<stdin>", false, prog, true))
+        .catch(err => {
+          outputElement.innerHTML = '<span class="error">' + err.toString() + '</span>';
+        });
+    }
+  </script>
+</head>
+<body>
+
+ <h2>More on Object-Oriented Programming in Python</h2>
+
+<section>
+  <h3>Classes and Objects</h3>
+  <p>A <strong>class</strong> is a blueprint to create objects. An <strong>object</strong> is an instance of a class with its own attributes and methods.</p>
+</section>
+
+<section>
+  <h3>Encapsulation</h3>
+  <p>Encapsulation means restricting direct access to some of an object's components, which can be done using private attributes by prefixing them with <code>__</code> (double underscore).</p>
+  <pre><code>class MyClass:
+    def __init__(self):
+        self.__private_var = 42  # Private attribute</code></pre>
+</section>
+<div style="margin: 40px auto; max-width: 800px; width: 90%; aspect-ratio: 16 / 9; box-shadow: 0 8px 20px rgba(0,0,0,0.2); border-radius: 12px; overflow: hidden; background: #000;">
+  <iframe
+    src="https://www.youtube.com/embed/gZwPdqC2Os0"
+    title="Python Tutorial for Beginners | Object Oriented Programming | Introduction"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen
+    style="width: 100%; height: 100%; border: none; display: block;"
+  ></iframe>
+</div>
+
+<section>
+  <h3>Inheritance</h3>
+  <p>Inheritance allows a new class to inherit attributes and methods from an existing class:</p>
+  <pre><code>class Parent:
+    def greet(self):
+        print("Hello from Parent")
+
+class Child(Parent):
+    pass  # Child inherits greet() from Parent</code></pre>
+</section>
+
+<section>
+  <h3>Polymorphism</h3>
+  <p>Polymorphism lets methods behave differently based on the object that calls them, often through method overriding:</p>
+  <pre><code>class Animal:
+    def speak(self):
+        print("Animal speaks")
+
+class Cat(Animal):
+    def speak(self):
+        print("Cat meows")</code></pre>
+</section>
+
+<section>
+  <h3>Special Methods</h3>
+  <p>Python classes can have special methods (also called “magic methods”) that start and end with double underscores, like <code>__init__</code> for initialization or <code>__str__</code> for string representation.</p>
+</section>
+
+<section>
+  <h3>Example of a Complete Class</h3>
+  <pre><code>class Car:
+    def __init__(self, make, model):
+        self.make = make
+        self.model = model
+
+    def description(self):
+        return f"{self.make} {self.model}"
+
+car = Car("Toyota", "Corolla")
+print(car.description())</code></pre>
+</section>
+
+  <div class="try-it">
+    <h3>Try it Yourself</h3>
+    <textarea class="code-input" id="code-run-1" spellcheck="false">class Person:
+    def __init__(self, name):
+        self.name = name
+
+    def greet(self):
+        print("Hello, I am " + self.name)
+
+p = Person("Dev")
+p.greet()</textarea>
+    <button class="run-btn" onclick="runCode('code-run-1', 'output-1')">Run Code</button>
+    <div class="output" id="output-1"></div>
+  </div>
+
+</body>
+</html>

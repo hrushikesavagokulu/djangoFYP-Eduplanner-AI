@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Macros</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 900px;
+      margin: 30px auto;
+      line-height: 1.6;
+      color: #222;
+      padding: 0 20px;
+      background: #f9f9f9;
+    }
+    h1, h2, h3 {
+      color: #005a9c;
+    }
+    pre {
+      background: #272822;
+      color: #f8f8f2;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 1rem;
+    }
+    code {
+      font-family: Consolas, monospace;
+      background: #eee;
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: #c7254e;
+    }
+    .note {
+      background: #fff3cd;
+      border-left: 6px solid #ffeeba;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #856404;
+    }
+    .warning {
+      background: #f8d7da;
+      border-left: 6px solid #f5c6cb;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #721c24;
+    }
+    ul {
+      margin-left: 20px;
+    }
+    a {
+      color: #005a9c;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      margin-top: 40px;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<h1>Memory Management</h1>
+
+<p>Memory management in C is a crucial concept that involves the allocation, use, and release of memory during a program's execution. Efficient memory management ensures optimal use of system resources and prevents issues like memory leaks and segmentation faults.</p>
+
+<h2>Memory Areas in C</h2>
+<ul>
+  <li><strong>Stack:</strong> Stores local variables and function call information. It is managed automatically and has limited size.</li>
+  <li><strong>Heap:</strong> Used for dynamic memory allocation during runtime. Managed manually by the programmer using functions like <code>malloc</code> and <code>free</code>.</li>
+  <li><strong>Data Segment:</strong> Contains global and static variables.</li>
+  <li><strong>Code Segment:</strong> Contains the compiled program code.</li>
+</ul>
+
+<h2>Dynamic Memory Allocation</h2>
+<p>C provides several standard library functions to allocate and manage memory dynamically:</p>
+<ul>
+  <li><code>malloc(size_t size)</code>: Allocates <code>size</code> bytes and returns a pointer to the allocated memory.</li>
+  <li><code>calloc(size_t nmemb, size_t size)</code>: Allocates memory for an array of <code>nmemb</code> elements of <code>size</code> bytes each, initialized to zero.</li>
+  <li><code>realloc(void *ptr, size_t size)</code>: Resizes previously allocated memory block pointed by <code>ptr</code> to <code>size</code> bytes.</li>
+  <li><code>free(void *ptr)</code>: Releases the memory previously allocated.</li>
+</ul>
+
+<h2>Example of Dynamic Memory Allocation</h2>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main() {
+    int *ptr;
+    int n, i;
+
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
+
+    ptr = (int*) malloc(n * sizeof(int));
+    if (ptr == NULL) {
+        printf("Memory allocation failed\n");
+        return 1;
+    }
+
+    printf("Enter %d integers:\n", n);
+    for (i = 0; i &lt; n; i++) {
+        scanf("%d", &ptr[i]);
+    }
+
+    printf("You entered: ");
+    for (i = 0; i &lt; n; i++) {
+        printf("%d ", ptr[i]);
+    }
+    printf("\n");
+
+    free(ptr); // Important to free allocated memory
+
+    return 0;
+}
+</code></pre>
+
+<div class="note">
+  <strong>Note:</strong> Always check the return value of <code>malloc</code> and <code>calloc</code> for <code>NULL</code> to avoid dereferencing invalid pointers. Also, remember to <code>free</code> any dynamically allocated memory to prevent memory leaks.
+</div>
+
+<div class="warning">
+  <strong>Warning:</strong> Using memory after it has been freed (dangling pointers) or failing to free memory can cause undefined behavior or memory leaks.
+</div>
+
+<footer>
+  &copy; 2025 Your C Programming Course
+</footer>
+
+</body>
+</html>

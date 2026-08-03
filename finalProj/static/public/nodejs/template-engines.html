@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Using Template Engines with Express</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <h1>Using Template Engines with Express</h1>
+
+  <p>
+    A <strong>template engine</strong> enables you to use static template files in your application. At runtime, the engine replaces variables in the template with actual values, then transforms the template into an HTML file sent to the client. This makes designing dynamic HTML pages easier and cleaner.
+  </p>
+
+  <h2>Popular Template Engines</h2>
+  <p>
+    The Express application generator uses <strong>Pug</strong> as the default template engine, but Express also supports others like <strong>Handlebars</strong> and <strong>EJS</strong>.
+  </p>
+
+  <h2>Setting Up Template Engines in Express</h2>
+
+  <ol>
+    <li>
+      <strong>Set the views directory</strong>: This is where your template files live.  
+      Example:  
+      <pre><code>app.set('views', './views')</code></pre>
+      By default, this is the <code>views</code> folder in your app root.
+    </li>
+
+    <li>
+      <strong>Set the view engine</strong>: Tell Express which template engine to use.  
+      Example for Pug:  
+      <pre><code>app.set('view engine', 'pug')</code></pre>
+    </li>
+
+    <li>
+      <strong>Install the template engine npm package</strong>. For Pug, run:  
+      <pre><code>npm install pug --save</code></pre>
+    </li>
+  </ol>
+
+  <h2>How Rendering Works</h2>
+  <p>
+    Express-compliant template engines export a function named <code>__express(filePath, options, callback)</code> which is called internally by <code>res.render()</code> to render your template.
+  </p>
+  <p>
+    If a template engine does not follow this convention, you can use the <code>@ladjs/consolidate</code> library which maps popular template engines to Express.
+  </p>
+
+  <h2>Example Using Pug</h2>
+
+  <p>Create a Pug template file named <code>index.pug</code> inside your <code>views</code> folder with the following content:</p>
+
+  <pre><code>html
+  head
+    title= title
+  body
+    h1= message
+  </code></pre>
+
+  <p>Create a route in your Express app to render this template:</p>
+
+  <pre><code>app.get('/', (req, res) => {
+  res.render('index', { title: 'Hey', message: 'Hello there!' })
+})
+  </code></pre>
+
+  <p>When a request is made to the home page, the <code>index.pug</code> file will be rendered into HTML and sent to the client.</p>
+
+  <h2>Additional Notes</h2>
+  <ul>
+    <li>
+      Once the view engine is set (e.g., <code>app.set('view engine', 'pug')</code>), you don't need to specify the file extension when calling <code>res.render()</code>.
+    </li>
+    <li>
+      The view engine cache only caches the underlying template file, not the output. So the template is re-rendered on each request even if caching is enabled.
+    </li>
+  </ul>
+
+  <footer>
+    &copy; 2025 Your Express.js Learning Series
+  </footer>
+
+</body>
+</html>

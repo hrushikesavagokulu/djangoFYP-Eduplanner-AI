@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Python Functions - DEVHive Hands-On</title>
+
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Skulpt libraries for running Python in browser -->
+  <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt-stdlib.js"></script>
+
+  <script>
+    function builtinRead(x) {
+      if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][x] === undefined)
+        throw "File not found: '" + x + "'";
+      return Sk.builtinFiles["files"][x];
+    }
+
+    function runCode(textareaId, outputId) {
+      const prog = document.getElementById(textareaId).value;
+      const outputElement = document.getElementById(outputId);
+      outputElement.innerHTML = ''; // Clear previous output
+
+      Sk.pre = outputElement;
+      Sk.configure({
+        output: function(text) {
+          outputElement.innerHTML += text.replace(/\n/g, '<br>');
+        },
+        read: builtinRead,
+        execLimit: 10000,
+      });
+
+      (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = outputId;
+
+      Sk.misceval.asyncToPromise(function() {
+        return Sk.importMainWithBody("<stdin>", false, prog, true);
+      }).catch(function(err) {
+        outputElement.innerHTML = '<span class="error">' + err.toString() + '</span>';
+      });
+    }
+  </script>
+</head>
+<body>
+
+  <h1>Python Functions — Hands-On Tutorial</h1>
+
+  <p>Functions are blocks of code designed to perform a particular task. They run when called.</p>
+
+  <section>
+    <h2>Function Definition</h2>
+    <pre><code>def say_hello():
+    print("Hello, world!")</code></pre>
+  </section>
+
+  <section>
+    <h2>Function with Parameters</h2>
+    <pre><code>def add(a, b):
+    return a + b</code></pre>
+  </section>
+
+  <section>
+    <h2>Lambda Function (Anonymous)</h2>
+    <pre><code>multiply = lambda x, y: x * y</code></pre>
+  </section>
+<div style="margin: 40px auto; max-width: 800px; width: 90%; aspect-ratio: 16 / 9; box-shadow: 0 8px 20px rgba(0,0,0,0.2); border-radius: 12px; overflow: hidden; background: #000;">
+  <iframe
+    src="https://www.youtube.com/embed/BVfCWuca9nw"
+    title="Python Tutorial for Beginners | Functions in Python"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen
+    style="width: 100%; height: 100%; border: none; display: block;"
+  ></iframe>
+</div>
+
+  <section class="try-it">
+    <h3>Try It Yourself</h3>
+    <textarea id="code-run-1" spellcheck="false" class="code-input" rows="8">
+def square(n):
+    return n * n
+
+print(square(4))
+    </textarea>
+    <button class="run-btn" onclick="runCode('code-run-1', 'output-1')">Run Code</button>
+    <pre class="output" id="output-1"></pre>
+    <div class="hint">Tip: Use <code>print()</code> to display output.</div>
+  </section>
+
+</body>
+</html>

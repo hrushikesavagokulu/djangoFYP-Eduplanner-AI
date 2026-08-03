@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ask TinyLlama</title>
+</head>
+<body>
+    <h1>Ask TinyLlama LoRA</h1>
+    <form method="post">
+        {% csrf_token %}
+        <textarea name="prompt" rows="5" cols="50" placeholder="Enter your question..."></textarea><br>
+        <button type="submit">Ask</button>
+    </form>
+    {% if answer %}
+        <h2>Answer:</h2>
+        <p>{{ answer }}</p>
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,281 @@
+{% extends "base.html" %}
+{% block title %}Scheduler – DSA Planner{% endblock %}
+
+{% block extra_style %}
+body { background:#f5f7fa; }
+
+.wrapper {
+    display:flex;
+    height:90vh;
+}
+
+/* Sidebar */
+.sidebar {
+    width:260px;
+    background:#111827;
+    color:white;
+    padding:20px;
+    overflow-y:auto;
+}
+
+.sidebar h3 {
+    margin-bottom:15px;
+}
+
+.plan-item {
+    background:#1f2937;
+    padding:10px;
+    margin-bottom:8px;
+    border-radius:6px;
+    cursor:pointer;
+    font-size:14px;
+}
+
+.plan-item:hover { background:#374151; }
+
+.delete-btn {
+    float:right;
+    color:#f87171;
+    cursor:pointer;
+}
+
+/* Main Content */
+.main {
+    flex:1;
+    padding:30px;
+    overflow-y:auto;
+}
+
+.gen-bar {
+    display:flex;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+.gen-bar input {
+    padding:8px 12px;
+    border-radius:6px;
+    border:1px solid #ccc;
+}
+
+.gen-bar button {
+    padding:8px 16px;
+    background:#2563eb;
+    color:white;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+.day-card {
+    background:white;
+    padding:15px;
+    margin-bottom:15px;
+    border-radius:8px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.08);
+}
+
+.complete-btn {
+    margin-top:8px;
+    padding:5px 12px;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+.completed { background:#16a34a; color:white; }
+.not-completed { background:#e5e7eb; }
+
+.error-msg { color:red; }
+{% endblock %}
+
+{% block content %}
+<div class="wrapper">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <h3>📚 Your Plans</h3>
+        <div id="planTabs"></div>
+    </div>
+
+    <!-- MAIN -->
+    <div class="main">
+
+        <h2>📘 DSA Plan Generator</h2>
+
+        <div class="gen-bar">
+            <input type="number" id="days" placeholder="Number of days" min="1">
+            <button onclick="generatePlan()">Generate</button>
+        </div>
+
+        <div id="planContent"></div>
+
+    </div>
+</div>
+
+<script>
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        for (const cookie of document.cookie.split(';')) {
+            const c = cookie.trim();
+            if (c.startsWith(name + '=')) {
+                cookieValue = decodeURIComponent(c.slice(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+/* ================= LOAD USER TABS ================= */
+
+async function loadPlans() {
+
+    const res = await fetch("/scheduler/plans/");
+    const data = await res.json();
+
+    let html = "";
+
+    data.plans.forEach(p => {
+        html += `
+            <div class="plan-item">
+                <span onclick="loadPlan(${p.id})">${p.title}</span>
+                <span class="delete-btn" onclick="deletePlan(${p.id})">❌</span>
+            </div>
+        `;
+    });
+
+    document.getElementById("planTabs").innerHTML = html;
+}
+
+/* ================= GENERATE PLAN ================= */
+
+async function generatePlan() {
+
+    const days = document.getElementById("days").value;
+    const content = document.getElementById("planContent");
+
+    if (!days || days <= 0) {
+        content.innerHTML = "<p class='error-msg'>Enter valid days</p>";
+        return;
+    }
+
+    content.innerHTML = "Generating...";
+
+    const response = await fetch("{% url 'generate_plan' %}", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": getCookie("csrftoken")
+        },
+        body: JSON.stringify({ total_days: Number(days) })
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+        loadPlans();
+        loadPlan(data.plan_id);
+    } else {
+        content.innerHTML = "<p class='error-msg'>Error generating plan</p>";
+    }
+}
+
+/* ================= LOAD PLAN DETAILS ================= */
+async function loadPlan(planId) {
+
+    const res = await fetch(`/scheduler/plan/${planId}/`);
+    const data = await res.json();
+
+    let html = "";
+
+    data.plan.forEach(day => {
+
+        let references = "";
+        let problems = "";
+        let tasks = "";
+
+        if (day.reference_links && day.reference_links.length > 0) {
+            references += "<h5>📚 References</h5><ul>";
+            day.reference_links.forEach(link => {
+                references += `<li><a href="${link}" target="_blank">${link}</a></li>`;
+            });
+            references += "</ul>";
+        }
+
+        if (day.problems && day.problems.length > 0) {
+            problems += "<h5>💻 Practice Problems</h5><ul>";
+            day.problems.forEach(p => {
+                problems += `<li>
+                    <a href="${p.link}" target="_blank">${p.title}</a>
+                    (${p.difficulty})
+                </li>`;
+            });
+            problems += "</ul>";
+        }
+
+        if (day.tasks && day.tasks.length > 0) {
+            tasks += "<h5>📝 Tasks</h5><ul>";
+            day.tasks.forEach(t => {
+                tasks += `<li>${t}</li>`;
+            });
+            tasks += "</ul>";
+        }
+
+        html += `
+            <div class="day-card">
+                <h4>Day ${day.day_number} - ${day.topic}</h4>
+                <p>Type: ${day.type}</p>
+
+                ${references}
+                ${problems}
+                ${tasks}
+
+                <button 
+                    class="complete-btn ${day.completed ? 'completed' : 'not-completed'}"
+                    onclick="toggleDay(${day.id}, ${planId})">
+                    ${day.completed ? "Completed ✅" : "Mark Complete"}
+                </button>
+            </div>
+        `;
+    });
+
+    document.getElementById("planContent").innerHTML = html;
+}
+/* ================= TOGGLE COMPLETE ================= */
+
+async function toggleDay(dayId, planId) {
+
+    await fetch(`/scheduler/day/${dayId}/toggle/`, {
+        method: "POST",
+        headers: {
+            "X-CSRFToken": getCookie("csrftoken")
+        }
+    });
+
+    loadPlan(planId);
+}
+
+/* ================= DELETE PLAN ================= */
+
+async function deletePlan(planId) {
+
+    await fetch(`/scheduler/delete/${planId}/`, {
+        method: "POST",
+        headers: {
+            "X-CSRFToken": getCookie("csrftoken")
+        }
+    });
+
+    loadPlans();
+    document.getElementById("planContent").innerHTML = "";
+}
+
+/* Load tabs on page load */
+loadPlans();
+</script>
+
+{% endblock %}
+
+

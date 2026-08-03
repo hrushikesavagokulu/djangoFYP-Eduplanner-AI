@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Java - If Statements</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f4f8;
+      color: #2d3436;
+      max-width: 900px;
+      margin: auto;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    h1 {
+      text-align: center;
+      color: #0984e3;
+    }
+    h2 {
+      color: #2c3e50;
+      margin-top: 30px;
+    }
+    pre {
+      background: #ecf0f1;
+      padding: 12px;
+      border-left: 5px solid #74b9ff;
+      overflow-x: auto;
+    }
+    code {
+      font-family: Consolas, monospace;
+    }
+    .highlight {
+      background: #ffeaa7;
+      padding: 15px;
+      border-left: 5px solid #fdcb6e;
+      margin: 20px 0;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <h1>Java - If Statements</h1>
+
+  <p>
+    The <strong>if statement</strong> in Java is a fundamental control structure used to execute a block of code only if a specified condition is true. It is commonly used to control the flow of logic in a program and make decisions at runtime.
+  </p>
+
+  <h2>Basic Syntax</h2>
+  <pre><code>if (condition) {
+  // block of code to execute if condition is true
+}</code></pre>
+
+  <h2>Example</h2>
+  <pre><code>int age = 18;
+if (age >= 18) {
+  System.out.println("You are eligible to vote.");
+}</code></pre>
+
+  <div class="highlight">Output:<br>You are eligible to vote.</div>
+
+  <h2>if-else Statement</h2>
+  <p>Use <code>else</code> to execute code when the condition is false.</p>
+  <pre><code>int number = 5;
+if (number % 2 == 0) {
+  System.out.println("Even number");
+} else {
+  System.out.println("Odd number");
+}</code></pre>
+
+  <div class="highlight">Output:<br>Odd number</div>
+
+  <h2>if-else if-else Ladder</h2>
+  <p>This structure allows multiple conditions to be checked in order.</p>
+  <pre><code>int marks = 85;
+
+if (marks >= 90) {
+  System.out.println("Grade: A");
+} else if (marks >= 75) {
+  System.out.println("Grade: B");
+} else if (marks >= 60) {
+  System.out.println("Grade: C");
+} else {
+  System.out.println("Grade: F");
+}</code></pre>
+
+  <div class="highlight">Output:<br>Grade: B</div>
+
+  <h2>Nested if Statements</h2>
+  <p>One <code>if</code> statement inside another.</p>
+  <pre><code>int a = 10, b = 20;
+
+if (a < b) {
+  if (a > 5) {
+    System.out.println("a is less than b and greater than 5");
+  }
+}</code></pre>
+
+  <div class="highlight">Output:<br>a is less than b and greater than 5</div>
+<div style="margin: 40px auto; max-width: 800px; width: 90%; aspect-ratio: 16 / 9; box-shadow: 0 8px 20px rgba(0,0,0,0.2); border-radius: 12px; overflow: hidden; background: #000;">
+  <iframe
+    src="https://www.youtube.com/embed/74Q7POjS7mQ"
+    title="#12 If else in Java"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen
+    style="width: 100%; height: 100%; border: none; display: block;"
+  ></iframe>
+</div>
+
+  <h2>Key Points</h2>
+  <ul>
+    <li>Conditions must evaluate to a boolean value.</li>
+    <li>You can use relational (<code>&gt;</code>, <code>&lt;</code>, <code>==</code>, etc.) and logical operators (<code>&&</code>, <code>||</code>, <code>!</code>).</li>
+    <li>Always use curly braces <code>{ }</code> for clarity, even if the block has only one statement.</li>
+  </ul>
+
+  <h2>Common Mistake</h2>
+  <p>Forgetting curly braces in multi-line conditions may cause unintended results:</p>
+  <pre><code>// Incorrect (may work but not recommended)
+if (x > 0)
+  System.out.println("Positive");
+  System.out.println("Done"); // always prints</code></pre>
+
+  <h2>Conclusion</h2>
+  <p>
+    The <strong>if statement</strong> is a powerful tool for decision-making in Java. Understanding its variations—simple if, if-else, else-if ladder, and nested if—is crucial for writing flexible and dynamic code. Mastering these will enhance your ability to implement logic effectively in your Java programs.
+  </p>
+
+</body>
+</html>

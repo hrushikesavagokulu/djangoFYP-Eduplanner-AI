@@ -1,0 +1,5 @@
+{
+  "name": "Performance Tracker",
+  "description": "A production-level habit and DSA progress tracking system with authentication and real-time charts.",
+  "requestFramePermissions": []
+}

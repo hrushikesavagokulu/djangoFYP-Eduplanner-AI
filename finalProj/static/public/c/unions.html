@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Unions</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 900px;
+      margin: 30px auto;
+      line-height: 1.6;
+      color: #222;
+      padding: 0 20px;
+      background: #f9f9f9;
+    }
+    h1, h2, h3 {
+      color: #005a9c;
+    }
+    pre {
+      background: #272822;
+      color: #f8f8f2;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 1rem;
+    }
+    code {
+      font-family: Consolas, monospace;
+      background: #eee;
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: #c7254e;
+    }
+    .note {
+      background: #fff3cd;
+      border-left: 6px solid #ffeeba;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #856404;
+    }
+    .warning {
+      background: #f8d7da;
+      border-left: 6px solid #f5c6cb;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #721c24;
+    }
+    ul {
+      margin-left: 20px;
+    }
+    a {
+      color: #005a9c;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      margin-top: 40px;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head><body>
+
+<h1>Unions</h1>
+
+<p><strong>Unions</strong> in C are a special data type that allows storing different data types in the same memory location. Unlike <code>structs</code>, where each member has its own memory, in a union all members share the same memory area. This means a union can only hold one of its members at a time.</p>
+
+<h2>Why Use Unions?</h2>
+<ul>
+  <li>To save memory when you know that only one of several variables will be used at a time.</li>
+  <li>To interpret the same memory region in multiple ways, useful in low-level programming.</li>
+  <li>Commonly used in embedded systems, device drivers, and protocol implementations.</li>
+</ul>
+
+<h2>Union Syntax</h2>
+<pre><code>union Data {
+    int i;
+    float f;
+    char str[20];
+};
+</code></pre>
+
+<p>Here, <code>Data</code> can store an <code>int</code>, or a <code>float</code>, or a string of up to 19 characters (plus null terminator), but only one at a time.</p>
+
+<h2>Size of a Union</h2>
+<p>The size of a union is the size of its largest member, because all members share the same memory location.</p>
+
+<h2>Example Usage</h2>
+<pre><code>#include &lt;stdio.h&gt;
+
+union Data {
+    int i;
+    float f;
+    char str[20];
+};
+
+int main() {
+    union Data data;
+
+    data.i = 10;
+    printf("data.i = %d\n", data.i);
+
+    data.f = 220.5;
+    printf("data.f = %f\n", data.f);
+
+    // When you assign to data.f, data.i is overwritten
+    printf("data.i after assigning to data.f = %d\n", data.i);
+
+    // Assign string to data.str
+    snprintf(data.str, sizeof(data.str), "Hello, union!");
+    printf("data.str = %s\n", data.str);
+
+    return 0;
+}
+</code></pre>
+
+<p><strong>Note:</strong> Since all members share memory, modifying one member affects the others. You should only use the member last assigned.</p>
+
+<h2>Accessing Union Members</h2>
+<ul>
+  <li>Use the dot operator to access members (e.g., <code>data.i</code>).</li>
+  <li>Be careful about which member you access; accessing a member different from the last written member leads to undefined behavior.</li>
+</ul>
+
+<h2>Unions vs Structs</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Feature</th>
+      <th>Union</th>
+      <th>Struct</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Memory Allocation</td>
+      <td>All members share the same memory</td>
+      <td>Each member has its own memory</td>
+    </tr>
+    <tr>
+      <td>Size</td>
+      <td>Size of largest member</td>
+      <td>Sum of all members' sizes (plus padding)</td>
+    </tr>
+    <tr>
+      <td>Use Case</td>
+      <td>Store one of many types at a time</td>
+      <td>Store multiple related variables simultaneously</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>When to Use Unions</h2>
+<ul>
+  <li>When memory conservation is critical.</li>
+  <li>When you want to interpret the same memory as different types.</li>
+  <li>In implementing polymorphic data structures.</li>
+</ul>
+
+<footer>
+  &copy; 2025 Your C Programming Course
+</footer>
+
+</body>
+
+</html>

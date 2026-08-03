@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Recursion</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 900px;
+      margin: 30px auto;
+      line-height: 1.6;
+      color: #222;
+      padding: 0 20px;
+      background: #f9f9f9;
+    }
+    h1, h2, h3 {
+      color: #005a9c;
+    }
+    pre {
+      background: #272822;
+      color: #f8f8f2;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 1rem;
+    }
+    code {
+      font-family: Consolas, monospace;
+      background: #eee;
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: #c7254e;
+    }
+    .note {
+      background: #fff3cd;
+      border-left: 6px solid #ffeeba;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #856404;
+    }
+    .warning {
+      background: #f8d7da;
+      border-left: 6px solid #f5c6cb;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #721c24;
+    }
+    ul {
+      margin-left: 20px;
+    }
+    a {
+      color: #005a9c;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      margin-top: 40px;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<h1>Recursion in C</h1>
+
+<p>Recursion is a programming technique where a function calls itself directly or indirectly to solve a problem. It is especially useful for problems that can be broken down into smaller, similar subproblems.</p>
+
+<h2>How Recursion Works</h2>
+<p>A recursive function generally has two main parts:</p>
+<ul>
+  <li><strong>Base Case:</strong> This condition stops the recursion by not making any further recursive calls.</li>
+  <li><strong>Recursive Case:</strong> This is where the function calls itself with a smaller or simpler input, moving toward the base case.</li>
+</ul>
+
+<div class="note">
+  <strong>Note:</strong> Without a proper base case, recursion will lead to infinite calls and eventually cause a stack overflow error.
+</div>
+
+<h2>Syntax of a Recursive Function</h2>
+<pre><code>return_type function_name(parameters) {
+    if (base_condition) {
+        // base case: stop recursion
+        return some_value;
+    } else {
+        // recursive case: function calls itself
+        return function_name(smaller_parameters);
+    }
+}</code></pre>
+
+<h2>Example: Factorial Calculation</h2>
+<p>The factorial of a non-negative integer <code>n</code> is defined as:</p>
+<ul>
+  <li><code>0! = 1</code> (base case)</li>
+  <li><code>n! = n × (n-1)!</code> for <code>n > 0</code></li>
+</ul>
+
+<pre><code>#include &lt;stdio.h&gt;
+
+int factorial(int n) {
+    if (n == 0) {
+        return 1;  // Base case
+    } else {
+        return n * factorial(n - 1);  // Recursive call
+    }
+}
+
+int main() {
+    int num = 5;
+    printf("Factorial of %d is %d\n", num, factorial(num));
+    return 0;
+}</code></pre>
+
+<h2>How This Works:</h2>
+<ul>
+  <li><code>factorial(5)</code> calls <code>factorial(4)</code></li>
+  <li><code>factorial(4)</code> calls <code>factorial(3)</code>, and so on...</li>
+  <li>When <code>factorial(0)</code> is reached, it returns 1 (base case)</li>
+  <li>Then, the calls return one by one, multiplying the results back up the call stack</li>
+</ul>
+
+<h2>Common Uses of Recursion</h2>
+<ul>
+  <li>Mathematical computations (factorial, Fibonacci series)</li>
+  <li>Tree and graph traversals</li>
+  <li>Divide and conquer algorithms (merge sort, quick sort)</li>
+  <li>Backtracking problems (e.g., puzzles, maze solving)</li>
+</ul>
+
+<h2>Troubleshooting Recursion</h2>
+<ul>
+  <li>Always ensure there is a reachable base case.</li>
+  <li>Check that each recursive call progresses toward the base case.</li>
+  <li>Be cautious of large input sizes; deep recursion may cause stack overflow.</li>
+</ul>
+
+<footer>
+  &copy; 2025 Your C Programming Course
+</footer>
+
+
+</body>
+</html>

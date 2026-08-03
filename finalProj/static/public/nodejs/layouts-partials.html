@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Layouts and Partials in Express.js</title>
+  <link rel="stylesheet" href="styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+
+  <h1>Layouts and Partials in Express.js</h1>
+
+  <section id="overview">
+    <h2>What are Layouts and Partials?</h2>
+    <p>
+      Layouts and partials are concepts used in templating engines to help create reusable, maintainable HTML templates.
+    </p>
+    <ul>
+      <li><strong>Layouts:</strong> Define the overall page structure (header, footer, navigation) shared across multiple pages.</li>
+      <li><strong>Partials:</strong> Smaller reusable snippets of markup (e.g., navbars, footers, sidebars) that can be included in layouts or pages.</li>
+    </ul>
+  </section>
+
+  <section id="why-use-layouts-partials">
+    <h2>Why Use Layouts and Partials?</h2>
+    <p>
+      Using layouts and partials avoids code duplication, makes templates easier to manage, and promotes consistency across your app.
+    </p>
+  </section>
+
+  <section id="example-ejs-layout">
+    <h2>Example: Layout with EJS</h2>
+    <p>Basic layout file <code>views/layout.ejs</code>:</p>
+    <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;title&gt;&lt;%= title %&gt;&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;header&gt;
+    &lt;h1&gt;My Website&lt;/h1&gt;
+    &lt;%- include('partials/navbar') %&gt;
+  &lt;/header&gt;
+  &lt;main&gt;
+    &lt;%- body %&gt;
+  &lt;/main&gt;
+  &lt;footer&gt;
+    &lt;p&gt;&copy; 2025 My Website&lt;/p&gt;
+  &lt;/footer&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+    <p>
+      In your route, you would render a view and pass the content to the layout like this:
+    </p>
+    <pre><code>res.render('page', { title: 'Home', body: '<p>Welcome to the homepage</p>' });
+</code></pre>
+  </section>
+
+  <section id="example-ejs-partial">
+    <h2>Example: Partial with EJS</h2>
+    <p>Partial file <code>views/partials/navbar.ejs</code>:</p>
+    <pre><code>&lt;nav&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;a href="/"&gt;Home&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="/about"&gt;About&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="/contact"&gt;Contact&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/nav&gt;
+</code></pre>
+  </section>
+
+  <section id="using-layouts-with-other-engines">
+    <h2>Using Layouts and Partials with Other Engines</h2>
+    <p>
+      Other popular templating engines like Handlebars and Pug also support layouts and partials with similar concepts but different syntax.
+    </p>
+    <ul>
+      <li><strong>Handlebars:</strong> Uses <code>{{> partialName}}</code> for partials and a main layout specified in configuration.</li>
+      <li><strong>Pug:</strong> Uses <code>block content</code> and <code>include partial.pug</code> for layout and partials respectively.</li>
+    </ul>
+  </section>
+
+  <footer>
+    &copy; 2025 Templating Guide — All rights reserved.
+  </footer>
+
+</body>
+</html>

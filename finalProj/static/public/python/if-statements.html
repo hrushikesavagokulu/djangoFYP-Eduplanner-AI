@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Python if else Statement - DEVHive Hands-On</title>
+
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- Skulpt libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt-stdlib.js"></script>
+
+  <script>
+    function builtinRead(x) {
+      if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][x] === undefined)
+        throw "File not found: '" + x + "'";
+      return Sk.builtinFiles["files"][x];
+    }
+
+    function runCode(textareaId, outputId) {
+      const prog = document.getElementById(textareaId).value;
+      const outputElement = document.getElementById(outputId);
+      outputElement.innerHTML = ''; // Clear previous output
+
+      Sk.pre = outputElement;
+      Sk.configure({
+        output: function(text) {
+          outputElement.innerHTML += text.replace(/\n/g, '<br>');
+        },
+        read: builtinRead,
+        execLimit: 10000,
+      });
+
+      (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = outputId;
+
+      Sk.misceval.asyncToPromise(function() {
+        return Sk.importMainWithBody("<stdin>", false, prog, true);
+      }).catch(function(err) {
+        outputElement.innerHTML = '<span class="error">' + err.toString() + '</span>';
+      });
+    }
+  </script>
+</head>
+<body>
+
+  <h1>Python <code>if else</code> Statement</h1>
+
+  <p>
+    Welcome to <strong>DEVHive</strong>! This tutorial covers everything you need to know about the <code>if else</code> statements in Python — the backbone of decision-making in your programs.
+  </p>
+
+  <section>
+    <h2>1. What is an <code>if else</code> Statement?</h2>
+    <p>
+      The <code>if else</code> statement allows your program to choose between two paths based on a condition. If the condition is true, it executes one block of code; otherwise, it executes another.
+    </p>
+  </section>
+<div style="
+  margin: 40px auto;
+  max-width: 800px;
+  width: 90%;
+  aspect-ratio: 16 / 9;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #000;
+">
+  <iframe
+    src="https://www.youtube.com/embed/PqFKRqpHrjw"
+    title="YouTube video player"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen
+    style="width: 100%; height: 100%; border: none; display: block;"
+  ></iframe>
+</div>
+
+  <section>
+    <h2>2. Syntax</h2>
+    <pre><code>if condition:
+    # code runs if condition is True
+else:
+    # code runs if condition is False
+</code></pre>
+  </section>
+
+  <section>
+    <h2>3. How Does It Work?</h2>
+    <p>
+      The <code>condition</code> is a boolean expression evaluated to either <code>True</code> or <code>False</code>. Examples include:
+    </p>
+    <ul>
+      <li><code>age &gt;= 18</code> (is age at least 18?)</li>
+      <li><code>score &lt; 50</code></li>
+      <li><code>is_logged_in == True</code></li>
+    </ul>
+    <p>
+      Python uses indentation (spaces or tabs) to define which code belongs inside the if or else blocks — be sure to indent consistently!
+    </p>
+  </section>
+
+  <section>
+    <h2>4. Basic Example</h2>
+    <pre><code>age = 20
+if age >= 18:
+    print("You are an adult.")
+else:
+    print("You are a minor.")
+</code></pre>
+    <p>Output:</p>
+    <pre><code>You are an adult.</code></pre>
+  </section>
+
+  <section>
+    <h2>5. Using <code>elif</code> for Multiple Conditions</h2>
+    <p>
+      Use <code>elif</code> (short for "else if") to test additional conditions:
+    </p>
+    <pre><code>score = 85
+if score >= 90:
+    print("Grade A")
+elif score >= 70:
+    print("Grade B")
+elif score >= 50:
+    print("Grade C")
+else:
+    print("Fail")
+</code></pre>
+    <p>Python checks conditions from top to bottom and runs the first true block.</p>
+  </section>
+
+  <section>
+    <h2>6. Important Notes & Best Practices</h2>
+    <ul>
+      <li>Indent your blocks properly. Python requires consistent indentation (usually 4 spaces).</li>
+      <li>The <code>condition</code> must evaluate to <code>True</code> or <code>False</code>.</li>
+      <li>Use <code>==</code> to compare values (not <code>=</code>, which assigns).</li>
+      <li>You can have multiple <code>elif</code> blocks, but only one <code>else</code> block at the end.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>7. Common Mistakes</h2>
+    <ul>
+      <li>Using a single equal sign <code>=</code> instead of <code>==</code> in conditions</li>
+      <li>Forgetting to indent code inside blocks</li>
+      <li>Using colon <code>:</code> after <code>if</code>, <code>elif</code>, and <code>else</code> statements</li>
+      <li>Not having an <code>else</code> block when needed</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>8. Nested if else</h2>
+    <p>
+      You can nest <code>if else</code> inside others to check more detailed conditions:
+    </p>
+    <pre><code>num = 10
+if num > 0:
+    if num % 2 == 0:
+        print("Positive even number")
+    else:
+        print("Positive odd number")
+else:
+    print("Zero or negative number")
+</code></pre>
+  </section>
+
+  <section>
+    <h2>9. Practical Examples</h2>
+
+    <h3>Example: User Login Check</h3>
+    <pre><code>is_logged_in = True
+if is_logged_in:
+    print("Welcome back!")
+else:
+    print("Please log in to continue.")
+</code></pre>
+
+    <h3>Example: Checking Temperature</h3>
+    <pre><code>temp = 25
+if temp &gt; 30:
+    print("It's hot outside.")
+elif temp &gt;= 20:
+    print("Nice weather!")
+else:
+    print("It's chilly.")
+</code></pre>
+  </section>
+
+  <section>
+    <div class="highlight">
+      Tip: Use the <code>bool()</code> function to convert values to True/False in complex conditions!
+    </div>
+  </section>
+
+  <section>
+    <h2>10. Try It Yourself!</h2>
+    <div class="try-it">
+      <h3>Try running your own code</h3>
+      <textarea class="code-input" id="code-run" spellcheck="false">
+age = int(input("Enter your age: "))
+if age >= 18:
+    print("You are eligible to vote.")
+else:
+    print("You are not eligible to vote yet.")
+      </textarea>
+      <button class="run-btn" onclick="runCode('code-run', 'output-run')">Run Code</button>
+      <div class="output" id="output-run"></div>
+      <div class="hint">Tip: Enter your age and see the decision in action!</div>
+    </div>
+  </section>
+
+  <section class="exercise">
+    <h3>Exercise</h3>
+    <p>Write a program to check if a number entered by the user is positive, negative, or zero.</p>
+    <label><input type="radio" name="answer" /> The number is positive if it is greater than zero.</label>
+    <label><input type="radio" name="answer" /> Zero is considered neither positive nor negative.</label>
+    <label><input type="radio" name="answer" /> Use nested if else for clear logic.</label>
+  </section>
+
+</body>
+</html>

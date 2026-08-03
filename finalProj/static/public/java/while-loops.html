@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>DevHive - While Loop in Java</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <h1>While Loop - DevHive (Java)</h1>
+
+  <p>The <code>while</code> loop is a control structure in Java that repeatedly executes a block of code as long as the specified condition is <code>true</code>. It's useful when the number of iterations is not known beforehand.</p>
+
+  <div class="highlight">
+    Think of the while loop as: "Keep doing this, while this condition holds true."
+  </div>
+
+  <h2>Syntax</h2>
+  <pre><code>while (condition) {
+    // code block to be executed
+}</code></pre>
+
+  <p><strong>Explanation:</strong></p>
+  <ul>
+    <li>The <code>condition</code> is evaluated before each iteration.</li>
+    <li>If it’s <code>true</code>, the loop body executes.</li>
+    <li>If it’s <code>false</code>, the loop stops.</li>
+  </ul>
+
+  <h2>Visual Flow</h2>
+  <p>1. Check condition → 2. If true, run code → 3. Repeat → 4. Stop when condition is false.</p>
+
+  <h2>Example 1: Print numbers from 1 to 5</h2>
+  <pre><code>int i = 1;
+while (i <= 5) {
+    System.out.println(i);
+    i++;
+}</code></pre>
+<div style="margin: 40px auto; max-width: 800px; width: 90%; aspect-ratio: 16 / 9; box-shadow: 0 8px 20px rgba(0,0,0,0.2); border-radius: 12px; overflow: hidden; background: #000;">
+  <iframe
+    src="https://www.youtube.com/embed/mzt5tmV7wxI"
+    title="#17 While Loop in Java"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen
+    style="width: 100%; height: 100%; border: none; display: block;"
+  ></iframe>
+</div>
+
+  <div class="try-it">
+    <h3>Try it Yourself</h3>
+    <textarea class="code-input" id="codeArea1">// Try modifying the loop condition!
+int i = 1;
+while (i <= 5) {
+    System.out.println(i);
+    i++;
+}</textarea>
+    <button class="run-btn" onclick="runCodeJava('codeArea1', 'output1')">Run Code</button>
+    <div class="output" id="output1"></div>
+  </div>
+
+  <h2>Example 2: Countdown from 10 to 1</h2>
+  <pre><code>int num = 10;
+while (num > 0) {
+    System.out.println(num);
+    num--;
+}</code></pre>
+
+  <div class="try-it">
+    <h3>Practice Code</h3>
+    <textarea class="code-input" id="codeArea2">// Change this to count down from a different number
+int num = 10;
+while (num > 0) {
+    System.out.println(num);
+    num--;
+}</textarea>
+    <button class="run-btn" onclick="runCodeJava('codeArea2', 'output2')">Run Code</button>
+    <div class="output" id="output2"></div>
+  </div>
+
+  <h2>Common Mistake: Infinite Loop</h2>
+  <p>If the condition never becomes <code>false</code>, the loop will continue forever, causing an infinite loop.</p>
+
+  <pre><code>while (true) {
+    System.out.println("This will never stop!");
+}</code></pre>
+
+  <div class="highlight">
+    Always ensure the loop condition changes inside the loop to avoid infinite repetition.
+  </div>
+
+  <div class="exercise">
+    <h3>Exercise 1</h3>
+    <p>Use a <code>while</code> loop to print all even numbers from 2 to 10.</p>
+    <p class="hint">Hint: Start at 2 and increment by 2 each time.</p>
+  </div>
+
+  <div class="try-it">
+    <h3>Try it Yourself</h3>
+    <textarea class="code-input" id="codeArea3">// Your code here
+int i = 2;
+while (i <= 10) {
+    System.out.println(i);
+    i += 2;
+}</textarea>
+    <button class="run-btn" onclick="runCodeJava('codeArea3', 'output3')">Run Code</button>
+    <div class="output" id="output3"></div>
+  </div>
+
+  <div class="exercise">
+    <h3>Exercise 2</h3>
+    <p>Write a <code>while</code> loop that keeps asking the user to enter a number until they type 0.</p>
+    <p class="hint">Use a <code>Scanner</code> to take input inside the loop.</p>
+  </div>
+
+ <div class="try-it">
+  <h3>Try it Yourself</h3>
+  <textarea class="code-input" id="codeArea4">
+// Note: Input prompt won’t work in this environment.
+// import java.util.Scanner;
+// Scanner scanner = new Scanner(System.in);
+// int num = scanner.nextInt();
+// while (num != 0) {
+//     System.out.println("You entered: " + num);
+//     num = scanner.nextInt();
+// }
+  </textarea>
+  <button class="run-btn" onclick="runCodeJava('codeArea4', 'output4')">Run Code</button>
+  <div class="output" id="output4"></div>
+  <p>Try running this code on an online Java compiler like 
+    <a href="https://replit.com/languages/java10" target="_blank" rel="noopener">Replit Java</a>.
+  </p>
+</div>
+
+  <script>
+    // Note: Executing Java code in-browser is not trivial.
+    // The following function is a placeholder that just shows a message.
+    function runCodeJava(codeId, outputId) {
+      const outputElement = document.getElementById(outputId);
+      outputElement.innerHTML = "<span class='error'>Running Java code is not supported in this environment.</span>";
+    }
+  </script>
+
+</body>
+</html>

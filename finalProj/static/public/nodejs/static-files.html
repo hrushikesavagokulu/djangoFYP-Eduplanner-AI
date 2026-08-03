@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Serving Static Files in Express</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <h1>Serving Static Files in Express</h1>
+
+  <p>
+    Express provides a built-in middleware function called <code>express.static</code> to serve static files such as images, CSS files, and JavaScript files.
+  </p>
+
+  <h2>Function Signature</h2>
+  <p>
+    The signature of the <code>express.static</code> function is:
+  </p>
+  <pre><code>express.static(root, [options])</code></pre>
+  <p>
+    - <code>root</code>: The root directory from which to serve static files.<br />
+    - <code>options</code>: Optional settings to customize behavior.
+  </p>
+
+  <h2>Basic Usage</h2>
+  <p>To serve static files from a directory named <code>public</code>, use:</p>
+  <pre><code>app.use(express.static('public'))</code></pre>
+
+  <p>Now you can access files inside <code>public</code> like:</p>
+  <ul>
+    <li><code>http://localhost:3000/images/kitten.jpg</code></li>
+    <li><code>http://localhost:3000/css/style.css</code></li>
+    <li><code>http://localhost:3000/js/app.js</code></li>
+    <li><code>http://localhost:3000/hello.html</code></li>
+  </ul>
+
+  <p>
+    Express serves files relative to the static directory, so the directory name (e.g., <code>public</code>) does not appear in the URL.
+  </p>
+
+  <h2>Using Multiple Static Directories</h2>
+  <p>You can serve multiple directories by calling <code>express.static</code> multiple times:</p>
+  <pre><code>app.use(express.static('public'))
+app.use(express.static('files'))</code></pre>
+  <p>
+    Express will check these directories in order when looking for files.
+  </p>
+
+  <h2>Virtual Path Prefix</h2>
+  <p>
+    You can create a virtual prefix for your static files URLs, so the path doesn’t directly map to your filesystem. For example:
+  </p>
+  <pre><code>app.use('/static', express.static('public'))</code></pre>
+  <p>
+    This lets you access files like:
+  </p>
+  <ul>
+    <li><code>http://localhost:3000/static/images/kitten.jpg</code></li>
+    <li><code>http://localhost:3000/static/css/style.css</code></li>
+  </ul>
+
+  <h2>Using Absolute Paths (Recommended)</h2>
+  <p>
+    Since the path in <code>express.static</code> is relative to where you start your Node process, it's safer to use an absolute path. For example:
+  </p>
+  <pre><code>const path = require('path')
+app.use('/static', express.static(path.join(__dirname, 'public')))</code></pre>
+
+  <h2>Additional Notes</h2>
+  <ul>
+    <li>For best performance, consider using a reverse proxy cache in front of your Express app when serving static assets.</li>
+    <li>For detailed options of <code>express.static</code>, refer to the <a href="https://expressjs.com/en/starter/static-files.html" target="_blank" rel="noopener">Express static files documentation</a>.</li>
+  </ul>
+
+  <footer>
+    &copy; 2025 Your Express.js Learning Series
+  </footer>
+
+</body>
+</html>

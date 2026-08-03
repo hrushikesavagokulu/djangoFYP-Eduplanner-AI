@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Java - Deep Dive into Classes</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 950px;
+      margin: auto;
+      padding: 30px;
+      background-color: #fcfcfc;
+      color: #2c3e50;
+      line-height: 1.7;
+    }
+    h1, h2, h3, h4 {
+      color: #2c3e50;
+      margin-top: 1.5em;
+    }
+    pre {
+      background-color: #f4f4f4;
+      border-left: 6px solid #3498db;
+      padding: 14px;
+      overflow-x: auto;
+      font-size: 0.95em;
+    }
+    code {
+      background-color: #f0f0f0;
+      padding: 3px 6px;
+      border-radius: 4px;
+      font-family: Consolas, monospace;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 1em;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px 14px;
+      text-align: left;
+    }
+    th {
+      background-color: #3498db;
+      color: white;
+    }
+    .try-it {
+      background: #e8f4ff;
+      padding: 12px;
+      margin: 20px 0;
+      border-left: 5px solid #2980b9;
+    }
+    textarea {
+      width: 100%;
+      height: 200px;
+      font-family: Consolas, monospace;
+      padding: 10px;
+      font-size: 0.95em;
+    }
+    .ascii {
+      background: #304454;
+      font-family: monospace;
+      padding: 12px;
+      border-left: 5px solid #2d2b2b;
+      white-space: pre;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<h1>🚀 Java Classes - Deep Dive</h1>
+
+<p>
+  A <strong>class</strong> in Java acts as a blueprint from which individual objects are created. Think of it like a plan or mold for an object. Java classes encapsulate <strong>data (fields)</strong> and <strong>behavior (methods)</strong>.
+</p>
+
+<h2>📦 Real-Life Analogy</h2>
+<p>Imagine a <strong>class</strong> as a car design (e.g., Tesla Model S) and the <strong>objects</strong> as actual cars built from that design.</p>
+
+<h2>📐 Basic Syntax of a Class</h2>
+<pre><code>public class Car {
+    String brand;
+    int year;
+
+    void drive() {
+        System.out.println("The car is driving.");
+    }
+}</code></pre>
+
+<h3>Try It Yourself</h3>
+<div class="try-it">
+  <p>Write a class called <code>Laptop</code> with fields like brand, RAM, and method <code>run()</code></p>
+  <textarea>// Your code here...</textarea>
+</div>
+
+<h2>🛠️ Fields and Methods in Detail</h2>
+<ul>
+  <li><strong>Fields</strong>: Store object state</li>
+  <li><strong>Methods</strong>: Define object behavior</li>
+</ul>
+
+<h3>Example</h3>
+<pre><code>public class Dog {
+    String breed;
+    int age;
+
+    void bark() {
+        System.out.println("Woof!");
+    }
+}</code></pre>
+
+<h2>✨ Constructors</h2>
+<p>
+  Constructors initialize new objects. They share the class name and have no return type.
+</p>
+
+<pre><code>public class Dog {
+    String breed;
+
+    // Constructor
+    public Dog(String breed) {
+        this.breed = breed;
+    }
+}</code></pre>
+
+<h3>Constructor Overloading</h3>
+<p>Multiple constructors with different parameters</p>
+<pre><code>public class Rectangle {
+    int length, width;
+
+    public Rectangle() {
+        length = width = 0;
+    }
+
+    public Rectangle(int l, int w) {
+        length = l;
+        width = w;
+    }
+}</code></pre>
+
+<h2>🔒 Access Modifiers</h2>
+<table>
+  <tr><th>Modifier</th><th>Meaning</th><th>Access Scope</th></tr>
+  <tr><td>public</td><td>Visible to all</td><td>Everywhere</td></tr>
+  <tr><td>private</td><td>Visible within class only</td><td>Same class</td></tr>
+  <tr><td>protected</td><td>Subclass & same package</td><td>Package + inheritance</td></tr>
+  <tr><td>default</td><td>No keyword = package access</td><td>Same package</td></tr>
+</table>
+
+<h2>🔐 Encapsulation</h2>
+<pre><code>public class BankAccount {
+    private double balance;
+
+    public void deposit(double amount) {
+        if (amount > 0) balance += amount;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+}</code></pre>
+
+<h2>🧬 Inheritance</h2>
+<p>One class inherits fields and methods of another.</p>
+<pre><code>class Animal {
+    void eat() {
+        System.out.println("Eating...");
+    }
+}
+
+class Bird extends Animal {
+    void fly() {
+        System.out.println("Flying...");
+    }
+}</code></pre>
+
+<h2>🌀 Polymorphism</h2>
+<p>One interface, many implementations.</p>
+<pre><code>class Animal {
+    void sound() {
+        System.out.println("Animal makes sound");
+    }
+}
+
+class Cat extends Animal {
+    void sound() {
+        System.out.println("Meow");
+    }
+}</code></pre>
+
+<h2>🧼 Abstraction</h2>
+<p>Hiding internal details and showing only functionality.</p>
+
+<h3>Using Abstract Class</h3>
+<pre><code>abstract class Shape {
+    abstract void draw();
+}
+
+class Circle extends Shape {
+    void draw() {
+        System.out.println("Drawing circle");
+    }
+}</code></pre>
+
+<h3>Using Interface</h3>
+<pre><code>interface Flyable {
+    void fly();
+}
+
+class Drone implements Flyable {
+    public void fly() {
+        System.out.println("Drone flying...");
+    }
+}</code></pre>
+
+<h2>🧩 Composition (HAS-A relationship)</h2>
+<p>A class can contain another class object as its field.</p>
+<pre><code>class Engine {
+    void start() {
+        System.out.println("Engine starts...");
+    }
+}
+
+class Car {
+    Engine engine = new Engine();
+
+    void drive() {
+        engine.start();
+        System.out.println("Car moves...");
+    }
+}</code></pre>
+
+<h2>📌 Static vs Instance</h2>
+<ul>
+  <li><strong>Static</strong>: Belongs to class, shared by all objects</li>
+  <li><strong>Instance</strong>: Unique per object</li>
+</ul>
+<pre><code>class Student {
+    static String college = "ABC";
+    String name;
+}</code></pre>
+
+<h2>🏗️ Nested Classes</h2>
+<p>Java allows defining a class inside another class</p>
+<pre><code>class Outer {
+    int x = 10;
+
+    class Inner {
+        void display() {
+            System.out.println("Value: " + x);
+        }
+    }
+}</code></pre>
+
+<h2>🧪 Practice Problems</h2>
+<ol>
+  <li>Create a class <code>Book</code> with fields title, author. Add constructor and method <code>displayDetails()</code>.</li>
+  <li>Implement inheritance using classes <code>Vehicle</code> → <code>Bike</code>.</li>
+  <li>Create an interface <code>Playable</code> and implement it in <code>Football</code> class.</li>
+  <li>Use encapsulation in a class <code>Employee</code> with <code>private</code> salary and proper getter/setter.</li>
+</ol>
+
+<h2>📊 ASCII Diagram: Class & Object</h2>
+<div class="ascii">
+Class: Person
++-----------------------+
+| - name: String        |
+| - age: int            |
++-----------------------+
+| + getName(): String   |
+| + setName(n: String)  |
+| + sayHello(): void    |
++-----------------------+
+
+Object: person1 (instance of Person)
+</div>
+
+<h2>🧠 Interview Tip</h2>
+<p>Always prepare how to explain real-world analogies like: "Class is the blueprint, object is the house built from it". Mention concepts like cohesion, modularity, SRP (Single Responsibility Principle).</p>
+
+<h2>✅ Summary</h2>
+<ul>
+  <li>Java classes are the foundation of OOP</li>
+  <li>They combine fields and methods into one unit</li>
+  <li>OOP pillars: Encapsulation, Inheritance, Polymorphism, Abstraction</li>
+  <li>Use constructors, access modifiers, interfaces, and static members effectively</li>
+</ul>
+
+</body>
+</html>

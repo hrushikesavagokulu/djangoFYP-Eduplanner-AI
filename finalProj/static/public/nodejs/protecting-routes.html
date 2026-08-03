@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Protecting Routes.Html</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <h1>Protecting Routes in Express.js</h1>
+
+  <p>
+    Protecting routes is a crucial aspect of building secure web applications. It involves restricting access to certain parts of your application to authenticated and authorized users only.
+  </p>
+
+  <h2>Why Protect Routes?</h2>
+  <ul>
+    <li>To prevent unauthorized users from accessing sensitive data.</li>
+    <li>To enforce user permissions and roles effectively.</li>
+    <li>To secure critical actions such as modifying or deleting resources.</li>
+  </ul>
+
+  <h2>Common Methods for Protecting Routes</h2>
+  <ol>
+    <li><strong>Authentication Middleware:</strong> Checks if a user is logged in.</li>
+    <li><strong>Authorization Middleware:</strong> Ensures the user has permission to perform actions.</li>
+    <li><strong>Session or Token Validation:</strong> Uses sessions or JWT tokens to validate user identity.</li>
+  </ol>
+
+  <h3>Example: Authentication Middleware</h3>
+  <pre><code>
+function isAuthenticated(req, res, next) {
+  if (req.isAuthenticated && req.isAuthenticated()) {
+    return next();
+  }
+  res.status(401).send('Unauthorized');
+}
+  </code></pre>
+
+  <h3>Example: Authorization Middleware</h3>
+  <pre><code>
+function authorizeRoles(...roles) {
+  return (req, res, next) => {
+    if (!roles.includes(req.user.role)) {
+      return res.status(403).send('Forbidden');
+    }
+    next();
+  };
+}
+  </code></pre>
+
+  <h2>Using Middleware to Protect a Route</h2>
+  <pre><code>
+app.get('/admin', isAuthenticated, authorizeRoles('admin'), (req, res) => {
+  res.send('Welcome to the admin dashboard');
+});
+  </code></pre>
+
+  <h2>Protecting Routes with JSON Web Tokens (JWT)</h2>
+  <p>JWT is widely used for stateless authentication in APIs and SPAs.</p>
+  <pre><code>
+const jwt = require('jsonwebtoken');
+
+function verifyToken(req, res, next) {
+  const token = req.headers.authorization?.split(' ')[1];
+  if (!token) return res.status(401).send('No token provided');
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    if (err) return res.status(401).send('Invalid token');
+    req.user = decoded;
+    next();
+  });
+}
+  </code></pre>
+
+  <h2>Best Practices</h2>
+  <ul>
+    <li>Always validate tokens or sessions on every protected request.</li>
+    <li>Use HTTPS to encrypt token or session data during transit.</li>
+    <li>Implement role-based access control (RBAC) where necessary.</li>
+    <li>Handle errors gracefully and avoid leaking sensitive info.</li>
+  </ul>
+
+  <footer>
+    &copy; 2025 Express.js Tutorial – Protecting Routes
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,22 @@
+[
+    {
+        "id": 1,
+        "username": "gokul",
+        "password": "$2a$10$7R8.88888888888888888u8888888888888888888888888888888"
+    },
+    {
+        "id": 1775385770468,
+        "username": "gokulu",
+        "password": "$2b$10$ZtOMMU6rOEGWAm.hQON1FOrHwHO5qV9TpJ35xgIimyPAmTqoudcl2"
+    },
+    {
+        "id": 1775385951545,
+        "username": "deva",
+        "password": "$2b$10$sZU2EVude/JSgSwlQuQoC.LfOarL1dePtjBwJsmBkze.eWomgnDyS"
+    },
+    {
+        "id": 1777778852576,
+        "username": "sania",
+        "password": "$2b$10$HRRjy61StmyZinBFCHDIGOG0ClDDT9aHCiqwBVjVroTOKMpXPpW8C"
+    }
+]

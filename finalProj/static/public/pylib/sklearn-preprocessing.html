@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Data Preprocessing with Scikit-learn</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 900px;
+      margin: 30px auto;
+      line-height: 1.6;
+      color: #222;
+      padding: 0 20px;
+      background: #f9f9f9;
+    }
+    h1, h2, h3 {
+      color: #005a9c;
+    }
+    pre {
+      background: #272822;
+      color: #f8f8f2;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 1rem;
+    }
+    code {
+      font-family: Consolas, monospace;
+      background: #eee;
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: #c7254e;
+    }
+    .note {
+      background: #fff3cd;
+      border-left: 6px solid #ffeeba;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #856404;
+    }
+    .warning {
+      background: #f8d7da;
+      border-left: 6px solid #f5c6cb;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #721c24;
+    }
+    ul {
+      margin-left: 20px;
+    }
+    footer {
+      margin-top: 40px;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<h1>Data Preprocessing with Scikit-learn</h1>
+
+<p><strong>Scikit-learn</strong> provides robust tools to clean, transform, and prepare data for machine learning models. Proper preprocessing is critical to ensure the quality and performance of your models.</p>
+
+<h2>1. What is Data Preprocessing?</h2>
+<ul>
+  <li>Transforming raw data into a clean dataset suitable for modeling.</li>
+  <li>Includes handling missing values, encoding categorical variables, scaling, normalization, and more.</li>
+</ul>
+
+<h2>2. Handling Missing Values</h2>
+<h3>Using <code>SimpleImputer</code></h3>
+<pre><code>
+from sklearn.impute import SimpleImputer
+import numpy as np
+
+data = [[1, 2], [np.nan, 3], [7, 6]]
+imputer = SimpleImputer(strategy='mean')
+print(imputer.fit_transform(data))
+</code></pre>
+
+<h2>3. Encoding Categorical Data</h2>
+
+<h3>Label Encoding</h3>
+<pre><code>
+from sklearn.preprocessing import LabelEncoder
+
+le = LabelEncoder()
+labels = ['cat', 'dog', 'dog', 'mouse']
+encoded = le.fit_transform(labels)
+print(encoded)
+</code></pre>
+
+<h3>One-Hot Encoding</h3>
+<pre><code>
+from sklearn.preprocessing import OneHotEncoder
+import numpy as np
+
+encoder = OneHotEncoder(sparse=False)
+data = np.array([['Male'], ['Female'], ['Male']])
+print(encoder.fit_transform(data))
+</code></pre>
+
+<div class="note">
+  <strong>Note:</strong> Use <code>ColumnTransformer</code> to apply different encoders to different columns in a pipeline.
+</div>
+
+<h2>4. Feature Scaling</h2>
+
+<h3>Standardization (Z-score)</h3>
+<pre><code>
+from sklearn.preprocessing import StandardScaler
+
+scaler = StandardScaler()
+data = [[1, 2], [3, 4], [5, 6]]
+print(scaler.fit_transform(data))
+</code></pre>
+
+<h3>Normalization (Min-Max Scaling)</h3>
+<pre><code>
+from sklearn.preprocessing import MinMaxScaler
+
+scaler = MinMaxScaler()
+print(scaler.fit_transform(data))
+</code></pre>
+
+<h2>5. Binarization</h2>
+<pre><code>
+from sklearn.preprocessing import Binarizer
+
+binarizer = Binarizer(threshold=2.5)
+data = [[1], [2], [3], [4]]
+print(binarizer.fit_transform(data))
+</code></pre>
+
+<h2>6. Polynomial Features</h2>
+<p>Useful for adding interaction terms or polynomial terms to a model.</p>
+<pre><code>
+from sklearn.preprocessing import PolynomialFeatures
+
+poly = PolynomialFeatures(degree=2)
+data = [[2, 3]]
+print(poly.fit_transform(data))
+</code></pre>
+
+<h2>7. Scaling for Sparse Data</h2>
+<p>If you're working with sparse matrices (e.g., from text data), use <code>MaxAbsScaler</code>.</p>
+<pre><code>
+from sklearn.preprocessing import MaxAbsScaler
+
+scaler = MaxAbsScaler()
+X = [[1, 2], [2, 0], [0, 5]]
+print(scaler.fit_transform(X))
+</code></pre>
+
+<h2>8. Using Pipelines for Efficient Preprocessing</h2>
+<pre><code>
+from sklearn.pipeline import Pipeline
+from sklearn.linear_model import LogisticRegression
+
+pipeline = Pipeline([
+    ('scaler', StandardScaler()),
+    ('clf', LogisticRegression())
+])
+
+pipeline.fit(X_train, y_train)
+</code></pre>
+
+<h2>9. ColumnTransformer</h2>
+<p>Apply different preprocessing steps to different columns:</p>
+<pre><code>
+from sklearn.compose import ColumnTransformer
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+
+preprocessor = ColumnTransformer(
+    transformers=[
+        ('num', StandardScaler(), [0, 1]),
+        ('cat', OneHotEncoder(), [2])
+    ])
+</code></pre>
+
+<h2>10. Summary</h2>
+<ul>
+  <li>Preprocessing is crucial for model accuracy and performance.</li>
+  <li>Scikit-learn offers a modular and unified interface for all preprocessing steps.</li>
+  <li>Always preprocess training and testing data in the same way.</li>
+</ul>
+
+<footer>
+  &copy; 2025 Your Python Machine Learning Course
+</footer>
+
+</body>
+</html>

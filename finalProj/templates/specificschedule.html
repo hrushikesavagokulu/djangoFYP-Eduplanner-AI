@@ -1,0 +1,398 @@
+{% extends "base.html" %}
+{% block title %}DSA Topic Scheduler{% endblock %}
+
+{% block content %}
+
+<style>
+  body {
+    font-family: Arial;
+    background: #0f172a;
+    color: white;
+    margin: 0;
+  }
+
+  .container {
+    max-width: 1000px;
+    margin: auto;
+    padding: 40px;
+  }
+
+  h1 {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 30px;
+  }
+
+  label {
+    font-size: 16px;
+    color: #cbd5f5;
+  }
+
+  #topicButtons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .topic-label {
+    background: #1e293b;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: white;
+    transition: background 0.2s;
+  }
+
+  .topic-label input[type="checkbox"] {
+    cursor: pointer;
+  }
+
+  .topic-label.checked {
+    background: #22c55e;
+  }
+
+  button {
+    padding: 10px 20px;
+    background: #22c55e;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background: #16a34a;
+  }
+
+  .card {
+    background: #1e293b;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+  }
+
+  .day {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  .topic {
+    color: #94a3b8;
+    margin-bottom: 10px;
+  }
+
+  .problem {
+    padding: 8px;
+    background: #334155;
+    margin-bottom: 6px;
+    border-radius: 5px;
+  }
+
+  .problem a {
+    color: #38bdf8;
+    text-decoration: none;
+  }
+
+  .badge {
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    margin-left: 8px;
+  }
+
+  .easy { background: #16a34a; }
+  .medium { background: #eab308; }
+  .hard { background: #dc2626; }
+
+  h4 {
+    margin-top: 15px;
+    margin-bottom: 8px;
+    color: #cbd5f5;
+  }
+
+  ul { padding-left: 20px; }
+  ul li a { color: #38bdf8; }
+
+  .loading {
+    text-align: center;
+    font-size: 18px;
+    margin-top: 20px;
+  }
+</style>
+
+<div class="container">
+  <h1>📅 DSA Topic Scheduler</h1>
+
+  <form id="topicForm">
+    <label>Select Topics:</label>
+    <div id="topicButtons"></div>
+    <button type="submit" style="margin-top:20px;">Generate Plan</button>
+  </form>
+
+  <div id="loading" class="loading" style="display:none">
+    ⏳ Generating your plan...
+  </div>
+
+  <div id="result"></div>
+</div>
+<script>
+  // Flattened list of all topics from all categories
+  const allTopics = [
+    "Array Manipulation","Prefix Sum","Prefix Product","Matrix","Math",
+    "Hashing",
+    "Two Pointers",
+    "Sliding Window",
+    "Bit Manipulation","Boyer-Moore Voting",
+    "Linked List",
+    "Stack",
+    "Queue",
+    "String Manipulation","String Matching",
+    "Sorting","Merge Sort","Quickselect","Binary Search","Linear Search",
+    "Binary Tree","Binary Search Tree","AVL Tree","Trie","Segment Tree","Fenwick Tree","Heap",
+    "Graph","BFS","DFS","Dijkstra","Shortest Path","Minimum Spanning Tree",
+    "Topological Sort","Union Find","Disjoint Set","Graph Coloring",
+    "Dynamic Programming","Divide and Conquer","Greedy","Backtracking",
+    "Kadane's Algorithm"
+  ];
+
+  const topicButtonsDiv = document.getElementById("topicButtons");
+
+  // Generate a checkbox button for each topic
+  allTopics.forEach(topic => {
+    const label = document.createElement("label");
+    label.className = "topic-label";
+
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.value = topic;
+
+    checkbox.addEventListener("change", () => {
+      label.classList.toggle("checked", checkbox.checked);
+    });
+
+    label.appendChild(checkbox);
+    label.appendChild(document.createTextNode(topic));
+    topicButtonsDiv.appendChild(label);
+  });
+
+  // CSRF cookie helper
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== "") {
+      const cookies = document.cookie.split(";");
+      for (let cookie of cookies) {
+        cookie = cookie.trim();
+        if (cookie.startsWith(name + "=")) {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+
+  // Submit handler to generate plan
+  document.getElementById("topicForm").addEventListener("submit", async function(e){
+    e.preventDefault();
+    const selected = Array.from(this.querySelectorAll("input[type=checkbox]:checked")).map(cb => cb.value);
+    if(selected.length === 0) return;
+
+    document.getElementById("loading").style.display = "block";
+
+    const response = await fetch("/generate-specific/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": getCookie("csrftoken"),
+      },
+      body: JSON.stringify({ topics: selected })
+    });
+
+    const data = await response.json();
+    document.getElementById("loading").style.display = "none";
+
+    if(!data.success){
+      document.getElementById("result").innerHTML = "❌ No problems found.";
+      return;
+    }
+
+    renderPlan(data.plan);
+  });
+
+  // Load existing plan if present
+  async function loadExistingPlan() {
+    const response = await fetch("/get-specific-plan/");
+    const data = await response.json();
+    if(data.success) renderPlan(data.plan);
+  }
+
+  loadExistingPlan();
+
+  // Render the generated plan
+  function renderPlan(plan) {
+    const container = document.getElementById("result");
+    container.innerHTML = "";
+
+    Object.keys(plan).forEach((day) => {
+      const dayData = plan[day];
+
+      let problemsHTML = "";
+      (dayData.problems || []).forEach((p) => {
+        problemsHTML += `
+          <div class="problem">
+            <a href="${p.link}" target="_blank">${p.title}</a>
+            <span class="badge ${p.difficulty.toLowerCase()}">${p.difficulty}</span>
+          </div>
+        `;
+      });
+
+      let linksHTML = "";
+      (dayData.reference_links || []).forEach((link) => {
+        linksHTML += `<li><a href="${link}" target="_blank">${link}</a></li>`;
+      });
+
+      container.innerHTML += `
+        <div class="card">
+          <div class="day">📅 ${day}</div>
+          <div class="topic">Topic: ${dayData.topic}</div>
+          <h4>Practice Problems</h4>${problemsHTML}
+          <h4>Reference Links</h4><ul>${linksHTML}</ul>
+        </div>
+      `;
+    });
+  }
+</script>
+{% comment %} <script>
+  const topicMap = {
+    "Arrays": ["Array Manipulation","Prefix Sum","Prefix Product","Matrix","Math"],
+    "Hashing": ["Hashing"],
+    "Two Pointers": ["Two Pointers"],
+    "Sliding Window": ["Sliding Window"],
+    "Bit Manipulation": ["Bit Manipulation","Boyer-Moore Voting"],
+    "Linked List": ["Linked List"],
+    "Stack": ["Stack"],
+    "Queue": ["Queue"],
+    "Strings": ["String Manipulation","String Matching"],
+    "Sorting & Searching": ["Sorting","Merge Sort","Quickselect","Binary Search","Linear Search"],
+    "Trees": ["Binary Tree","Binary Search Tree","AVL Tree","Trie","Segment Tree","Fenwick Tree","Heap"],
+    "Graphs": ["Graph","BFS","DFS","Dijkstra","Shortest Path","Minimum Spanning Tree","Topological Sort","Union Find","Disjoint Set","Graph Coloring"],
+    "Dynamic Programming": ["Dynamic Programming","Divide and Conquer","Greedy","Backtracking"],
+    "Kadane's Algorithm": ["Kadane's Algorithm"]
+  };
+
+  const topicButtonsDiv = document.getElementById("topicButtons");
+  Object.keys(topicMap).forEach(topic => {
+    const label = document.createElement("label");
+    label.className = "topic-label";
+
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.value = topic;
+
+    checkbox.addEventListener("change", () => {
+      label.classList.toggle("checked", checkbox.checked);
+    });
+
+    label.appendChild(checkbox);
+    label.appendChild(document.createTextNode(topic));
+    topicButtonsDiv.appendChild(label);
+  });
+
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== "") {
+      const cookies = document.cookie.split(";");
+      for (let cookie of cookies) {
+        cookie = cookie.trim();
+        if (cookie.startsWith(name + "=")) {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+
+  document.getElementById("topicForm").addEventListener("submit", async function(e){
+    e.preventDefault();
+    const selected = Array.from(this.querySelectorAll("input[type=checkbox]:checked")).map(cb => cb.value);
+    if(selected.length === 0) return;
+
+    document.getElementById("loading").style.display = "block";
+
+    const response = await fetch("/generate-specific/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": getCookie("csrftoken"),
+      },
+      body: JSON.stringify({ topics: selected })
+    });
+
+    const data = await response.json();
+    document.getElementById("loading").style.display = "none";
+
+    if(!data.success){
+      document.getElementById("result").innerHTML = "❌ No problems found.";
+      return;
+    }
+
+    renderPlan(data.plan);
+  });
+
+  async function loadExistingPlan() {
+    const response = await fetch("/get-specific-plan/");
+    const data = await response.json();
+    if(data.success) renderPlan(data.plan);
+  }
+
+  loadExistingPlan();
+
+  function renderPlan(plan) {
+    const container = document.getElementById("result");
+    container.innerHTML = "";
+
+    Object.keys(plan).forEach((day) => {
+      const dayData = plan[day];
+
+      let problemsHTML = "";
+      (dayData.problems || []).forEach((p) => {
+        problemsHTML += `
+          <div class="problem">
+            <a href="${p.link}" target="_blank">${p.title}</a>
+            <span class="badge ${p.difficulty.toLowerCase()}">${p.difficulty}</span>
+          </div>
+        `;
+      });
+
+      let linksHTML = "";
+      (dayData.reference_links || []).forEach((link) => {
+        linksHTML += `<li><a href="${link}" target="_blank">${link}</a></li>`;
+      });
+
+      container.innerHTML += `
+        <div class="card">
+          <div class="day">📅 ${day}</div>
+          <div class="topic">Topic: ${dayData.topic}</div>
+          <h4>Practice Problems</h4>${problemsHTML}
+          <h4>Reference Links</h4><ul>${linksHTML}</ul>
+        </div>
+      `;
+    });
+  }
+</script> {% endcomment %}
+
+{% endblock %}

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pointer To Pointer</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 900px;
+      margin: 30px auto;
+      line-height: 1.6;
+      color: #222;
+      padding: 0 20px;
+      background: #f9f9f9;
+    }
+    h1, h2, h3 {
+      color: #005a9c;
+    }
+    pre {
+      background: #272822;
+      color: #f8f8f2;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 1rem;
+    }
+    code {
+      font-family: Consolas, monospace;
+      background: #eee;
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: #c7254e;
+    }
+    .note {
+      background: #fff3cd;
+      border-left: 6px solid #ffeeba;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #856404;
+    }
+    .warning {
+      background: #f8d7da;
+      border-left: 6px solid #f5c6cb;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #721c24;
+    }
+    ul {
+      margin-left: 20px;
+    }
+    a {
+      color: #005a9c;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      margin-top: 40px;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<h1>Pointer To Pointer</h1>
+
+<p>A <strong>pointer to pointer</strong> (also called a double pointer) is a pointer variable that stores the address of another pointer. This allows multiple levels of indirection, which can be useful for dynamic memory management, arrays of pointers, or passing pointers by reference to functions.</p>
+
+<h2>Declaring a Pointer to Pointer</h2>
+<pre><code>int **pptr;   // Pointer to a pointer to an int
+char **cptr;  // Pointer to a pointer to a char
+</code></pre>
+
+<h2>How Pointer to Pointer Works</h2>
+<ul>
+  <li><code>pptr</code> stores the address of a pointer variable <code>ptr</code>.</li>
+  <li><code>ptr</code> stores the address of an int variable <code>var</code>.</li>
+  <li>You can access the value of <code>var</code> by dereferencing twice: <code>**pptr</code>.</li>
+</ul>
+
+<h2>Example</h2>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    int var = 10;
+    int *ptr = &var;       // ptr points to var
+    int **pptr = &ptr;     // pptr points to ptr
+
+    printf("Value of var: %d\n", var);        // 10
+    printf("Value via ptr: %d\n", *ptr);      // 10
+    printf("Value via pptr: %d\n", **pptr);   // 10
+
+    // Change var using pptr
+    **pptr = 20;
+    printf("Updated value of var: %d\n", var); // 20
+
+    return 0;
+}
+</code></pre>
+
+<h2>Use Cases for Pointer to Pointer</h2>
+<ul>
+  <li>Dynamic memory allocation for multi-dimensional arrays.</li>
+  <li>Passing a pointer by reference to functions so the function can modify the original pointer.</li>
+  <li>Creating arrays of strings (array of char pointers).</li>
+</ul>
+
+<div class="note">
+  <strong>Note:</strong> Double pointers add complexity and should be used carefully. Always ensure pointers are properly initialized to avoid undefined behavior.
+</div>
+
+<h2>Additional Resources</h2>
+<ul>
+  <li><a href="https://www.learn-c.org/en/Pointers_to_pointers" target="_blank">Learn-C.org: Pointers to Pointers</a></li>
+  <li><a href="https://www.cprogramming.com/tutorial/c/lesson6.html#doublepointer" target="_blank">C Programming Tutorial: Pointer to Pointer</a></li>
+</ul>
+
+<footer>
+  &copy; 2025 Your C Programming Course
+</footer>
+
+
+</body>
+</html>

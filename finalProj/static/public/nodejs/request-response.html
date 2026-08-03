@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Request and Response in Express</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 2rem;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+    h1, h2 {
+      color: #2c3e50;
+    }
+    pre {
+      background: #eef;
+      padding: 1rem;
+      border-left: 5px solid #3498db;
+      overflow-x: auto;
+    }
+    code {
+      background: #f3f3f3;
+      padding: 2px 4px;
+      border-radius: 4px;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<h1>Request and Response in Express</h1>
+
+<p>
+  In Express.js, routing is built around the <code>request</code> and <code>response</code> objects.
+  These represent the HTTP request sent by the client and the HTTP response returned by the server.
+</p>
+
+<h2>The <code>req</code> (Request) Object</h2>
+
+<p>The <code>req</code> object contains information about the HTTP request, such as:</p>
+
+<ul>
+  <li><code>req.params</code>: Route parameters</li>
+  <li><code>req.query</code>: URL query parameters</li>
+  <li><code>req.body</code>: Parsed request body (requires middleware like <code>express.json()</code>)</li>
+  <li><code>req.headers</code>: Request headers</li>
+  <li><code>req.method</code>: HTTP method (e.g., GET, POST)</li>
+  <li><code>req.url</code>: Full URL path of the request</li>
+</ul>
+
+<h3>Example:</h3>
+<pre><code>app.get('/user/:id', (req, res) => {
+  console.log(req.params.id);      // From /user/123 → "123"
+  console.log(req.query.search);   // From /user/123?search=abc → "abc"
+  res.send('User Page');
+});</code></pre>
+
+<h2>The <code>res</code> (Response) Object</h2>
+
+<p>The <code>res</code> object is used to send a response back to the client. Some common methods are:</p>
+
+<ul>
+  <li><code>res.send()</code>: Sends a string or object as a response</li>
+  <li><code>res.json()</code>: Sends a JSON response</li>
+  <li><code>res.status()</code>: Sets the HTTP status code</li>
+  <li><code>res.render()</code>: Renders a template (requires a view engine)</li>
+  <li><code>res.redirect()</code>: Redirects to a different URL</li>
+</ul>
+
+<h3>Example:</h3>
+<pre><code>app.post('/submit', (req, res) => {
+  const name = req.body.name;
+  if (!name) {
+    return res.status(400).send('Name is required.');
+  }
+  res.status(200).send(`Hello, ${name}`);
+});</code></pre>
+
+<h2>Combining Request and Response</h2>
+<pre><code>app.get('/api/data', (req, res) => {
+  const data = { message: 'This is an API response' };
+  res.json(data);
+});
+</code></pre>
+
+<h2>Middleware and Request/Response</h2>
+<p>
+  Middleware functions can inspect and modify both <code>req</code> and <code>res</code> before passing control to the next middleware or route.
+</p>
+
+<pre><code>app.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
+  next();
+});
+</code></pre>
+
+<h2>Conclusion</h2>
+<p>
+  Understanding the <code>req</code> and <code>res</code> objects is fundamental to building APIs and web applications with Express. They give you full control over handling client requests and sending proper responses.
+</p>
+
+</body>
+</html>

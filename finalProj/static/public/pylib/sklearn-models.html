@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Classification and Regression Models in Scikit-learn</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 900px;
+      margin: 30px auto;
+      line-height: 1.6;
+      color: #222;
+      padding: 0 20px;
+      background: #f9f9f9;
+    }
+    h1, h2, h3 {
+      color: #005a9c;
+    }
+    pre {
+      background: #272822;
+      color: #f8f8f2;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 1rem;
+    }
+    code {
+      font-family: Consolas, monospace;
+      background: #eee;
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: #c7254e;
+    }
+    .note {
+      background: #fff3cd;
+      border-left: 6px solid #ffeeba;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #856404;
+    }
+    .warning {
+      background: #f8d7da;
+      border-left: 6px solid #f5c6cb;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #721c24;
+    }
+    ul {
+      margin-left: 20px;
+    }
+    footer {
+      margin-top: 40px;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<h1>Classification and Regression Models in Scikit-learn</h1>
+
+<p>Scikit-learn provides a wide variety of machine learning models for classification and regression. These models are simple to use, follow a consistent API, and are ideal for both beginners and advanced users.</p>
+
+<h2>1. Classification Models</h2>
+
+<p>Classification is the task of predicting a discrete class label. Here are some popular classifiers in scikit-learn:</p>
+
+<ul>
+  <li><code>LogisticRegression</code></li>
+  <li><code>KNeighborsClassifier</code></li>
+  <li><code>DecisionTreeClassifier</code></li>
+  <li><code>RandomForestClassifier</code></li>
+  <li><code>SVC</code> (Support Vector Classifier)</li>
+</ul>
+
+<h3>Example: Logistic Regression</h3>
+
+<pre><code>from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score
+
+# Load dataset
+X, y = load_iris(return_X_y=True)
+
+# Split into train and test
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+# Train classifier
+model = LogisticRegression(max_iter=200)
+model.fit(X_train, y_train)
+
+# Predict and evaluate
+predictions = model.predict(X_test)
+print("Accuracy:", accuracy_score(y_test, predictions))</code></pre>
+
+<h2>2. Regression Models</h2>
+
+<p>Regression is the task of predicting a continuous numerical value. Some common regression models:</p>
+
+<ul>
+  <li><code>LinearRegression</code></li>
+  <li><code>Ridge</code> and <code>Lasso</code> Regression</li>
+  <li><code>DecisionTreeRegressor</code></li>
+  <li><code>RandomForestRegressor</code></li>
+  <li><code>SVR</code> (Support Vector Regressor)</li>
+</ul>
+
+<h3>Example: Linear Regression</h3>
+
+<pre><code>from sklearn.datasets import fetch_california_housing
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error
+
+# Load data
+data = fetch_california_housing()
+X, y = data.data, data.target
+
+# Train-test split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
+
+# Fit model
+regressor = LinearRegression()
+regressor.fit(X_train, y_train)
+
+# Predict and evaluate
+y_pred = regressor.predict(X_test)
+print("MSE:", mean_squared_error(y_test, y_pred))</code></pre>
+
+<h2>3. Common API Across Models</h2>
+
+<p>All models in Scikit-learn use a consistent pattern:</p>
+<pre><code>model = ModelClass()
+model.fit(X_train, y_train)
+predictions = model.predict(X_test)</code></pre>
+
+<div class="note">
+  <strong>Note:</strong> Some models like <code>LogisticRegression</code> require feature scaling for optimal performance.
+</div>
+
+<h2>4. Choosing the Right Model</h2>
+
+<ul>
+  <li><strong>Logistic Regression:</strong> Great for linear binary classification.</li>
+  <li><strong>Random Forest:</strong> Powerful and easy-to-use for both classification and regression.</li>
+  <li><strong>KNN:</strong> Simple but slow with large datasets.</li>
+  <li><strong>SVC/SVR:</strong> Powerful with proper kernel and parameters, but requires tuning.</li>
+</ul>
+
+<h2>5. Summary</h2>
+
+<p>Scikit-learn simplifies working with many machine learning models using a unified API. Try different models and compare results using metrics like accuracy, precision, recall (for classification), and MSE or R2 (for regression).</p>
+
+<footer>
+  &copy; 2025 Your Python + Scikit-learn Course
+</footer>
+
+</body>
+</html>

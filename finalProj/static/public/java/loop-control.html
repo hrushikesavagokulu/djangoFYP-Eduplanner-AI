@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Java - Loop Control</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f6fa;
+      color: #2f3640;
+      max-width: 900px;
+      margin: auto;
+      padding: 20px;
+      line-height: 1.7;
+    }
+    h1 {
+      color: #0984e3;
+      text-align: center;
+    }
+    h2 {
+      color: #2d3436;
+      margin-top: 30px;
+    }
+    pre {
+      background: #dfe6e9;
+      padding: 12px;
+      border-left: 5px solid #00cec9;
+      overflow-x: auto;
+    }
+    code {
+      font-family: Consolas, monospace;
+    }
+    .highlight {
+      background: #ffeaa7;
+      padding: 15px;
+      border-left: 5px solid #fdcb6e;
+      margin: 20px 0;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css ">
+</head>
+<body>
+
+  <h1>Java - Loop Control</h1>
+
+  <p>
+    In Java, loop control statements allow you to control the flow of loops (like <code>for</code>, <code>while</code>, and <code>do-while</code>) in more advanced ways. These control statements include:
+  </p>
+
+  <ul>
+    <li><strong>break</strong></li>
+    <li><strong>continue</strong></li>
+    <li><strong>return</strong> (used inside methods, can also affect loop behavior)</li>
+  </ul>
+
+  <h2>1. break Statement</h2>
+  <p>
+    The <code>break</code> statement is used to exit a loop prematurely. When encountered, the control exits the loop immediately and continues with the code that follows the loop.
+  </p>
+
+  <h3>Syntax:</h3>
+  <pre><code>break;</code></pre>
+
+  <h3>Example:</h3>
+  <pre><code>for (int i = 1; i <= 10; i++) {
+  if (i == 5) {
+    break; // loop terminates when i is 5
+  }
+  System.out.println(i);
+}</code></pre>
+
+  <div class="highlight">Output: 1 2 3 4</div>
+
+  <h2>2. continue Statement</h2>
+  <p>
+    The <code>continue</code> statement skips the current iteration of the loop and jumps to the next iteration.
+  </p>
+
+  <h3>Syntax:</h3>
+  <pre><code>continue;</code></pre>
+
+  <h3>Example:</h3>
+  <pre><code>for (int i = 1; i <= 5; i++) {
+  if (i == 3) {
+    continue; // skip number 3
+  }
+  System.out.println(i);
+}</code></pre>
+
+  <div class="highlight">Output: 1 2 4 5</div>
+
+  <h2>3. return Statement</h2>
+  <p>
+    Although <code>return</code> is primarily used to exit from a method and optionally return a value, if used within a loop inside a method, it exits the loop and also exits the method entirely.
+  </p>
+
+  <h3>Example:</h3>
+  <pre><code>public static void checkLoop() {
+  for (int i = 1; i <= 5; i++) {
+    if (i == 4) {
+      return; // exits the method entirely
+    }
+    System.out.println(i);
+  }
+}</code></pre>
+
+  <div class="highlight">Output: 1 2 3</div>
+
+  <h2>4. Labeled break and continue</h2>
+  <p>
+    Java allows using labels with <code>break</code> and <code>continue</code> to break out of nested loops.
+  </p>
+
+  <h3>Example (Labeled break):</h3>
+  <pre><code>outer:
+for (int i = 1; i <= 3; i++) {
+  for (int j = 1; j <= 3; j++) {
+    if (j == 2) {
+      break outer; // exits both loops
+    }
+    System.out.println("i = " + i + ", j = " + j);
+  }
+}</code></pre>
+
+  <div class="highlight">Output: i = 1, j = 1</div>
+
+  <h3>Example (Labeled continue):</h3>
+  <pre><code>outer:
+for (int i = 1; i <= 2; i++) {
+  for (int j = 1; j <= 3; j++) {
+    if (j == 2) {
+      continue outer; // skips to next iteration of outer loop
+    }
+    System.out.println("i = " + i + ", j = " + j);
+  }
+}</code></pre>
+
+  <div class="highlight">Output: i = 1, j = 1<br>i = 2, j = 1</div>
+
+  <h2>When to Use</h2>
+  <ul>
+    <li>Use <strong>break</strong> when you want to exit a loop early based on a condition.</li>
+    <li>Use <strong>continue</strong> to skip specific iterations.</li>
+    <li>Use <strong>labeled</strong> versions for more complex nested loop control.</li>
+  </ul>
+
+  <h2>Summary</h2>
+  <p>
+    Loop control statements help you manage loop execution more efficiently. Knowing when and how to use them is essential for writing clear, effective Java programs.
+  </p>
+
+</body>
+</html>

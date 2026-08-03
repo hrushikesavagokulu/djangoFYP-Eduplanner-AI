@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Functions</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 900px;
+      margin: 30px auto;
+      line-height: 1.6;
+      color: #222;
+      padding: 0 20px;
+      background: #f9f9f9;
+    }
+    h1, h2, h3 {
+      color: #005a9c;
+    }
+    pre {
+      background: #272822;
+      color: #f8f8f2;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 1rem;
+    }
+    code {
+      font-family: Consolas, monospace;
+      background: #eee;
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: #c7254e;
+    }
+    .note {
+      background: #fff3cd;
+      border-left: 6px solid #ffeeba;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #856404;
+    }
+    .warning {
+      background: #f8d7da;
+      border-left: 6px solid #f5c6cb;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #721c24;
+    }
+    ul {
+      margin-left: 20px;
+    }
+    a {
+      color: #005a9c;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      margin-top: 40px;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<h1>Functions</h1>
+
+<p>Functions are blocks of code designed to perform specific tasks. They help organize your program into reusable pieces, making it easier to read, maintain, and debug.</p>
+
+<h2>Function Declaration and Definition</h2>
+<p>A function has a return type, a name, and optional parameters:</p>
+<pre><code>return_type function_name(parameter_list) {
+    // function body
+}
+</code></pre>
+
+<h2>Example: A Simple Function</h2>
+<pre><code>int add(int a, int b) {
+    return a + b;
+}
+</code></pre>
+
+<h2>Calling a Function</h2>
+<p>To use a function, call it by its name and provide the required arguments:</p>
+<pre><code>int result = add(5, 3);
+printf("Result: %d\n", result);
+</code></pre>
+
+<h2>Function Components</h2>
+<ul>
+  <li><strong>Return type:</strong> Specifies the type of value the function returns. Use <code>void</code> if it returns nothing.</li>
+  <li><strong>Function name:</strong> Identifies the function.</li>
+  <li><strong>Parameters:</strong> Inputs to the function, enclosed in parentheses. Can be empty if no parameters.</li>
+  <li><strong>Function body:</strong> Code block executed when the function is called.</li>
+</ul>
+
+<h2>Functions with No Return Value</h2>
+<pre><code>void greet() {
+    printf("Hello, world!\n");
+}
+</code></pre>
+
+<h2>Calling a Void Function</h2>
+<pre><code>greet();
+</code></pre>
+
+<h2>Why Use Functions?</h2>
+<ul>
+  <li>Break down complex problems into smaller, manageable tasks.</li>
+  <li>Reuse code to avoid duplication.</li>
+  <li>Make programs easier to read and maintain.</li>
+  <li>Facilitate testing and debugging.</li>
+</ul>
+
+<div class="note">
+  <strong>Note:</strong> Always declare a function before using it, either by defining it above the call or providing a function prototype.
+</div>
+
+<footer>
+  &copy; 2025 Your C Programming Course
+</footer>
+
+
+</body>
+</html>

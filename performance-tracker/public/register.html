@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Performance Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="auth-wrapper">
+        <div class="auth-card">
+            <h2>Create Account</h2>
+            <p>Start tracking your performance today</p>
+            <form id="registerForm">
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; font-size: 0.875rem; font-weight: 500; margin-bottom: 0.5rem;">Username</label>
+                    <input type="text" id="username" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 8px; outline: none;">
+                </div>
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; font-size: 0.875rem; font-weight: 500; margin-bottom: 0.5rem;">Password</label>
+                    <input type="password" id="password" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 8px; outline: none;">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.75rem;">Register</button>
+            </form>
+            <p style="margin-top: 1.5rem; font-size: 0.875rem;">
+                Already have an account? <a href="login.html" style="color: var(--primary); font-weight: 600; text-decoration: none;">Login</a>
+            </p>
+            <div id="errorMessage" style="margin-top: 1rem; color: var(--danger); font-size: 0.875rem; text-align: center; display: none;"></div>
+            <div id="successMessage" style="margin-top: 1rem; color: var(--success); font-size: 0.875rem; text-align: center; display: none;"></div>
+        <a href="http://localhost:8000/dashboard/" class="btn btn-primary">Dashboard</a>
+        </div>
+        
+    </div>
+
+    <script>
+        const registerForm = document.getElementById('registerForm');
+        const errorMessage = document.getElementById('errorMessage');
+        const successMessage = document.getElementById('successMessage');
+
+        registerForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    successMessage.textContent = 'Registration successful! Redirecting to login...';
+                    successMessage.style.display = 'block';
+                    errorMessage.style.display = 'none';
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 2000);
+                } else {
+                    errorMessage.textContent = data.error || 'Registration failed';
+                    errorMessage.style.display = 'block';
+                    successMessage.style.display = 'none';
+                }
+            } catch (error) {
+                console.error('Registration error:', error);
+                errorMessage.textContent = 'An error occurred. Please try again.';
+                errorMessage.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>

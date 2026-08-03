@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Constants</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 900px;
+      margin: 30px auto;
+      line-height: 1.6;
+      color: #222;
+      padding: 0 20px;
+      background: #f9f9f9;
+    }
+    h1, h2, h3 {
+      color: #005a9c;
+    }
+    pre {
+      background: #272822;
+      color: #f8f8f2;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 1rem;
+    }
+    code {
+      font-family: Consolas, monospace;
+      background: #eee;
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: #c7254e;
+    }
+    .note {
+      background: #fff3cd;
+      border-left: 6px solid #ffeeba;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #856404;
+    }
+    .warning {
+      background: #f8d7da;
+      border-left: 6px solid #f5c6cb;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #721c24;
+    }
+    ul {
+      margin-left: 20px;
+    }
+    a {
+      color: #005a9c;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      margin-top: 40px;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<h1>Constants in C</h1>
+
+<p><strong>Constants</strong> are fixed values that do not change during the execution of a program. Using constants makes your code more readable and easier to maintain.</p>
+
+<h2>Types of Constants</h2>
+
+<ul>
+  <li><strong>Literal Constants:</strong> Fixed values written directly in the code (e.g., <code>10</code>, <code>3.14</code>, <code>'A'</code>).</li>
+  <li><strong>Defined Constants:</strong> Constants defined using <code>#define</code> preprocessor directive.</li>
+  <li><strong>Constant Variables:</strong> Variables declared with the <code>const</code> keyword that cannot be modified after initialization.</li>
+</ul>
+
+<h2>1. Literal Constants</h2>
+
+<p>These are values directly embedded in your code:</p>
+
+<ul>
+  <li><code>42</code> — integer literal</li>
+  <li><code>3.14159</code> — floating-point literal</li>
+  <li><code>'Z'</code> — character literal</li>
+  <li><code>"Hello"</code> — string literal</li>
+</ul>
+
+<h2>2. <code>#define</code> Constants</h2>
+
+<p>The <code>#define</code> directive defines symbolic constants. These constants are replaced by the preprocessor before compilation.</p>
+
+<pre><code>#define PI 3.14159
+#define MAX_USERS 100
+#define GREETING "Welcome to the program!"</code></pre>
+
+<p>Usage example:</p>
+
+<pre><code>printf("Value of PI is %f\n", PI);
+printf("%s\n", GREETING);</code></pre>
+
+<div class="note">
+  <strong>Note:</strong> <code>#define</code> constants do not consume memory and are replaced inline during preprocessing.
+</div>
+
+<h2>3. <code>const</code> Variables</h2>
+
+<p>You can declare variables as constant using the <code>const</code> keyword. These variables must be initialized at declaration and cannot be changed afterwards.</p>
+
+<pre><code>const int DAYS_IN_WEEK = 7;
+const float GRAVITY = 9.8f;
+const char NEWLINE = '\n';</code></pre>
+
+<p>Attempting to modify a <code>const</code> variable will result in a compile-time error:</p>
+
+<pre><code>DAYS_IN_WEEK = 8; // Error!</code></pre>
+
+<div class="warning">
+  <strong>Warning:</strong> Unlike <code>#define</code>, <code>const</code> variables have a type and can be debugged more easily.
+</div>
+
+<h2>4. Enumerated Constants (<code>enum</code>)</h2>
+
+<p>The <code>enum</code> keyword defines a set of named integer constants, making code easier to read.</p>
+
+<pre><code>enum Weekday {
+  Sunday,    // 0
+  Monday,    // 1
+  Tuesday,   // 2
+  Wednesday, // 3
+  Thursday,  // 4
+  Friday,    // 5
+  Saturday   // 6
+};
+
+enum Weekday today = Wednesday;</code></pre>
+
+<p>You can also assign custom values:</p>
+
+<pre><code>enum Weekday {
+  Sunday = 1,
+  Monday,
+  Tuesday,
+  Wednesday,
+  Thursday,
+  Friday,
+  Saturday
+};</code></pre>
+
+<h2>Why Use Constants?</h2>
+
+<ul>
+  <li>Make code more readable and meaningful</li>
+  <li>Prevent accidental modification of values</li>
+  <li>Facilitate easy updates by changing the value in one place</li>
+</ul>
+
+<h2>Summary</h2>
+
+<table border="1" cellpadding="8" cellspacing="0" style="border-collapse: collapse; width: 100%;">
+  <thead>
+    <tr style="background-color: #005a9c; color: white;">
+      <th>Type</th>
+      <th>Description</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Literal Constant</td>
+      <td>Fixed values written directly in code</td>
+      <td><code>42</code>, <code>3.14</code>, <code>'A'</code></td>
+    </tr>
+    <tr>
+      <td><code>#define</code> Constant</td>
+      <td>Symbolic constants replaced by the preprocessor</td>
+      <td><code>#define PI 3.14159</code></td>
+    </tr>
+    <tr>
+      <td><code>const</code> Variable</td>
+      <td>Typed variables whose values cannot change</td>
+      <td><code>const int DAYS = 7;</code></td>
+    </tr>
+    <tr>
+      <td><code>enum</code></td>
+      <td>Named integer constants grouped together</td>
+      <td><code>enum Color { RED, GREEN, BLUE };</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<footer>
+  &copy; 2025 Your C Programming Course
+</footer>
+
+</body>
+</html>

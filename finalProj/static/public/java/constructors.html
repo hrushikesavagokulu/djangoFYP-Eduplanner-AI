@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Java - Constructors</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 900px;
+      margin: auto;
+      padding: 20px;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+    h1, h2, h3 {
+      color: #2c3e50;
+      margin-top: 1.5em;
+    }
+    p, ul, li {
+      line-height: 1.6;
+      margin-bottom: 0.8em;
+    }
+    code {
+      background-color: #eee;
+      padding: 3px 6px;
+      border-radius: 4px;
+      font-family: Consolas, monospace;
+      font-size: 1em;
+    }
+    pre {
+      background-color: #f4f4f4;
+      border-left: 5px solid #3498db;
+      padding: 12px;
+      overflow-x: auto;
+      font-size: 0.95em;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1em;
+      margin-bottom: 1em;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px 12px;
+      text-align: left;
+    }
+    th {
+      background-color: #3498db;
+      color: white;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>Java - Constructors</h1>
+
+  <p>A <strong>constructor</strong> in Java is a special method used to initialize objects. It is called when an instance of a class is created and is responsible for setting initial values for the object’s attributes or performing setup operations.</p>
+
+  <h2>Key Characteristics of Constructors</h2>
+  <ul>
+    <li>A constructor has the <strong>same name</strong> as the class.</li>
+    <li>Constructors do <strong>not have a return type</strong>, not even void.</li>
+    <li>They are automatically called when an object is instantiated using the <code>new</code> keyword.</li>
+    <li>If no constructor is explicitly defined, Java provides a default no-argument constructor.</li>
+  </ul>
+
+  <h2>Types of Constructors</h2>
+  <p>There are mainly two types of constructors:</p>
+  <ol>
+    <li><strong>Default Constructor (No-Arg Constructor)</strong> — A constructor with no parameters, provided by Java if you don't write any constructors.</li>
+    <li><strong>Parameterized Constructor</strong> — A constructor with parameters to initialize an object with specific values.</li>
+  </ol>
+
+  <h3>Default Constructor Example</h3>
+  <p>If you define no constructors in a class, the Java compiler automatically provides a default constructor that does nothing but allows the object to be created.</p>
+
+  <h3>Parameterized Constructor Example</h3>
+  <p>You can define constructors that accept arguments to initialize fields at the time of object creation.</p>
+
+  <h2>Constructor Syntax</h2>
+  <pre><code>
+class ClassName {
+    // Default constructor
+    ClassName() {
+        // initialization code
+    }
+
+```
+// Parameterized constructor
+ClassName(type param1, type param2) {
+    // initialization code using parameters
+}
+```
+
+} </code></pre>
+
+  <h2>Example with Code Explanation</h2>
+  <pre><code>
+public class Person {
+    String name;
+    int age;
+
+```
+// Default constructor
+public Person() {
+    name = "Unknown";
+    age = 0;
+}
+
+// Parameterized constructor
+public Person(String name, int age) {
+    this.name = name;
+    this.age = age;
+}
+
+public void display() {
+    System.out.println("Name: " + name + ", Age: " + age);
+}
+```
+
+}
+
+public class Test {
+public static void main(String\[] args) {
+Person p1 = new Person();                // Calls default constructor
+Person p2 = new Person("Alice", 30);    // Calls parameterized constructor
+
+```
+    p1.display();  // Output: Name: Unknown, Age: 0
+    p2.display();  // Output: Name: Alice, Age: 30
+}
+```
+
+} </code></pre>
+
+  <h2>Using <code>this</code> Keyword in Constructors</h2>
+  <p><code>this</code> refers to the current object and is used to distinguish between class attributes and parameters with the same name.</p>
+
+  <h2>Constructor Overloading</h2>
+  <p>Java supports <strong>constructor overloading</strong>, which means you can have multiple constructors in the same class with different parameter lists. The correct constructor is chosen based on the arguments passed during object creation.</p>
+
+  <pre><code>
+public class Box {
+    double width, height, depth;
+
+    // Constructor with no parameters
+    public Box() {
+        width = height = depth = 0;
+    }
+
+    // Constructor with parameters
+    public Box(double w, double h, double d) {
+        width = w;
+        height = h;
+        depth = d;
+    }
+
+    // Constructor with one parameter (cube)
+    public Box(double len) {
+        width = height = depth = len;
+    }
+}
+  </code></pre>
+
+  <h2>Chaining Constructors with <code>this()</code></h2>
+  <p>You can call one constructor from another within the same class using <code>this()</code>. This is called constructor chaining and helps to avoid code duplication.</p>
+
+  <pre><code>
+public class Box {
+    double width, height, depth;
+
+    public Box() {
+        this(0, 0, 0);  // Calls the parameterized constructor
+    }
+
+    public Box(double w, double h, double d) {
+        width = w;
+        height = h;
+        depth = d;
+    }
+}
+  </code></pre>
+
+  <h2>Important Points About Constructors</h2>
+  <ul>
+    <li>Constructors cannot be abstract, static, final, or synchronized.</li>
+    <li>If a class has at least one constructor, the default constructor is not automatically provided.</li>
+    <li>Constructors can be declared <code>private</code> to restrict object creation (e.g., singleton patterns).</li>
+    <li>Constructors help enforce immutability by setting final fields at object creation time.</li>
+  </ul>
+
+  <h2>Constructor vs Method</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Feature</th>
+        <th>Constructor</th>
+        <th>Method</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Name</td>
+        <td>Must be same as class name</td>
+        <td>Can have any valid identifier</td>
+      </tr>
+      <tr>
+        <td>Return Type</td>
+        <td>No return type, not even void</td>
+        <td>Has a return type or void</td>
+      </tr>
+      <tr>
+        <td>Purpose</td>
+        <td>To initialize new objects</td>
+        <td>To perform specific tasks</td>
+      </tr>
+      <tr>
+        <td>Invocation</td>
+        <td>Automatically called when object is created</td>
+        <td>Called explicitly on objects or classes</td>
+      </tr>
+      <tr>
+        <td>Inheritance</td>
+        <td>Constructors are not inherited</td>
+        <td>Methods can be inherited and overridden</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Common Uses of Constructors</h2>
+  <ul>
+    <li>Initialize object attributes with default or user-supplied values.</li>
+    <li>Perform validation or setup logic during object creation.</li>
+    <li>Overload constructors to provide multiple ways to instantiate objects.</li>
+    <li>Enforce constraints and immutability on class data.</li>
+  </ul>
+
+  <h2>Constructor in Inheritance</h2>
+  <p>When dealing with inheritance, subclass constructors implicitly call the superclass’s no-argument constructor unless <code>super()</code> is explicitly called with parameters.</p>
+
+  <pre><code>
+class Animal {
+    Animal() {
+        System.out.println("Animal created");
+    }
+}
+
+class Dog extends Animal {
+    Dog() {
+        super();  // Calls Animal() constructor explicitly (optional if no args)
+        System.out.println("Dog created");
+    }
+}
+  </code></pre>
+
+  <h2>Summary</h2>
+  <p>Constructors are essential in Java for creating and initializing objects. They provide control over how objects start their life cycle, allowing the programmer to set initial values, enforce rules, and offer flexible ways to create objects using overloading and chaining. Understanding constructors is fundamental to mastering Java’s object-oriented programming paradigm.</p>
+
+</body>
+</html>

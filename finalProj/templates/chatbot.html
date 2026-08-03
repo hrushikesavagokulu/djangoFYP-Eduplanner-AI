@@ -1,0 +1,307 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Chatbot</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+
+<style>
+body {
+  margin: 0;
+  background-color: #121417;
+  color: #e0e6ed;
+  font-family: 'Fira Code', Consolas, 'Courier New', monospace;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  padding: 30px 20px;
+}
+
+nav {
+  width: 80%;
+  background-color: #1e222a;
+  padding: 12px 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.6), inset 0 0 30px #64ffda22;
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: space-between;
+}
+
+nav a {
+  background-color: #64ffda;
+  color: #0d0f12;
+  font-weight: 700;
+  padding: 8px 18px;
+  border-radius: 10px;
+  text-decoration: none;
+  box-shadow: 0 0 12px #64ffdaaa;
+}
+
+nav a:hover {
+  background-color: #52cca7;
+}
+
+.container {
+  width: 80%;
+  background-color: #1e222a;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.6), inset 0 0 30px #64ffda22;
+  padding: 30px 40px;
+  display: flex;
+  flex-direction: column;
+}
+
+#chat-box {
+  border: 1.5px solid #64ffda;
+  border-radius: 12px;
+  background: #121417;
+  padding: 20px;
+  height: 600px;
+  overflow-y: auto;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.message {
+  margin: 10px 0;
+  padding: 10px 15px;
+  border-radius: 8px;
+  max-width: 75%;
+  word-wrap: break-word;
+}
+
+.user {
+  background-color: #064635;
+  color: #a2f7e7;
+  align-self: flex-end;
+}
+
+.bot {
+  background-color: #163f1e;
+  color: #81c784;
+  align-self: flex-start;
+}
+
+#input-area {
+  display: flex;
+  gap: 10px;
+}
+
+#message-input {
+  flex: 1;
+  padding: 12px;
+  border-radius: 12px;
+  background: #121417;
+  color: white;
+  border: 1px solid #2a2e38;
+  resize: none;
+}
+
+#send-btn {
+  padding: 10px 18px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+  background: #64ffda;
+}
+
+.loader {
+  width: 20px;
+  height: 20px;
+  border: 3px solid #64ffda88;
+  border-top: 3px solid #64ffda;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-left: 8px;
+}
+
+@keyframes spin {
+  100% { transform: rotate(360deg); }
+}
+
+/* CODE BLOCK */
+.code-container {
+  position: relative;
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 10px;
+  padding: 15px;
+  margin-top: 10px;
+  overflow-x: auto;
+}
+
+.code-container pre {
+  margin: 0;
+  color: #c9d1d9;
+  font-family: 'Fira Code', monospace;
+  white-space: pre;
+}
+
+.copy-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: #64ffda;
+  border: none;
+  padding: 4px 10px;
+  font-size: 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.copy-btn:hover {
+  background: #52cca7;
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+<a href="{% url 'dashboard' %}" class="cta">Dashboard</a>
+  <a href="{% url 'login' %}">Login</a>
+</nav>
+
+<div class="container">
+  <h2 style="color:#64ffda;text-align:center;">Chatbot For Coding Practice</h2>
+  <h5 style="color:#a0e5d5;text-align:center;">Only for Codes and Algorithm</h5>
+
+  <div id="chat-box"></div>
+
+  <div id="input-area">
+    <textarea id="message-input" placeholder="Type your message..." rows="1"></textarea>
+    <button id="send-btn">Send</button>
+  </div>
+</div>
+
+<script>
+const chatBox = document.getElementById('chat-box');
+const input = document.getElementById('message-input');
+const sendBtn = document.getElementById('send-btn');
+
+/* CSRF */
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie) {
+    const cookies = document.cookie.split(';');
+    for (let cookie of cookies) {
+      cookie = cookie.trim();
+      if (cookie.startsWith(name + '=')) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+      }
+    }
+  }
+  return cookieValue;
+}
+const csrftoken = getCookie('csrftoken');
+
+/* Escape HTML */
+function escapeHTML(str) {
+  return str.replace(/[&<>"']/g, m => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  })[m]);
+}
+
+/* Append Message with Code Parsing */
+function appendMessage(content, sender) {
+  const div = document.createElement('div');
+  div.className = `message ${sender}`;
+
+  const label = `<strong>${sender === 'user' ? 'You' : 'Bot'}:</strong><br>`;
+  let result = "";
+
+  const parts = content.split(/```/);
+
+  for (let i = 0; i < parts.length; i++) {
+    if (i % 2 === 0) {
+      result += `<div>${escapeHTML(parts[i])}</div>`;
+    } else {
+      let code = parts[i];
+      let lines = code.split("\n");
+      if (lines.length > 1 && lines[0].trim().length < 15) {
+        lines.shift(); // remove language label
+      }
+      result += `
+        <div class="code-container">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          <pre>${escapeHTML(lines.join("\n").trim())}</pre>
+        </div>
+      `;
+    }
+  }
+
+  div.innerHTML = label + result;
+  chatBox.appendChild(div);
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+/* Copy Function */
+function copyCode(btn) {
+  const code = btn.nextElementSibling.innerText;
+  navigator.clipboard.writeText(code);
+  btn.innerText = "Copied!";
+  setTimeout(() => btn.innerText = "Copy", 1500);
+}
+
+/* Send Message */
+async function sendMessage() {
+  const message = input.value.trim();
+  if (!message) return;
+
+  appendMessage(message, 'user');
+  input.value = '';
+
+  const loader = document.createElement('div');
+  loader.className = 'message bot';
+  loader.innerHTML = `<strong>Bot:</strong> <span class="loader"></span>`;
+  chatBox.appendChild(loader);
+
+  try {
+    const response = await fetch("{% url 'chat_api' %}", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": csrftoken
+      },
+      body: JSON.stringify({ message: message })
+    });
+
+    const data = await response.json();
+    chatBox.removeChild(loader);
+
+    if (data.reply) {
+      appendMessage(data.reply, 'bot');
+    } else {
+      appendMessage("⚠️ Error from server", 'bot');
+    }
+
+  } catch (err) {
+    chatBox.removeChild(loader);
+    appendMessage("⚠️ Server error", 'bot');
+  }
+}
+
+sendBtn.onclick = sendMessage;
+
+input.addEventListener("keydown", function(e) {
+  if (e.key === "Enter" && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
+});
+</script>
+
+</body>
+</html>

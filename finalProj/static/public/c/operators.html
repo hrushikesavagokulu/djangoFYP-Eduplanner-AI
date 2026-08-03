@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Operators</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 900px;
+      margin: 30px auto;
+      line-height: 1.6;
+      color: #222;
+      padding: 0 20px;
+      background: #f9f9f9;
+    }
+    h1, h2, h3 {
+      color: #005a9c;
+    }
+    pre {
+      background: #272822;
+      color: #f8f8f2;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 1rem;
+    }
+    code {
+      font-family: Consolas, monospace;
+      background: #eee;
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: #c7254e;
+    }
+    .note {
+      background: #fff3cd;
+      border-left: 6px solid #ffeeba;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #856404;
+    }
+    .warning {
+      background: #f8d7da;
+      border-left: 6px solid #f5c6cb;
+      padding: 10px 15px;
+      margin: 20px 0;
+      border-radius: 5px;
+      color: #721c24;
+    }
+    ul {
+      margin-left: 20px;
+    }
+    a {
+      color: #005a9c;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      margin-top: 40px;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<h1>Operators</h1>
+
+<p>Operators are symbols that perform operations on variables and values in C programming. They form the core of expressions and enable manipulation of data.</p>
+
+<h2>Types of Operators in C</h2>
+<ul>
+  <li><strong>Arithmetic Operators:</strong> Used for basic math operations.</li>
+  <li><strong>Relational Operators:</strong> Used to compare two values.</li>
+  <li><strong>Logical Operators:</strong> Used to combine conditional statements.</li>
+  <li><strong>Bitwise Operators:</strong> Perform bit-level operations.</li>
+  <li><strong>Assignment Operators:</strong> Used to assign values.</li>
+  <li><strong>Increment and Decrement Operators:</strong> Increase or decrease a value by one.</li>
+  <li><strong>Conditional (Ternary) Operator:</strong> Short form of an if-else statement.</li>
+  <li><strong>Other Operators:</strong> sizeof, comma operator, pointer operators, etc.</li>
+</ul>
+
+<h2>1. Arithmetic Operators</h2>
+<table>
+  <tr><th>Operator</th><th>Description</th></tr>
+  <tr><td>+</td><td>Addition</td></tr>
+  <tr><td>-</td><td>Subtraction</td></tr>
+  <tr><td>*</td><td>Multiplication</td></tr>
+  <tr><td>/</td><td>Division</td></tr>
+  <tr><td>%</td><td>Modulus (remainder)</td></tr>
+</table>
+
+<h2>2. Relational Operators</h2>
+<table>
+  <tr><th>Operator</th><th>Description</th></tr>
+  <tr><td>==</td><td>Equal to</td></tr>
+  <tr><td>!=</td><td>Not equal to</td></tr>
+  <tr><td>&lt;</td><td>Less than</td></tr>
+  <tr><td>&gt;</td><td>Greater than</td></tr>
+  <tr><td>&lt;=</td><td>Less than or equal to</td></tr>
+  <tr><td>&gt;=</td><td>Greater than or equal to</td></tr>
+</table>
+
+<h2>3. Logical Operators</h2>
+<table>
+  <tr><th>Operator</th><th>Description</th></tr>
+  <tr><td>&&</td><td>Logical AND</td></tr>
+  <tr><td>||</td><td>Logical OR</td></tr>
+  <tr><td>!</td><td>Logical NOT</td></tr>
+</table>
+
+<h2>4. Bitwise Operators</h2>
+<table>
+  <tr><th>Operator</th><th>Description</th></tr>
+  <tr><td>&amp;</td><td>Bitwise AND</td></tr>
+  <tr><td>|</td><td>Bitwise OR</td></tr>
+  <tr><td>^</td><td>Bitwise XOR</td></tr>
+  <tr><td>~</td><td>Bitwise NOT</td></tr>
+  <tr><td>&lt;&lt;</td><td>Left shift</td></tr>
+  <tr><td>&gt;&gt;</td><td>Right shift</td></tr>
+</table>
+
+<h2>5. Assignment Operators</h2>
+<table>
+  <tr><th>Operator</th><th>Description</th></tr>
+  <tr><td>=</td><td>Assign</td></tr>
+  <tr><td>+=</td><td>Add and assign</td></tr>
+  <tr><td>-=</td><td>Subtract and assign</td></tr>
+  <tr><td>*=</td><td>Multiply and assign</td></tr>
+  <tr><td>/=</td><td>Divide and assign</td></tr>
+  <tr><td>%=</td><td>Modulus and assign</td></tr>
+  <tr><td>&amp;=</td><td>Bitwise AND and assign</td></tr>
+  <tr><td>|=</td><td>Bitwise OR and assign</td></tr>
+  <tr><td>^=</td><td>Bitwise XOR and assign</td></tr>
+  <tr><td>&lt;&lt;=</td><td>Left shift and assign</td></tr>
+  <tr><td>&gt;&gt;=</td><td>Right shift and assign</td></tr>
+</table>
+
+<h2>6. Increment and Decrement Operators</h2>
+<ul>
+  <li><code>++</code> Increment by 1</li>
+  <li><code>--</code> Decrement by 1</li>
+</ul>
+
+<h2>7. Conditional (Ternary) Operator</h2>
+<p>Syntax: <code>condition ? expression_if_true : expression_if_false;</code></p>
+
+<h2>Example Code</h2>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    int a = 10, b = 20;
+
+    printf("a + b = %d\n", a + b);
+    printf("a == b? %d\n", a == b);
+    printf("Logical AND (a &lt; b && b &gt; 0): %d\n", (a < b && b > 0));
+    
+    int max = (a > b) ? a : b;
+    printf("Max of a and b: %d\n", max);
+
+    a++;
+    printf("After a++, a = %d\n", a);
+
+    return 0;
+}
+</code></pre>
+
+<div class="note">
+  <strong>Note:</strong> Operator precedence and associativity determine the order in which parts of an expression are evaluated. Always use parentheses to make your code clear.
+</div>
+
+<footer>
+  &copy; 2025 Your C Programming Course
+</footer>
+
+</body>
+</html>
